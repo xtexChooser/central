@@ -210,6 +210,9 @@ fn test_parse_legacy_color_value() {
     assert_eq!(parse_legacy_color_value("black"), Some("black".to_string()));
     assert_eq!(parse_legacy_color_value("#000"), Some("#000".to_string()));
     // User talk:Patmax23
-    assert_eq!(parse_legacy_color_value("coal"), Some("#c0a000".to_string()));
+    assert_eq!(
+        parse_legacy_color_value("coal"),
+        Some("#c0a000".to_string())
+    );
     // FIXME: more test cases
 }
