@@ -44,10 +44,13 @@ async fn process_page(bot: &Bot, page: Page) -> Result<()> {
     let original = page.wikitext().await?;
     let new_text = bot.parsoid().transform_to_wikitext(&html).await?;
     let remaining = lint_errors(bot, page.title(), &new_text).await?;
-    if remaining.iter().any(|lint| lint.type_ == "obsolete-tag") {
+    if !remaining.is_empty() {
+        let remaining: Vec<_> =
+            remaining.into_iter().map(|l| l.type_).collect();
         println!(
-            "{} still has obsolete-tag lint errors, skipping",
-            page.title()
+            "{} still has some lint errors, skipping ({})",
+            page.title(),
+            remaining.join(", ")
         );
         return Ok(());
     }
@@ -87,7 +90,7 @@ async fn html_diff(bot: &Bot, left: &str, right: &str) -> Result<String> {
     Ok(result["compare"]["body"].as_str().unwrap().to_string())
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug)]
 struct LintError {
     #[serde(rename = "type")]
     type_: String,
