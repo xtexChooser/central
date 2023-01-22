@@ -56,8 +56,11 @@ async fn process_page(bot: &Bot, page: Page) -> Result<()> {
         println!("No changes to {}, skipping", page.title());
         return Ok(());
     }
-    fs::write(format!("output/html/{page_id}_original.html"), original_html.html())
-        .await?;
+    fs::write(
+        format!("output/html/{page_id}_original.html"),
+        original_html.html(),
+    )
+    .await?;
     fs::write(format!("output/html/{page_id}_modified.html"), html.html())
         .await?;
     let formatted = include_str!("diff.html")
