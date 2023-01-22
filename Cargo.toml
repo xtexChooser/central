@@ -1,0 +1,15 @@
+[package]
+name = "delinter"
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0-or-later"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0"
+kuchiki = "0.8.1"
+mwbot = "0.4.4"
+serde = {version = "1", features = ["derive"]}
+tokio = {version = "1", features = ["full"]}
+urlencoding = "2.1.2"

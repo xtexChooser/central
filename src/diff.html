@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Diff: {title}</title>
+    <link href="https://en.wikipedia.org/w/load.php?modules=mediawiki.diff.styles&only=styles" rel="stylesheet">
+</head>
+<body>
+<h2>Diff: <a href="https://en.wikipedia.org/wiki/{title}">{title}</a></h2>
+<table class="diff diff-contentalign-left diff-editfont-monospace">
+    <colgroup>
+        <col class="diff-marker">
+        <col class="diff-content">
+        <col class="diff-marker">
+        <col class="diff-content">
+    </colgroup>
+    <tbody>
+        {diff}
+    </tbody>
+</table>
+<div style="width: 100%">
+    <div style="width: 50%; float: left;">
+        <iframe src="html/{pageid}_original.html" style="width: 100%; height: 10000px;"></iframe>
+    </div>
+    <div style="width: 50%; float: left;">
+        <iframe src="html/{pageid}_modified.html" style="width: 100%; height: 10000px;"></iframe>
+    </div>
+</div>
+</body>
+</html>
