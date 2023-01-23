@@ -133,15 +133,17 @@ fn copy_attributes(old: &NodeRef, new: &NodeRef) {
 fn handle_font(font: Wikinode) {
     let span = Wikicode::new_node("span");
     let mut style = vec![];
+    let mut color = None;
     // Copy attributes from <font> to <span>
     for (name, value) in &font.as_element().unwrap().attributes.borrow().map {
         let attr = name.local.to_string();
         match attr.as_str() {
             "color" => {
-                if let Some(color) =
+                if let Some(parsed) =
                     font::parse_legacy_color_value(&value.value)
                 {
-                    style.push(format!("color: {};", color))
+                    style.push(format!("color: {};", &parsed));
+                    color = Some(parsed);
                 }
             }
             "face" => {
@@ -176,6 +178,34 @@ fn handle_font(font: Wikinode) {
     }
     copy_children(&font, &span);
     swap_nodes(&font, &span);
+
+    // If the <font> tag contained a color directive, it no longer applies to children
+    // of any <a> tag because of https://www.mediawiki.org/wiki/Help:Lint_errors/tidy-font-bug
+    // So we wrap all the children of the <a> tag with a new span with just the color directive.
+    // TODO: what if the color is in a style directive, e.g. [[User:Universe=atom]]?
+    if let Some(color) = color {
+        for child in span.children() {
+            if let Some(element) = child.as_element() {
+                if element.name.local.to_string() == "a" {
+                    for grandchild in child.children() {
+                        let inner = Wikicode::new_node("span");
+                        // We only need to style it with color
+                        inner
+                            .as_element()
+                            .unwrap()
+                            .attributes
+                            .borrow_mut()
+                            .insert("style", format!("color: {color};"));
+                        grandchild.insert_after(&inner);
+                        inner.append(&grandchild);
+                        println!("{}", inner.to_string());
+                        child.append(&inner);
+                        println!("{}", child.to_string());
+                    }
+                }
+            }
+        }
+    }
 }
 
 fn handle_strike(strike: Wikinode) {
