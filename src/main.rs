@@ -216,6 +216,11 @@ fn handle_strike(strike: Wikinode) {
 }
 
 fn handle_tt(tt: Wikinode) {
+    // Only replace tt if all the children are nowiki.
+    // So: <tt><nowiki>...</nowiki></tt> -> <code><nowiki>...</nowiki></tt>
+    if !tt.children().all(|node| node.as_nowiki().is_some()) {
+        return;
+    }
     let code = Wikicode::new_node("code");
     copy_attributes(&tt, &code);
     copy_children(&tt, &code);
