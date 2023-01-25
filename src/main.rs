@@ -229,15 +229,15 @@ fn handle_tt(tt: Wikinode) {
 
 fn handle_center(center: Wikinode) {
     let div = Wikicode::new_node("div");
-    let mut style = vec!["text-align: center".to_string()];
+    let mut class = vec!["center".to_string()];
     // Copy attributes from <center> to <div>
     for (name, value) in &center.as_element().unwrap().attributes.borrow().map {
         let attr = name.local.to_string();
         match attr.as_str() {
-            // style needs to be merged in with our new styles
-            "style" => style.push(value.value.to_string()),
+            // class needs to be merged in with our new class
+            "class" => class.push(value.value.to_string()),
             other => {
-                // Pass it back as an attribute on <span>
+                // Pass it back as an attribute on <div>
                 div.as_element()
                     .unwrap()
                     .attributes
@@ -246,12 +246,12 @@ fn handle_center(center: Wikinode) {
             }
         }
     }
-    if !style.is_empty() {
+    if !class.is_empty() {
         div.as_element()
             .unwrap()
             .attributes
             .borrow_mut()
-            .insert("style", style.join(" "));
+            .insert("class", class.join(" "));
     }
     copy_children(&center, &div);
     swap_nodes(&center, &div);
