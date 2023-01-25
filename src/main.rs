@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // (C) Copyright 2023 Kunal Mehta <legoktm@debian.org>
+mod block;
 mod colors;
 mod font;
 
@@ -13,8 +14,9 @@ use tokio::fs;
 
 #[tokio::main]
 async fn main() -> Result<()> {
+    mwbot::init_logging();
     let bot = Bot::from_default_config().await?;
-    let pages = bot
+    /*let pages = bot
         .api()
         .get_value(HashMap::from([
             ("action", "query"),
@@ -32,7 +34,9 @@ async fn main() -> Result<()> {
             process_page(&bot, page).await?;
             seen.insert(title);
         }
-    }
+    }*/
+    let page = bot.page("User:Kyoko/Redesign")?;
+    process_page(&bot, page).await?;
     Ok(())
 }
 
@@ -52,7 +56,7 @@ async fn process_page(bot: &Bot, page: Page) -> Result<()> {
             page.title(),
             remaining.join(", ")
         );
-        return Ok(());
+        //return Ok(());
     }
     if original == new_text {
         // In theory this should still trip lint errors, but double check just in case
@@ -130,11 +134,61 @@ fn copy_attributes(old: &NodeRef, new: &NodeRef) {
     }
 }
 
+/// If we need to wrap the text of links with the color, then we need to know
+/// which color source we should use. If it's set via inline style, that takes
+/// preference, before using the color attribute.
+#[derive(Debug, Eq, PartialEq)]
+enum ColorSource {
+    InlineStyle(String),
+    Attribute(String),
+    None,
+}
+
+impl ColorSource {
+    fn set_from_attr(&mut self, value: String) {
+        match self {
+            Self::InlineStyle(_) => {
+                // Nothing, inline style takes priority
+            }
+            Self::Attribute(_) => {
+                *self = Self::Attribute(value);
+            }
+            Self::None => {
+                *self = Self::Attribute(value);
+            }
+        }
+    }
+
+    fn set_from_inline_style(&mut self, value: String) {
+        *self = Self::InlineStyle(value);
+    }
+
+    fn into_style(self) -> Option<String> {
+        match self {
+            Self::InlineStyle(style) => Some(style),
+            Self::Attribute(color) => Some(format!("color: {color};")),
+            Self::None => None,
+        }
+    }
+}
+
 fn handle_font(font: Wikinode) {
-    let span = Wikicode::new_node("span");
+    // First we need to figure out what tag we're going to replace it with.
+    // If there are any block elements inside the <font> tags, we're going to
+    // use a <div>. Otherwise we'll go with a <span>.
+    let has_block = font.descendants().any(|node| {
+        if let Some(element) = node.as_element() {
+            block::BLOCK_ELEMENTS
+                .contains(&element.name.local.to_string().as_str())
+        } else {
+            false
+        }
+    });
+    let replacement_tag = if has_block { "div" } else { "span" };
+    let replacement = Wikicode::new_node(replacement_tag);
     let mut style = vec![];
-    let mut color = None;
-    // Copy attributes from <font> to <span>
+    let mut color = ColorSource::None;
+    // Copy attributes from <font> to <span/div>
     for (name, value) in &font.as_element().unwrap().attributes.borrow().map {
         let attr = name.local.to_string();
         match attr.as_str() {
@@ -143,7 +197,7 @@ fn handle_font(font: Wikinode) {
                     font::parse_legacy_color_value(&value.value)
                 {
                     style.push(format!("color: {};", &parsed));
-                    color = Some(parsed);
+                    color.set_from_attr(parsed);
                 }
             }
             "face" => {
@@ -158,10 +212,16 @@ fn handle_font(font: Wikinode) {
                 }
             }
             // style needs to be merged in with our new styles
-            "style" => style.push(value.value.to_string()),
+            "style" => {
+                style.push(value.value.to_string());
+                if value.value.contains("color:") {
+                    color.set_from_inline_style(value.value.to_string());
+                }
+            }
             other => {
                 // Pass it back as an attribute on <span>
-                span.as_element()
+                replacement
+                    .as_element()
                     .unwrap()
                     .attributes
                     .borrow_mut()
@@ -170,21 +230,21 @@ fn handle_font(font: Wikinode) {
         }
     }
     if !style.is_empty() {
-        span.as_element()
+        replacement
+            .as_element()
             .unwrap()
             .attributes
             .borrow_mut()
             .insert("style", style.join(" "));
     }
-    copy_children(&font, &span);
-    swap_nodes(&font, &span);
+    copy_children(&font, &replacement);
+    swap_nodes(&font, &replacement);
 
     // If the <font> tag contained a color directive, it no longer applies to children
     // of any <a> tag because of https://www.mediawiki.org/wiki/Help:Lint_errors/tidy-font-bug
     // So we wrap all the children of the <a> tag with a new span with just the color directive.
-    // TODO: what if the color is in a style directive, e.g. [[User:Universe=atom]]?
-    if let Some(color) = color {
-        for child in span.children() {
+    if let Some(style_color) = color.into_style() {
+        for child in replacement.children() {
             if let Some(element) = child.as_element() {
                 if element.name.local.to_string() == "a" {
                     for grandchild in child.children() {
@@ -195,7 +255,7 @@ fn handle_font(font: Wikinode) {
                             .unwrap()
                             .attributes
                             .borrow_mut()
-                            .insert("style", format!("color: {color};"));
+                            .insert("style", style_color.to_string());
                         grandchild.insert_after(&inner);
                         inner.append(&grandchild);
                         println!("{}", inner.to_string());
@@ -276,4 +336,15 @@ fn handle_page(html: ImmutableWikicode) -> Result<ImmutableWikicode> {
         handle_center(center);
     }
     Ok(html.into_immutable())
+}
+
+#[test]
+fn test_colorsource() {
+    let mut color = ColorSource::None;
+    color.set_from_attr("foo".to_string());
+    assert_eq!(color, ColorSource::Attribute("foo".to_string()));
+    color.set_from_inline_style("bar".to_string());
+    assert_eq!(color, ColorSource::InlineStyle("bar".to_string()));
+    color.set_from_attr("foo".to_string()); // Has no effect
+    assert_eq!(color, ColorSource::InlineStyle("bar".to_string()));
 }

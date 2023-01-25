@@ -1,0 +1,40 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// (C) Copyright 2023 Kunal Mehta <legoktm@debian.org>
+/// A list of all block elements so we know whether
+/// to use a div or span.
+/// Sourced from <https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements>.
+pub(crate) const BLOCK_ELEMENTS: [&str; 33] = [
+    "address",
+    "article",
+    "aside",
+    "blockquote",
+    "details",
+    "dialog",
+    "dd",
+    "div",
+    "dl",
+    "dt",
+    "fieldset",
+    "figcaption",
+    "figure",
+    "footer",
+    "form",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "header",
+    "hgroup",
+    "hr",
+    "li",
+    "main",
+    "nav",
+    "ol",
+    "p",
+    "pre",
+    "section",
+    "table",
+    "ul",
+];
