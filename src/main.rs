@@ -192,7 +192,7 @@ fn handle_font(font: Wikinode) {
     for (name, value) in &font.as_element().unwrap().attributes.borrow().map {
         let attr = name.local.to_string();
         match attr.as_str() {
-            "color" => {
+            "color" | "colour" => {
                 if let Some(parsed) =
                     font::parse_legacy_color_value(&value.value)
                 {
