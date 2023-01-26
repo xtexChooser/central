@@ -345,6 +345,10 @@ fn handle_font(font: Wikinode, summary: &mut Summary) {
             if let Some(element) = child.as_element() {
                 if element.name.local.to_string() == "a" {
                     for grandchild in child.children() {
+                        if is_colored_node(&grandchild) {
+                            // Already has a color set, so we don't need to wrap
+                            continue;
+                        }
                         let inner = Wikicode::new_node("span");
                         // We only need to style it with color
                         inner
@@ -363,6 +367,25 @@ fn handle_font(font: Wikinode, summary: &mut Summary) {
                 }
             }
         }
+    }
+}
+
+fn is_colored_node(node: &NodeRef) -> bool {
+    if let Some(element) = node.as_element() {
+        // If it is <font color="...">
+        if element.name.local.to_string() == "font"
+            && element.attributes.borrow().contains("color")
+        {
+            return true;
+        }
+        // Otherwise check if there is a color inline style
+        if let Some(style) = element.attributes.borrow().get("style") {
+            style.contains("color:")
+        } else {
+            false
+        }
+    } else {
+        false
     }
 }
 
