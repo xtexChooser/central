@@ -287,33 +287,36 @@ fn handle_tt(tt: Wikinode) {
     swap_nodes(&tt, &code);
 }
 
-fn handle_center(center: Wikinode) {
-    let div = Wikicode::new_node("div");
-    let mut class = vec!["center".to_string()];
-    // Copy attributes from <center> to <div>
-    for (name, value) in &center.as_element().unwrap().attributes.borrow().map {
-        let attr = name.local.to_string();
-        match attr.as_str() {
-            // class needs to be merged in with our new class
-            "class" => class.push(value.value.to_string()),
-            other => {
-                // Pass it back as an attribute on <div>
-                div.as_element()
-                    .unwrap()
-                    .attributes
-                    .borrow_mut()
-                    .insert(other, value.value.to_string());
-            }
+/// Add the specified class to a node, if it
+/// doesn't have it already
+fn add_class(node: &NodeRef, desired: &str) {
+    if let Some(element) = node.as_element() {
+        let class = element
+            .attributes
+            .borrow()
+            .get("class")
+            .unwrap_or("")
+            .to_string();
+        let mut sp: Vec<_> = class.split(' ').map(|s| s.to_string()).collect();
+        if !sp.contains(&desired.to_string()) {
+            sp.push(desired.to_string());
+            element
+                .attributes
+                .borrow_mut()
+                .insert("class", sp.join(" "));
         }
     }
-    if !class.is_empty() {
-        div.as_element()
-            .unwrap()
-            .attributes
-            .borrow_mut()
-            .insert("class", class.join(" "));
-    }
+}
+
+fn handle_center(center: Wikinode) {
+    let div = Wikicode::new_node("div");
     copy_children(&center, &div);
+    copy_attributes(&center, &div);
+    add_class(&div, "center");
+    // Per [[Help:TABLECENTER]] we need to assign class="center" to any tables
+    for table in div.select("table") {
+        add_class(&table, "center");
+    }
     swap_nodes(&center, &div);
 }
 
