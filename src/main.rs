@@ -87,7 +87,7 @@ async fn dump_index(results: &HashMap<String, Summary>) -> Result<()> {
         }
     }
     index.push("</ol>".to_string());
-    fs::write("output/index.html", index.join("\n")).await?;
+    fs::write("public_html/demo1/index.html", index.join("\n")).await?;
 
     Ok(())
 }
@@ -147,12 +147,12 @@ async fn process_page(bot: &Bot, page: &Page) -> Result<Summary> {
         summary.no_change = true;
     }
     fs::write(
-        format!("output/html/{page_id}_original.html"),
+        format!("public_html/demo1/html/{page_id}_original.html"),
         hack_stylesheet(original_html).html(),
     )
     .await?;
     fs::write(
-        format!("output/html/{page_id}_modified.html"),
+        format!("public_html/demo1/html/{page_id}_modified.html"),
         hack_stylesheet(html).html(),
     )
     .await?;
@@ -167,7 +167,7 @@ async fn process_page(bot: &Bot, page: &Page) -> Result<Summary> {
         .replace("{pageid}", &page_id.to_string())
         .replace("{lints}", &remaining_lints);
 
-    fs::write(format!("output/{page_id}_diff.html"), formatted).await?;
+    fs::write(format!("public_html/demo1/{page_id}_diff.html"), formatted).await?;
     Ok(summary)
 }
 
