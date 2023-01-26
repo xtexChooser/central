@@ -12,11 +12,24 @@ use serde::Deserialize;
 use std::collections::{HashMap, HashSet};
 use tokio::fs;
 
+#[derive(Default)]
+struct Summary {
+    font: bool,
+    center: bool,
+    tt: bool,
+    strike: bool,
+    id: u32,
+    remaining_lints: Vec<String>,
+    no_change: bool,
+    tags: HashSet<String>,
+}
+
 #[tokio::main]
 async fn main() -> Result<()> {
     mwbot::init_logging();
     let bot = Bot::from_default_config().await?;
-    /*let pages = bot
+    let mut results = HashMap::new();
+    let pages = bot
         .api()
         .get_value(HashMap::from([
             ("action", "query"),
@@ -25,58 +38,137 @@ async fn main() -> Result<()> {
             ("lntlimit", "max"),
         ]))
         .await?;
-    let mut seen = HashSet::new();
     for error in pages["query"]["linterrors"].as_array().unwrap() {
         let title = error["title"].as_str().unwrap().to_string();
-        if !seen.contains(&title) {
+        let page = bot.page(&title)?;
+        if !results.contains_key(&title) {
             // TODO: should we check and skip on templateInfo?
-            let page = bot.page(&title)?;
-            process_page(&bot, page).await?;
-            seen.insert(title);
+            let summary = process_page(&bot, &page).await?;
+            results.insert(title, summary);
+            dump_index(&results).await?;
         }
-    }*/
-    let page = bot.page("User:Kyoko/Redesign")?;
-    process_page(&bot, page).await?;
+    }
+
     Ok(())
 }
 
-async fn process_page(bot: &Bot, page: Page) -> Result<()> {
+async fn dump_index(results: &HashMap<String, Summary>) -> Result<()> {
+    let mut index = vec![];
+    let mut all_tags = HashSet::new();
+    for summary in results.values() {
+        all_tags.extend(summary.tags.clone());
+    }
+    let mut all_tags: Vec<_> = all_tags.into_iter().collect();
+    all_tags.sort();
+    for tag in all_tags {
+        index.push(format!("<h2>{tag}</h2>"));
+        index.push("<ol>".to_string());
+        for (title, summary) in results {
+            if !summary.no_change && summary.tags.contains(&tag) {
+                index.push(dump_page(title, summary));
+            }
+        }
+        index.push("</ol>".to_string());
+    }
+    index.push("<h2>Plain</h2>".to_string());
+    index.push("<ol>".to_string());
+    for (page, summary) in results {
+        if !summary.no_change && summary.tags.is_empty() {
+            index.push(dump_page(page, summary));
+        }
+    }
+    index.push("</ol>".to_string());
+
+    index.push("<h2>No change</h2>".to_string());
+    index.push("<ol>".to_string());
+    for (page, summary) in results {
+        if summary.no_change {
+            index.push(dump_page(page, summary));
+        }
+    }
+    index.push("</ol>".to_string());
+    fs::write("output/index.html", index.join("\n")).await?;
+
+    Ok(())
+}
+
+fn dump_page(title: &str, summary: &Summary) -> String {
+    let mut text = vec![];
+    if !summary.remaining_lints.is_empty() {
+        text.push("SKIP:".to_string());
+    }
+    text.push(format!(
+        "<a href=\"{}_diff.html\">{}</a>",
+        summary.id, title
+    ));
+    let mut tags = vec![];
+    if summary.font {
+        tags.push("&lt;font>");
+    }
+    if summary.center {
+        tags.push("&lt;center>");
+    }
+    if summary.tt {
+        tags.push("&lt;tt>");
+    }
+    if summary.strike {
+        tags.push("&lt;strike>");
+    }
+    if !tags.is_empty() {
+        text.push(format!("fixing {}", tags.join(", ")));
+    }
+    format!("<li>{}</li>", text.join(" "))
+}
+
+async fn process_page(bot: &Bot, page: &Page) -> Result<Summary> {
     println!("Checking {}...", page.title());
     let page_id = page.id().await?.expect("page doesn't exist");
     let original_html = page.html().await?;
-    let html = handle_page(original_html.clone())?;
+    let mut summary = Summary {
+        id: page_id,
+        ..Default::default()
+    };
+    let html = handle_page(original_html.clone(), &mut summary)?;
     let original = page.wikitext().await?;
     let new_text = bot.parsoid().transform_to_wikitext(&html).await?;
     let remaining = lint_errors(bot, page.title(), &new_text).await?;
-    if !remaining.is_empty() {
-        let remaining: Vec<_> =
-            remaining.into_iter().map(|l| l.type_).collect();
+    summary.remaining_lints = remaining.into_iter().map(|l| l.type_).collect();
+    if !summary.remaining_lints.is_empty() {
         println!(
-            "{} still has some lint errors, skipping ({})",
+            "{} still has some lint errors ({}), will be skipped",
             page.title(),
-            remaining.join(", ")
+            summary.remaining_lints.join(", ")
         );
         //return Ok(());
     }
     if original == new_text {
         // In theory this should still trip lint errors, but double check just in case
-        println!("No changes to {}, skipping", page.title());
-        return Ok(());
+        println!("No changes to {}, will be skipped", page.title());
+        summary.no_change = true;
     }
     fs::write(
         format!("output/html/{page_id}_original.html"),
-        original_html.html(),
+        hack_stylesheet(original_html).html(),
     )
     .await?;
-    fs::write(format!("output/html/{page_id}_modified.html"), html.html())
-        .await?;
+    fs::write(
+        format!("output/html/{page_id}_modified.html"),
+        hack_stylesheet(html).html(),
+    )
+    .await?;
+    let remaining_lints = if summary.remaining_lints.is_empty() {
+        "none".to_string()
+    } else {
+        summary.remaining_lints.join(", ")
+    };
     let formatted = include_str!("diff.html")
         .replace("{diff}", &html_diff(bot, &original, &new_text).await?)
         .replace("{title}", page.title())
-        .replace("{pageid}", &page_id.to_string());
+        .replace("{pageid}", &page_id.to_string())
+        .replace("{lints}", &remaining_lints);
 
     fs::write(format!("output/{page_id}_diff.html"), formatted).await?;
-    Ok(())
+    Ok(summary)
 }
 
 async fn html_diff(bot: &Bot, left: &str, right: &str) -> Result<String> {
@@ -172,7 +264,7 @@ impl ColorSource {
     }
 }
 
-fn handle_font(font: Wikinode) {
+fn handle_font(font: Wikinode, summary: &mut Summary) {
     // First we need to figure out what tag we're going to replace it with.
     // If there are any block elements inside the <font> tags, we're going to
     // use a <div>. Otherwise we'll go with a <span>.
@@ -184,7 +276,12 @@ fn handle_font(font: Wikinode) {
             false
         }
     });
-    let replacement_tag = if has_block { "div" } else { "span" };
+    let replacement_tag = if has_block {
+        summary.tags.insert("block element inside font".to_string());
+        "div"
+    } else {
+        "span"
+    };
     let replacement = Wikicode::new_node(replacement_tag);
     let mut style = vec![];
     let mut color = ColorSource::None;
@@ -261,6 +358,7 @@ fn handle_font(font: Wikinode) {
                         println!("{}", inner.to_string());
                         child.append(&inner);
                         println!("{}", child.to_string());
+                        summary.tags.insert("link inside font".to_string());
                     }
                 }
             }
@@ -275,9 +373,9 @@ fn handle_strike(strike: Wikinode) {
     swap_nodes(&strike, &s);
 }
 
-fn handle_tt(tt: Wikinode) {
+fn handle_tt(tt: Wikinode, summary: &mut Summary) {
     // Only replace tt if all the children are nowiki.
-    // So: <tt><nowiki>...</nowiki></tt> -> <code><nowiki>...</nowiki></tt>
+    // So: <tt><nowiki>...</nowiki></tt> -> <code><nowiki>...</nowiki></code>
     if !tt.children().all(|node| node.as_nowiki().is_some()) {
         return;
     }
@@ -285,6 +383,7 @@ fn handle_tt(tt: Wikinode) {
     copy_attributes(&tt, &code);
     copy_children(&tt, &code);
     swap_nodes(&tt, &code);
+    summary.tt = true;
 }
 
 /// Add the specified class to a node, if it
@@ -300,15 +399,13 @@ fn add_class(node: &NodeRef, desired: &str) {
         let mut sp: Vec<_> = class.split(' ').map(|s| s.to_string()).collect();
         if !sp.contains(&desired.to_string()) {
             sp.push(desired.to_string());
-            element
-                .attributes
-                .borrow_mut()
-                .insert("class", sp.join(" "));
+            let class = sp.join(" ").trim().to_string();
+            element.attributes.borrow_mut().insert("class", class);
         }
     }
 }
 
-fn handle_center(center: Wikinode) {
+fn handle_center(center: Wikinode, summary: &mut Summary) {
     let div = Wikicode::new_node("div");
     copy_children(&center, &div);
     copy_attributes(&center, &div);
@@ -316,27 +413,34 @@ fn handle_center(center: Wikinode) {
     // Per [[Help:TABLECENTER]] we need to assign class="center" to any tables
     for table in div.select("table") {
         add_class(&table, "center");
+        summary.tags.insert("table inside center".to_string());
     }
     swap_nodes(&center, &div);
 }
 
-fn handle_page(html: ImmutableWikicode) -> Result<ImmutableWikicode> {
+fn handle_page(
+    html: ImmutableWikicode,
+    summary: &mut Summary,
+) -> Result<ImmutableWikicode> {
     let html = html.into_mutable();
     for font in html.select("font") {
         println!("found <font>");
-        handle_font(font);
+        handle_font(font, summary);
+        summary.font = true;
     }
     for strike in html.select("strike") {
         println!("found <strike>");
         handle_strike(strike);
+        summary.strike = true;
     }
     for tt in html.select("tt") {
         println!("found <tt>");
-        handle_tt(tt);
+        handle_tt(tt, summary);
     }
     for center in html.select("center") {
         println!("found <center>");
-        handle_center(center);
+        handle_center(center, summary);
+        summary.center = true;
     }
     Ok(html.into_immutable())
 }
@@ -350,4 +454,15 @@ fn test_colorsource() {
     assert_eq!(color, ColorSource::InlineStyle("bar".to_string()));
     color.set_from_attr("foo".to_string()); // Has no effect
     assert_eq!(color, ColorSource::InlineStyle("bar".to_string()));
+}
+
+fn hack_stylesheet(html: ImmutableWikicode) -> ImmutableWikicode {
+    // <link href="https://en.wikipedia.org/w/load.php?modules=mediawiki.diff.styles|skins.vector.styles.legacy&only=styles" rel="stylesheet">
+    let html = html.into_mutable();
+    let link = Wikicode::new_node("link");
+    let attribs = &link.as_element().unwrap().attributes;
+    attribs.borrow_mut().insert("href", "https://en.wikipedia.org/w/load.php?modules=mediawiki.diff.styles|skins.vector.styles.legacy&only=styles".to_string());
+    attribs.borrow_mut().insert("rel", "stylesheet".to_string());
+    html.select_first("head").unwrap().append(&link);
+    html.into_immutable()
 }
