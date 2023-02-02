@@ -41,7 +41,9 @@ async fn main() -> Result<()> {
     for error in pages["query"]["linterrors"].as_array().unwrap() {
         let title = error["title"].as_str().unwrap().to_string();
         let page = bot.page(&title)?;
-        if let std::collections::hash_map::Entry::Vacant(e) = results.entry(title) {
+        if let std::collections::hash_map::Entry::Vacant(e) =
+            results.entry(title)
+        {
             // TODO: should we check and skip on templateInfo?
             let summary = process_page(&bot, &page).await?;
             e.insert(summary);
@@ -167,7 +169,8 @@ async fn process_page(bot: &Bot, page: &Page) -> Result<Summary> {
         .replace("{pageid}", &page_id.to_string())
         .replace("{lints}", &remaining_lints);
 
-    fs::write(format!("public_html/demo1/{page_id}_diff.html"), formatted).await?;
+    fs::write(format!("public_html/demo1/{page_id}_diff.html"), formatted)
+        .await?;
     Ok(summary)
 }
 
