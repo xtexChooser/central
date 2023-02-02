@@ -124,7 +124,7 @@ pub(crate) fn parse_legacy_color_value(input: &str) -> Option<String> {
     //    5. Return result.
     if input.len() == 4 {
         let mut chars = input.chars();
-        if chars.next() == Some('#') && chars.all(is_ascii_hex_digit) {
+        if chars.next() == Some('#') && chars.all(|c| c.is_ascii_hexdigit()) {
             return Some(input.to_string());
         }
     }
@@ -145,7 +145,7 @@ pub(crate) fn parse_legacy_color_value(input: &str) -> Option<String> {
     //     U+0030 DIGIT ZERO (0).
     let mut input: String = input
         .chars()
-        .map(|c| if is_ascii_hex_digit(c) { c } else { '0' })
+        .map(|c| if c.is_ascii_hexdigit() { c } else { '0' })
         .collect();
     // 11. While input's code point length is zero or not a multiple of three, append a
     //     U+0030 DIGIT ZERO (0) character to input.
@@ -197,11 +197,6 @@ pub(crate) fn parse_legacy_color_value(input: &str) -> Option<String> {
 /// Strip the count number of characters from the left
 fn strip_chars(input: String, count: usize) -> String {
     input.chars().skip(count).collect()
-}
-
-/// https://infra.spec.whatwg.org/#ascii-hex-digit
-fn is_ascii_hex_digit(c: char) -> bool {
-    matches!(c, '0'..='9' | 'A'..='F' | 'a'..='f')
 }
 
 #[test]
