@@ -62,7 +62,7 @@ pub(crate) fn parse_legacy_font_size(input: &str) -> Option<&'static str> {
             value += 3;
         }
         Mode::RelativeMinus => {
-            value -= 3;
+            value = 3 - value;
         }
         Mode::Absolute => {}
     }
@@ -88,10 +88,11 @@ pub(crate) fn parse_legacy_font_size(input: &str) -> Option<&'static str> {
 fn test_parse_legacy_font_size() {
     assert_eq!(parse_legacy_font_size("2"), Some("small"));
     assert_eq!(parse_legacy_font_size("+2"), Some("x-large"));
-    assert_eq!(parse_legacy_font_size("-8"), Some("x-large"));
+    assert_eq!(parse_legacy_font_size("-8"), Some("x-small"));
     assert_eq!(parse_legacy_font_size("3px"), Some("medium"));
     assert_eq!(parse_legacy_font_size("ahhhh"), None);
     assert_eq!(parse_legacy_font_size("-"), None);
+    assert_eq!(parse_legacy_font_size("-1"), Some("small"));
 }
 
 /// Implements the "rules for parsing a legacy color value"
