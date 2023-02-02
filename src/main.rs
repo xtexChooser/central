@@ -41,10 +41,10 @@ async fn main() -> Result<()> {
     for error in pages["query"]["linterrors"].as_array().unwrap() {
         let title = error["title"].as_str().unwrap().to_string();
         let page = bot.page(&title)?;
-        if !results.contains_key(&title) {
+        if let std::collections::hash_map::Entry::Vacant(e) = results.entry(title) {
             // TODO: should we check and skip on templateInfo?
             let summary = process_page(&bot, &page).await?;
-            results.insert(title, summary);
+            e.insert(summary);
             dump_index(&results).await?;
         }
     }
@@ -305,7 +305,7 @@ fn handle_font(font: Wikinode, summary: &mut Summary) {
                 if let Some(font_size) =
                     font::parse_legacy_font_size(&value.value)
                 {
-                    style.push(format!("font-size: {};", font_size));
+                    style.push(format!("font-size: {font_size};"));
                 }
             }
             // style needs to be merged in with our new styles

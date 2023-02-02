@@ -38,7 +38,7 @@ pub(crate) fn parse_legacy_font_size(input: &str) -> Option<&'static str> {
     //    let the resulting sequence be digits.
     let mut digits = "".to_string();
     for c in input.chars().skip(pos) {
-        if matches!(c, '0'..='9') {
+        if c.is_ascii_digit() {
             digits.push(c);
         } else {
             break;
