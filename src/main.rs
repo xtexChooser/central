@@ -344,31 +344,50 @@ fn handle_font(font: Wikinode, summary: &mut Summary) {
     // of any <a> tag because of https://www.mediawiki.org/wiki/Help:Lint_errors/tidy-font-bug
     // So we wrap all the children of the <a> tag with a new span with just the color directive.
     if let Some(style_color) = color.into_style() {
-        for child in replacement.children() {
-            if let Some(element) = child.as_element() {
-                if element.name.local.to_string() == "a" {
-                    for grandchild in child.children() {
-                        if is_colored_node(&grandchild) {
-                            // Already has a color set, so we don't need to wrap
-                            continue;
-                        }
-                        let inner = Wikicode::new_node("span");
-                        // We only need to style it with color
-                        inner
-                            .as_element()
-                            .unwrap()
-                            .attributes
-                            .borrow_mut()
-                            .insert("style", style_color.to_string());
-                        grandchild.insert_after(&inner);
-                        inner.append(&grandchild);
-                        println!("{}", inner.to_string());
-                        child.append(&inner);
-                        println!("{}", child.to_string());
-                        summary.tags.insert("link inside font".to_string());
+        // We find all descendant <a> tags
+        for link in replacement.filter_links() {
+            // We need to make sure there's not something else
+            // coloring this node, e.g. <color><foo><color><a></a></color></foo></color>
+            match find_coloring_node(&link) {
+                Some(node) => {
+                    if &node != replacement.deref() {
+                        continue;
                     }
                 }
+                None => {
+                    continue;
+                }
+            };
+            for child in link.children() {
+                if is_colored_node(&child) {
+                    // Already has a color set, so we don't need to wrap
+                    continue;
+                }
+                let inner = Wikicode::new_node("span");
+                // We only need to style it with color
+                inner
+                    .as_element()
+                    .unwrap()
+                    .attributes
+                    .borrow_mut()
+                    .insert("style", style_color.to_string());
+                child.insert_after(&inner);
+                inner.append(&child);
+                println!("{}", inner.to_string());
+                link.append(&inner);
+                println!("{}", link.to_string());
+                summary.tags.insert("link inside font".to_string());
             }
+        }
+    }
+}
+
+fn find_coloring_node(node: &NodeRef) -> Option<NodeRef> {
+    let mut node = node.clone();
+    loop {
+        node = node.parent()?;
+        if is_colored_node(&node) {
+            return Some(node);
         }
     }
 }
