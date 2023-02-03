@@ -22,6 +22,7 @@ struct Summary {
     id: u32,
     remaining_lints: Vec<String>,
     no_change: bool,
+    added_nowiki: bool,
     tags: HashSet<String>,
 }
 
@@ -134,6 +135,12 @@ async fn process_page(bot: &Bot, page: &Page) -> Result<Summary> {
     let html = handle_page(original_html.clone(), &mut summary)?;
     let original = page.wikitext().await?;
     let new_text = bot.parsoid().transform_to_wikitext(&html).await?;
+    if new_text.matches("<nowiki>").count()
+        > original.matches("<nowiki>").count()
+    {
+        println!("{} added <nowiki>, will be skipped", page.title());
+        summary.added_nowiki = true;
+    }
     let remaining = lint_errors(bot, page.title(), &new_text).await?;
     summary.remaining_lints = remaining.into_iter().map(|l| l.type_).collect();
     if !summary.remaining_lints.is_empty() {
