@@ -10,6 +10,7 @@ use mwbot::parsoid::prelude::*;
 use mwbot::{Bot, Page};
 use serde::Deserialize;
 use std::collections::{HashMap, HashSet};
+use std::ops::Deref;
 use tokio::fs;
 
 #[derive(Default)]
