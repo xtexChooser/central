@@ -1,0 +1,5 @@
+include:
+  - 'https://gitlab.wikimedia.org/repos/mwbot-rs/rust-ci-pipeline/-/raw/main/tool.yml'
+
+variables:
+  CARGO_AUDIT: ""
