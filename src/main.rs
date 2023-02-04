@@ -13,6 +13,9 @@ use std::collections::{HashMap, HashSet};
 use std::ops::Deref;
 use tokio::fs;
 
+// TODO: turns this into a non-const options
+const CENTER_TABLES: bool = false;
+
 #[derive(Default)]
 struct Summary {
     font: bool,
@@ -459,16 +462,41 @@ fn add_class(node: &NodeRef, desired: &str) {
 }
 
 fn handle_center(center: Wikinode, summary: &mut Summary) {
+    // If there's a child with an inline style with margin, it
+    // will interfere with class="center" so we skip for now.
+    if has_inline_margin(&center) {
+        return;
+    }
+    // centering tables is disabled, if the center has descendants
+    // that are tables, we skip.
+    if !CENTER_TABLES && !center.select("table").is_empty() {
+        return;
+    }
     let div = Wikicode::new_node("div");
     copy_children(&center, &div);
     copy_attributes(&center, &div);
     add_class(&div, "center");
     // Per [[Help:TABLECENTER]] we need to assign class="center" to any tables
     for table in div.select("table") {
+        // TODO: We should use text-align: left; margin-left: auto; margin-right: auto
+        // instead of class="center"
+        // TODO: We should also detect transcluded or generated content that
+        // we can't actually modify
         add_class(&table, "center");
         summary.tags.insert("table inside center".to_string());
     }
     swap_nodes(&center, &div);
+}
+
+fn has_inline_margin(node: &NodeRef) -> bool {
+    if let Some(element) = node.as_element() {
+        if let Some(style) = element.attributes.borrow().get("style") {
+            if style.contains("margin") {
+                return true;
+            }
+        }
+    }
+    node.children().any(|node| has_inline_margin(&node))
 }
 
 fn handle_page(
