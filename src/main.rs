@@ -2,7 +2,7 @@
 // (C) Copyright 2023 Kunal Mehta <legoktm@debian.org>
 mod block;
 mod colors;
-mod font;
+mod legacy;
 
 use anyhow::Result;
 use kuchiki::NodeRef;
@@ -305,7 +305,7 @@ fn handle_font(font: Wikinode, summary: &mut Summary) {
         match attr.as_str() {
             "color" | "colour" => {
                 if let Some(parsed) =
-                    font::parse_legacy_color_value(&value.value)
+                    legacy::parse_legacy_color_value(&value.value)
                 {
                     style.push(format!("color: {};", &parsed));
                     color.set_from_attr(parsed);
@@ -317,7 +317,7 @@ fn handle_font(font: Wikinode, summary: &mut Summary) {
             }
             "size" => {
                 if let Some(font_size) =
-                    font::parse_legacy_font_size(&value.value)
+                    legacy::parse_legacy_font_size(&value.value)
                 {
                     style.push(format!("font-size: {font_size};"));
                 }
