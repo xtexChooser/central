@@ -7,7 +7,7 @@ mod center;
 mod colors;
 mod font;
 mod legacy;
-mod query;
+pub mod query;
 pub mod util;
 
 use anyhow::Result;
@@ -54,7 +54,7 @@ impl Summary {
             counts.push(format!("<strike> ({}x)", self.strike));
         }
         format!(
-            "Fixing [[WP:LINT|lint errors]], replacing obsolete HTML tags: {}",
+            "Bot: Fixing [[Wikipedia:Linter|lint errors]], replacing [[mw:Help:Lint errors/obsolete-tag|obsolete HTML tags]]: {}",
             counts.join(", ")
         )
     }
@@ -106,23 +106,19 @@ pub fn delint_html(
 ) -> Result<ImmutableWikicode> {
     let html = html.into_mutable();
     for font in html.select("font") {
-        println!("found <font>");
         font::handle_font(font, summary);
         summary.font += 1;
     }
     if opts.replace_strike {
         for strike in html.select("strike") {
-            println!("found <strike>");
             handle_strike(&strike);
             summary.strike += 1;
         }
     }
     for tt in html.select("tt") {
-        println!("found <tt>");
         handle_tt(tt, summary);
     }
     for center in html.select("center") {
-        println!("found <center>");
         center::handle_center(opts, center, summary);
     }
     Ok(html.into_immutable())

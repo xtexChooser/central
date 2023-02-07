@@ -3,13 +3,15 @@
 #![deny(clippy::all)]
 
 use anyhow::Result;
-use delinter::{delint_html, lint_errors, util, Options, Summary};
+use delinter::{delint_html, lint_errors, query, util, Options, Summary};
 use mwbot::parsoid::prelude::*;
 use mwbot::{Bot, Page};
 use std::collections::{HashMap, HashSet};
 use tokio::fs;
+use tracing::info;
 
 const DEMO_VERSION: usize = 2;
+const LIMIT: usize = 1000;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -18,27 +20,22 @@ async fn main() -> Result<()> {
         center_tables: false,
         replace_strike: false,
     };
-    let bot = Bot::from_default_config().await?;
+    let mut processed = 0;
     let mut results = HashMap::new();
-    let pages = bot
-        .api()
-        .get_value(HashMap::from([
-            ("action", "query"),
-            ("list", "linterrors"),
-            ("lntcategories", "obsolete-tag"),
-            ("lntlimit", "max"),
-        ]))
-        .await?;
-    for error in pages["query"]["linterrors"].as_array().unwrap() {
-        let title = error["title"].as_str().unwrap().to_string();
-        let page = bot.page(&title)?;
-        if let std::collections::hash_map::Entry::Vacant(e) =
-            results.entry(title)
-        {
-            // TODO: should we check and skip on templateInfo?
-            let summary = process_page(&opts, &bot, &page).await?;
-            e.insert(summary);
-            dump_index(&results).await?;
+    let bot = Bot::from_default_config().await?;
+    let mut gen = query::lint_errors(&bot);
+    while let Some(result) = gen.recv().await {
+        let page = result?;
+        if page.namespace() == 2 {
+            // Skip userspace for now
+            continue;
+        }
+        let summary = process_page(&opts, &bot, &page).await?;
+        results.insert(page.title().to_string(), summary);
+        dump_index(&results).await?;
+        processed += 1;
+        if processed >= LIMIT {
+            break;
         }
     }
 
@@ -122,7 +119,7 @@ async fn process_page(
     bot: &Bot,
     page: &Page,
 ) -> Result<Summary> {
-    println!("Checking {}...", page.title());
+    info!("Checking {}...", page.title());
     let page_id = page.id().await?.expect("page doesn't exist");
     let original_html = page.html().await?;
     let mut summary = Summary {
@@ -135,13 +132,13 @@ async fn process_page(
     if new_text.matches("<nowiki>").count()
         > original.matches("<nowiki>").count()
     {
-        println!("{} added <nowiki>, will be skipped", page.title());
+        info!("{} added <nowiki>, will be skipped", page.title());
         summary.added_nowiki = true;
     }
     let remaining = lint_errors(bot, page.title(), &new_text).await?;
     summary.remaining_lints = remaining.into_iter().map(|l| l.type_).collect();
     if !summary.remaining_lints.is_empty() {
-        println!(
+        info!(
             "{} still has some lint errors ({}), will be skipped",
             page.title(),
             summary.remaining_lints.join(", ")
@@ -150,7 +147,7 @@ async fn process_page(
     }
     if original == new_text {
         // In theory this should still trip lint errors, but double check just in case
-        println!("No changes to {}, will be skipped", page.title());
+        info!("No changes to {}, will be skipped", page.title());
         summary.no_change = true;
     }
     fs::write(

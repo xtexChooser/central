@@ -159,6 +159,7 @@ dependencies = [
  "mwbot",
  "serde",
  "tokio",
+ "tracing",
  "urlencoding",
 ]
 

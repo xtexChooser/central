@@ -111,9 +111,7 @@ pub(crate) fn handle_font(font: Wikinode, summary: &mut Summary) {
                     .insert("style", style_color.to_string());
                 child.insert_after(&inner);
                 inner.append(&child);
-                println!("{}", inner.to_string());
                 link.append(&inner);
-                println!("{}", link.to_string());
                 summary.tags.insert("link inside font".to_string());
             }
         }

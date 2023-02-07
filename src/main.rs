@@ -1,0 +1,84 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// (C) Copyright 2023 Kunal Mehta <legoktm@debian.org>
+#![deny(clippy::all)]
+
+use anyhow::Result;
+use delinter::{delint_html, lint_errors, query, Options, Summary};
+use mwbot::{Bot, Page, SaveOptions};
+use tracing::{debug, info};
+
+const TRIAL_EDITS: usize = 99;
+
+#[tokio::main]
+async fn main() -> Result<()> {
+    mwbot::init_logging();
+    let opts = Options {
+        center_tables: false,
+        replace_strike: false,
+    };
+    let mut total_edits = 0;
+    let bot = Bot::from_default_config().await?;
+    let mut gen = query::lint_errors(&bot);
+    while let Some(result) = gen.recv().await {
+        let page = result?;
+        if page.namespace() == 2 {
+            // Skip userspace for now
+            continue;
+        }
+        let edited = process_page(&opts, &bot, page).await?;
+        if edited {
+            total_edits += 1;
+            if total_edits % 10 == 0 {
+                info!("Made {total_edits} edits so far");
+            }
+        }
+        if total_edits >= TRIAL_EDITS {
+            break;
+        }
+    }
+
+    Ok(())
+}
+
+async fn process_page(opts: &Options, bot: &Bot, page: Page) -> Result<bool> {
+    debug!("Checking {}...", page.title());
+    let page_id = page.id().await?.expect("page doesn't exist");
+    let original_html = page.html().await?;
+    let mut summary = Summary {
+        id: page_id,
+        ..Default::default()
+    };
+    let html = delint_html(opts, original_html.clone(), &mut summary)?;
+    let original = page.wikitext().await?;
+    let new_text = bot.parsoid().transform_to_wikitext(&html).await?;
+    if new_text.matches("<nowiki>").count()
+        > original.matches("<nowiki>").count()
+    {
+        info!("{} added <nowiki>, will be skipped", page.title());
+        return Ok(false);
+    }
+    let remaining = lint_errors(bot, page.title(), &new_text).await?;
+    summary.remaining_lints = remaining.into_iter().map(|l| l.type_).collect();
+    if !summary.remaining_lints.is_empty() {
+        info!(
+            "{} still has some lint errors ({}), will be skipped",
+            page.title(),
+            summary.remaining_lints.join(", ")
+        );
+        return Ok(false);
+    }
+    if original == new_text {
+        // In theory this should still trip lint errors, but double check just in case
+        info!("No changes to {}, will be skipped", page.title());
+        summary.no_change = true;
+        return Ok(false);
+    }
+    info!("Saving {}: {}", page.title(), summary.edit_summary());
+    page.save(
+        new_text,
+        &SaveOptions::summary(&summary.edit_summary())
+            .add_tag("fixed lint errors"),
+    )
+    .await?;
+    Ok(true)
+}
