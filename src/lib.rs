@@ -7,7 +7,8 @@ mod center;
 mod colors;
 mod font;
 mod legacy;
-mod util;
+mod query;
+pub mod util;
 
 use anyhow::Result;
 use kuchiki::NodeRef;
@@ -19,19 +20,44 @@ use std::collections::HashSet;
 pub struct Options {
     /// Whether to fix <center> when it contains tables
     pub center_tables: bool,
+    /// Whether to replace <strike> with <s>
+    pub replace_strike: bool,
 }
 
 #[derive(Default)]
 pub struct Summary {
-    pub font: bool,
-    pub center: bool,
-    pub tt: bool,
-    pub strike: bool,
+    // Counts of tags fixed
+    pub font: usize,
+    pub center: usize,
+    pub tt: usize,
+    pub strike: usize,
     pub id: u32,
     pub remaining_lints: Vec<String>,
     pub no_change: bool,
     pub added_nowiki: bool,
     pub tags: HashSet<String>,
+}
+
+impl Summary {
+    pub fn edit_summary(&self) -> String {
+        let mut counts = vec![];
+        if self.font > 0 {
+            counts.push(format!("<font> ({}x)", self.font));
+        }
+        if self.center > 0 {
+            counts.push(format!("<center> ({}x)", self.center));
+        }
+        if self.tt > 0 {
+            counts.push(format!("<tt> ({}x)", self.tt));
+        }
+        if self.strike > 0 {
+            counts.push(format!("<strike> ({}x)", self.strike));
+        }
+        format!(
+            "Fixing [[WP:LINT|lint errors]], replacing obsolete HTML tags: {}",
+            counts.join(", ")
+        )
+    }
 }
 
 #[derive(Deserialize, Debug)]
@@ -70,7 +96,7 @@ fn handle_tt(tt: Wikinode, summary: &mut Summary) {
     util::copy_attributes(&tt, &code);
     util::copy_children(&tt, &code);
     util::swap_nodes(&tt, &code);
-    summary.tt = true;
+    summary.tt += 1;
 }
 
 pub fn delint_html(
@@ -82,12 +108,14 @@ pub fn delint_html(
     for font in html.select("font") {
         println!("found <font>");
         font::handle_font(font, summary);
-        summary.font = true;
+        summary.font += 1;
     }
-    for strike in html.select("strike") {
-        println!("found <strike>");
-        handle_strike(&strike);
-        summary.strike = true;
+    if opts.replace_strike {
+        for strike in html.select("strike") {
+            println!("found <strike>");
+            handle_strike(&strike);
+            summary.strike += 1;
+        }
     }
     for tt in html.select("tt") {
         println!("found <tt>");
@@ -96,7 +124,6 @@ pub fn delint_html(
     for center in html.select("center") {
         println!("found <center>");
         center::handle_center(opts, center, summary);
-        summary.center = true;
     }
     Ok(html.into_immutable())
 }

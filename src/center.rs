@@ -52,6 +52,7 @@ pub(crate) fn handle_center(
         summary.tags.insert("table inside center".to_string());
     }
     util::swap_nodes(&center, &div);
+    summary.center += 1;
 }
 
 fn has_inline_margin(node: &NodeRef) -> bool {

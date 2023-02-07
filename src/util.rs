@@ -22,3 +22,7 @@ pub(crate) fn copy_attributes(old: &NodeRef, new: &NodeRef) {
         attrs.insert(name.local.to_string(), value.value.to_string());
     }
 }
+
+pub fn escape(input: &str) -> String {
+    input.replace('<', "&lt;")
+}

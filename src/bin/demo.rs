@@ -3,7 +3,7 @@
 #![deny(clippy::all)]
 
 use anyhow::Result;
-use delinter::{delint_html, lint_errors, Options, Summary};
+use delinter::{delint_html, lint_errors, util, Options, Summary};
 use mwbot::parsoid::prelude::*;
 use mwbot::{Bot, Page};
 use std::collections::{HashMap, HashSet};
@@ -16,6 +16,7 @@ async fn main() -> Result<()> {
     mwbot::init_logging();
     let opts = Options {
         center_tables: false,
+        replace_strike: false,
     };
     let bot = Bot::from_default_config().await?;
     let mut results = HashMap::new();
@@ -98,17 +99,17 @@ fn dump_page(title: &str, summary: &Summary) -> String {
         summary.id, title
     ));
     let mut tags = vec![];
-    if summary.font {
-        tags.push("&lt;font>");
+    if summary.font > 0 {
+        tags.push(util::escape("<font>"));
     }
-    if summary.center {
-        tags.push("&lt;center>");
+    if summary.center > 0 {
+        tags.push(util::escape("<center>"));
     }
-    if summary.tt {
-        tags.push("&lt;tt>");
+    if summary.tt > 0 {
+        tags.push(util::escape("<tt>"));
     }
-    if summary.strike {
-        tags.push("&lt;strike>");
+    if summary.strike > 0 {
+        tags.push(util::escape("<strike>"));
     }
     if !tags.is_empty() {
         text.push(format!("fixing {}", tags.join(", ")));
