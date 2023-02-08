@@ -116,7 +116,9 @@ pub(crate) fn parse_legacy_color_value(input: &str) -> Option<String> {
     if crate::colors::NAMED_COLORS
         .contains(&input.to_ascii_lowercase().as_str())
     {
-        return Some(input.to_ascii_lowercase());
+        // n.b. I think we're supposed to return a lowercase string, but to reduce diffs
+        // return the original capitalization
+        return Some(input.to_string());
     }
     // 6. If input's code point length is four, and the first character in input is U+0023 (#),
     //    and the last three characters of input are all ASCII hex digits, then:
