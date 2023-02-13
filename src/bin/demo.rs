@@ -19,6 +19,7 @@ async fn main() -> Result<()> {
     let opts = Options {
         center_tables: false,
         replace_strike: false,
+        tt_emoticon: true,
     };
     let mut processed = 0;
     let mut results = HashMap::new();

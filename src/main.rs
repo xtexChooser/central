@@ -15,6 +15,7 @@ async fn main() -> Result<()> {
     let opts = Options {
         center_tables: false,
         replace_strike: false,
+        tt_emoticon: false,
     };
     let mut total_edits = 0;
     let bot = Bot::from_default_config().await?;

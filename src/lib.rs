@@ -12,8 +12,11 @@ pub mod util;
 
 use anyhow::Result;
 use kuchiki::NodeRef;
+use lazy_static::lazy_static;
+use mwbot::parsoid::map::IndexMap;
 use mwbot::parsoid::prelude::*;
 use mwbot::Bot;
+use regex::Regex;
 use serde::Deserialize;
 use std::collections::HashSet;
 
@@ -22,6 +25,8 @@ pub struct Options {
     pub center_tables: bool,
     /// Whether to replace <strike> with <s>
     pub replace_strike: bool,
+    /// Replace <tt>emoticon</tt> with {{mono|emoticon}}
+    pub tt_emoticon: bool,
 }
 
 #[derive(Default)]
@@ -86,7 +91,33 @@ fn handle_strike(strike: &NodeRef) {
     util::swap_nodes(strike, &s);
 }
 
-fn handle_tt(tt: Wikinode, summary: &mut Summary) {
+fn handle_tt(opts: &Options, tt: Wikinode, summary: &mut Summary) {
+    // If the contents of tt is emoticon-looking, replace it with {{mono}}
+    if opts.tt_emoticon {
+        lazy_static! {
+            static ref RE: Regex = Regex::new(r"^[:;]-?[DP/)]$").unwrap();
+        }
+        // Should just be a plain tt tag, no attributes (except "id")
+        if let Some(element) = tt.as_element() {
+            if element.attributes.borrow().map.len() <= 1
+                && tt.children().all(|child| child.as_text().is_some())
+            {
+                let contents = tt.text_contents();
+                if RE.is_match(&contents) {
+                    // It's an emoticon, swap it with a template
+                    tt.insert_after(
+                        &Template::new(
+                            "mono",
+                            &IndexMap::from([("1".to_string(), contents)]),
+                        )
+                        .expect("invalid tt contents somehow??"),
+                    );
+                    tt.detach();
+                    return;
+                }
+            }
+        }
+    }
     // Only replace tt if all the children are nowiki.
     // So: <tt><nowiki>...</nowiki></tt> -> <code><nowiki>...</nowiki></code>
     if !tt.children().all(|node| node.as_nowiki().is_some()) {
@@ -116,7 +147,7 @@ pub fn delint_html(
         }
     }
     for tt in html.select("tt") {
-        handle_tt(tt, summary);
+        handle_tt(opts, tt, summary);
     }
     for center in html.select("center") {
         center::handle_center(opts, center, summary);
