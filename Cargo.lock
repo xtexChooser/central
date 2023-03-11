@@ -169,6 +169,7 @@ dependencies = [
  "mwbot",
  "regex",
  "serde",
+ "serde_json",
  "tokio",
  "tracing",
  "urlencoding",

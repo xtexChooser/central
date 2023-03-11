@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // (C) Copyright 2023 Kunal Mehta <legoktm@debian.org>
 use mwbot::{Bot, Page};
+use serde_json::Value;
 use std::collections::{HashMap, HashSet};
 use tokio::sync::mpsc;
 use tracing::{error, info};
@@ -44,10 +45,14 @@ pub fn lint_errors(bot: &Bot) -> Receiver {
             }
             if let Some(cont) = pages["continue"].as_object() {
                 for (key, value) in cont {
-                    params.insert(
-                        key.to_string(),
-                        value.as_str().unwrap().to_string(),
-                    );
+                    let value = match value {
+                        Value::Number(num) => num.to_string(),
+                        Value::String(string) => string.to_string(),
+                        value => panic!(
+                            "Unknown continuation value type {key}={value:?}"
+                        ),
+                    };
+                    params.insert(key.to_string(), value);
                 }
             } else {
                 // No continuation, finished.
