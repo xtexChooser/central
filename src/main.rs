@@ -5,7 +5,7 @@
 use anyhow::Result;
 use delinter::{delint_html, lint_errors, query, Options, Summary};
 use mwbot::{Bot, Page, SaveOptions};
-use tracing::{debug, info};
+use tracing::{debug, error, info};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -15,20 +15,29 @@ async fn main() -> Result<()> {
         replace_strike: false,
         tt_emoticon: false,
     };
-    let mut total_edits = 0;
     let bot = Bot::from_default_config().await?;
     let mut gen = query::lint_errors(&bot);
+    let mut handles = vec![];
     while let Some(result) = gen.recv().await {
         let page = result?;
         if page.namespace() == 2 {
             // Skip userspace for now
             continue;
         }
-        let edited = process_page(&opts, &bot, page).await?;
-        if edited {
-            total_edits += 1;
-            if total_edits % 10 == 0 {
-                info!("Made {total_edits} edits so far");
+        let bot = bot.clone();
+        // Spawn a thread for each page
+        handles.push(tokio::spawn(async move {
+            let title = page.title().to_string();
+            (title, process_page(&opts, &bot, page).await)
+        }));
+        // Once we have 200+ threads, await them all
+        if handles.len() >= 200 {
+            while let Some(handle) = handles.pop() {
+                let (title, result) = handle.await?;
+                if let Err(err) = result {
+                    // Log it and we move on
+                    error!("Error when processing {title}: {err}");
+                }
             }
         }
     }

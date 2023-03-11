@@ -20,6 +20,7 @@ use regex::Regex;
 use serde::Deserialize;
 use std::collections::HashSet;
 
+#[derive(Copy, Clone)]
 pub struct Options {
     /// Whether to fix <center> when it contains tables
     pub center_tables: bool,
