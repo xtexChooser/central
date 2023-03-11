@@ -25,7 +25,7 @@ pub fn lint_errors(bot: &Bot) -> Receiver {
             let pages = match bot.api().get_value(&params).await {
                 Ok(pages) => pages,
                 Err(err) => {
-                    let _ = tx.send(Err(err)).await;
+                    let _ = tx.send(Err(err.into())).await;
                     return;
                 }
             };
