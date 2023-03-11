@@ -59,7 +59,7 @@ impl Summary {
             counts.push(format!("<strike> ({}x)", self.strike));
         }
         format!(
-            "Bot: Fixing [[Wikipedia:Linter|lint errors]], replacing [[mw:Help:Lint errors/obsolete-tag|obsolete HTML tags]]: {}",
+            "Bot: [[User:Legobot/Lint fixes|Fixing lint errors]], replacing [[mw:Help:Lint errors/obsolete-tag|obsolete HTML tags]]: {}",
             counts.join(", ")
         )
     }
