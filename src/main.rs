@@ -7,8 +7,6 @@ use delinter::{delint_html, lint_errors, query, Options, Summary};
 use mwbot::{Bot, Page, SaveOptions};
 use tracing::{debug, info};
 
-const TRIAL_EDITS: usize = 96;
-
 #[tokio::main]
 async fn main() -> Result<()> {
     mwbot::init_logging();
@@ -32,9 +30,6 @@ async fn main() -> Result<()> {
             if total_edits % 10 == 0 {
                 info!("Made {total_edits} edits so far");
             }
-        }
-        if total_edits >= TRIAL_EDITS {
-            break;
         }
     }
 
