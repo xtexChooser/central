@@ -7,6 +7,15 @@ use delinter::{delint_html, lint_errors, query, Options, Summary};
 use mwbot::{Bot, Page, SaveOptions};
 use tracing::{debug, error, info};
 
+enum Outcome {
+    /// Fixed the page
+    Fixed,
+    /// Deferred for human review
+    Deferred,
+    /// Skipped entirely
+    Skipped,
+}
+
 #[tokio::main]
 async fn main() -> Result<()> {
     mwbot::init_logging();
@@ -45,7 +54,11 @@ async fn main() -> Result<()> {
     Ok(())
 }
 
-async fn process_page(opts: &Options, bot: &Bot, page: Page) -> Result<bool> {
+async fn process_page(
+    opts: &Options,
+    bot: &Bot,
+    page: Page,
+) -> Result<Outcome> {
     debug!("Checking {}...", page.title());
     let page_id = page.id().await?.expect("page doesn't exist");
     let original_html = page.html().await?;
@@ -60,23 +73,37 @@ async fn process_page(opts: &Options, bot: &Bot, page: Page) -> Result<bool> {
         > original.matches("<nowiki>").count()
     {
         info!("{} added <nowiki>, will be skipped", page.title());
-        return Ok(false);
+        return Ok(Outcome::Skipped);
     }
     let remaining = lint_errors(bot, page.title(), &new_text).await?;
-    summary.remaining_lints = remaining.into_iter().map(|l| l.type_).collect();
-    if !summary.remaining_lints.is_empty() {
+    if !remaining.is_empty() {
+        if remaining.iter().all(|l| {
+            // Only <strike> and <tt> are human-fixable for now
+            l.type_ == "obsolete-tag"
+                && ["strike", "tt"]
+                    .contains(&l.params.name.as_ref().unwrap().as_str())
+        }) {
+            info!(
+                "{} has human-fixable lint errors remaining, will defer",
+                page.title()
+            );
+            return Ok(Outcome::Deferred);
+        }
+        // Unfixable, skip
+        summary.remaining_lints =
+            remaining.into_iter().map(|l| l.type_).collect();
         info!(
             "{} still has some lint errors ({}), will be skipped",
             page.title(),
             summary.remaining_lints.join(", ")
         );
-        return Ok(false);
+        return Ok(Outcome::Skipped);
     }
     if original == new_text {
         // In theory this should still trip lint errors, but double check just in case
         info!("No changes to {}, will be skipped", page.title());
         summary.no_change = true;
-        return Ok(false);
+        return Ok(Outcome::Skipped);
     }
     info!("Saving {}: {}", page.title(), summary.edit_summary());
     page.save(
@@ -86,5 +113,5 @@ async fn process_page(opts: &Options, bot: &Bot, page: Page) -> Result<bool> {
             .add_tag("fixed lint errors"),
     )
     .await?;
-    Ok(true)
+    Ok(Outcome::Fixed)
 }

@@ -70,6 +70,12 @@ impl Summary {
 pub struct LintError {
     #[serde(rename = "type")]
     pub type_: String,
+    pub params: LintErrorParams,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct LintErrorParams {
+    pub name: Option<String>,
 }
 
 pub async fn lint_errors(
