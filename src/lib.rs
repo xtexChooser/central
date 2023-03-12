@@ -114,6 +114,7 @@ fn handle_tt(opts: &Options, tt: Wikinode, summary: &mut Summary) {
                         .expect("invalid tt contents somehow??"),
                     );
                     tt.detach();
+                    summary.tt += 1;
                     return;
                 }
             }
