@@ -42,6 +42,7 @@ pub struct Summary {
     pub no_change: bool,
     pub added_nowiki: bool,
     pub tags: HashSet<String>,
+    pub assist: Option<String>,
 }
 
 impl Summary {
@@ -59,8 +60,12 @@ impl Summary {
         if self.strike > 0 {
             counts.push(format!("<strike> ({}x)", self.strike));
         }
+        let assist = match &self.assist {
+            Some(name) => format!(" assisted by [[User:{name}|{name}]]"),
+            None => "".to_string(),
+        };
         format!(
-            "Bot: [[User:Legobot/Lint fixes|Fixing lint errors]], replacing [[mw:Help:Lint errors/obsolete-tag|obsolete HTML tags]]: {}",
+            "Bot{assist}: [[User:Legobot/Lint fixes|Fixing lint errors]], replacing [[mw:Help:Lint errors/obsolete-tag|obsolete HTML tags]]: {}",
             counts.join(", ")
         )
     }
