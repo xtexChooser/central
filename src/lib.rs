@@ -2,12 +2,12 @@
 // (C) Copyright 2023 Kunal Mehta <legoktm@debian.org>
 #![deny(clippy::all)]
 
+pub mod api;
 mod block;
 mod center;
 mod colors;
 mod font;
 mod legacy;
-pub mod query;
 pub mod util;
 
 use anyhow::Result;
@@ -15,7 +15,6 @@ use kuchiki::NodeRef;
 use lazy_static::lazy_static;
 use mwbot::parsoid::map::IndexMap;
 use mwbot::parsoid::prelude::*;
-use mwbot::Bot;
 use regex::Regex;
 use serde::Deserialize;
 use std::collections::HashSet;
@@ -81,19 +80,6 @@ pub struct LintError {
 #[derive(Deserialize, Debug)]
 pub struct LintErrorParams {
     pub name: Option<String>,
-}
-
-pub async fn lint_errors(
-    bot: &Bot,
-    title: &str,
-    wikitext: &str,
-) -> Result<Vec<LintError>> {
-    let req = bot.api().http_client().post(
-        format!("https://en.wikipedia.org/api/rest_v1/transform/wikitext/to/lint/{}", urlencoding::encode(title)
-    )).form(&[("wikitext", wikitext)])
-            .build()?;
-    let resp = bot.api().http_client().execute(req).await?.json().await?;
-    Ok(resp)
 }
 
 fn handle_strike(strike: &NodeRef) {

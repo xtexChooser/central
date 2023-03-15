@@ -3,7 +3,7 @@
 #![deny(clippy::all)]
 
 use anyhow::Result;
-use delinter::{delint_html, lint_errors, query, util, Options, Summary};
+use delinter::{api, delint_html, util, Options, Summary};
 use mwbot::parsoid::prelude::*;
 use mwbot::{Bot, Page};
 use std::collections::{HashMap, HashSet};
@@ -24,7 +24,7 @@ async fn main() -> Result<()> {
     let mut processed = 0;
     let mut results = HashMap::new();
     let bot = Bot::from_default_config().await?;
-    let mut gen = query::lint_errors(&bot);
+    let mut gen = api::linterror_pages(&bot);
     while let Some(result) = gen.recv().await {
         let page = result?;
         if page.namespace() == 2 {
@@ -136,7 +136,8 @@ async fn process_page(
         info!("{} added <nowiki>, will be skipped", page.title());
         summary.added_nowiki = true;
     }
-    let remaining = lint_errors(bot, page.title(), &new_text).await?;
+    let remaining =
+        api::remaining_linterrors(bot, page.title(), &new_text).await?;
     summary.remaining_lints = remaining.into_iter().map(|l| l.type_).collect();
     if !summary.remaining_lints.is_empty() {
         info!(

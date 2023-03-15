@@ -3,7 +3,7 @@
 #![deny(clippy::all)]
 
 use anyhow::Result;
-use delinter::{delint_html, lint_errors, query, Options, Summary};
+use delinter::{api, delint_html, Options, Summary};
 use mwbot::{Bot, Page, SaveOptions};
 use tracing::{debug, error, info};
 
@@ -25,7 +25,7 @@ async fn main() -> Result<()> {
         tt_emoticon: false,
     };
     let bot = Bot::from_default_config().await?;
-    let mut gen = query::lint_errors(&bot);
+    let mut gen = api::linterror_pages(&bot);
     let mut handles = vec![];
     while let Some(result) = gen.recv().await {
         let page = result?;
@@ -75,7 +75,8 @@ async fn process_page(
         info!("{} added <nowiki>, will be skipped", page.title());
         return Ok(Outcome::Skipped);
     }
-    let remaining = lint_errors(bot, page.title(), &new_text).await?;
+    let remaining =
+        api::remaining_linterrors(bot, page.title(), &new_text).await?;
     if !remaining.is_empty() {
         if remaining.iter().all(|l| {
             // Only <strike> and <tt> are human-fixable for now

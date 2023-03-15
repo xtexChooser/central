@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // (C) Copyright 2023 Kunal Mehta <legoktm@debian.org>
+use crate::LintError;
 use mwbot::{Bot, Page};
 use serde_json::Value;
 use std::collections::{HashMap, HashSet};
@@ -8,7 +9,7 @@ use tracing::{error, info};
 
 type Receiver = mpsc::Receiver<mwbot::Result<Page>>;
 
-pub fn lint_errors(bot: &Bot) -> Receiver {
+pub fn linterror_pages(bot: &Bot) -> Receiver {
     let (tx, rx) = mpsc::channel(50);
     let bot = bot.clone();
     tokio::spawn(async move {
@@ -61,4 +62,17 @@ pub fn lint_errors(bot: &Bot) -> Receiver {
         }
     });
     rx
+}
+
+pub async fn remaining_linterrors(
+    bot: &Bot,
+    title: &str,
+    wikitext: &str,
+) -> anyhow::Result<Vec<LintError>> {
+    let req = bot.api().http_client().post(
+        format!("https://en.wikipedia.org/api/rest_v1/transform/wikitext/to/lint/{}", urlencoding::encode(title)
+    )).form(&[("wikitext", wikitext)])
+            .build()?;
+    let resp = bot.api().http_client().execute(req).await?.json().await?;
+    Ok(resp)
 }
