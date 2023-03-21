@@ -11,9 +11,12 @@ anyhow = "1.0"
 kuchiki = "0.8.1"
 lazy_static = "1.4.0"
 mwbot = "0.5.0-alpha.3"
+mysql_async = {version = "0.31.3", default-features = false, features = ["minimal"]}
 regex = "1.7.1"
 serde = {version = "1", features = ["derive"]}
 serde_json = "1.0.94"
 tokio = {version = "1", features = ["full"]}
+# toolforge = {version = "5.5.0", features = ["mysql"]}
+toolforge = {git = "https://gitlab.wikimedia.org/repos/mwbot-rs/toolforge", branch = "toolsdb", features = ["mysql"]}
 tracing = "0.1.37"
 urlencoding = "2.1.2"

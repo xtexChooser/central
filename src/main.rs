@@ -5,6 +5,7 @@
 use anyhow::Result;
 use delinter::{api, delint_html, Options, Summary};
 use mwbot::{Bot, Page, SaveOptions};
+use mysql_async::{prelude::Queryable, Pool};
 use tracing::{debug, error, info};
 
 enum Outcome {
@@ -25,6 +26,11 @@ async fn main() -> Result<()> {
         tt_emoticon: false,
     };
     let bot = Bot::from_default_config().await?;
+    let pool = Pool::new(
+        toolforge::db::toolsdb("s55279__delinterbot_p".to_string())?
+            .to_string()
+            .as_str(),
+    );
     let mut gen = api::linterror_pages(&bot);
     let mut handles = vec![];
     while let Some(result) = gen.recv().await {
@@ -43,9 +49,21 @@ async fn main() -> Result<()> {
         if handles.len() >= 200 {
             while let Some(handle) = handles.pop() {
                 let (title, result) = handle.await?;
-                if let Err(err) = result {
-                    // Log it and we move on
-                    error!("Error when processing {title}: {err}");
+                match result {
+                    Ok(Outcome::Deferred) => {
+                        info!("Deferring {title} for human review");
+                        let mut conn = pool.get_conn().await?;
+                        conn.exec_drop(
+                            "INSERT IGNORE INTO deferred VALUES(?)",
+                            (title,),
+                        )
+                        .await?;
+                    }
+                    Ok(_) => {}
+                    Err(err) => {
+                        // Log it and we move on
+                        error!("Error when processing {title}: {err}");
+                    }
                 }
             }
         }
