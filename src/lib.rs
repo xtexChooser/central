@@ -27,6 +27,8 @@ pub struct Options {
     pub replace_strike: bool,
     /// Replace <tt>emoticon</tt> with {{mono|emoticon}}
     pub tt_emoticon: bool,
+    /// Replace <center>[[File:Foo.jpg]]</center> with [[File:Foo.jpg|center]]
+    pub center_image: bool,
     /// Replace <center><gallery/><center> with <gallery class="center"> when possible
     pub center_gallery: bool,
 }

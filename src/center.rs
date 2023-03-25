@@ -2,7 +2,7 @@
 // (C) Copyright 2023 Kunal Mehta <legoktm@debian.org>
 use crate::{util, Options, Result, Summary};
 use kuchiki::NodeRef;
-use mwbot::parsoid::prelude::*;
+use mwbot::parsoid::{image::HorizontalAlignment, prelude::*};
 
 /// Add the specified class to a node, if it
 /// doesn't have it already
@@ -71,6 +71,36 @@ pub(crate) fn handle_center(
             return Ok(());
         }
     }
+
+    if opts.center_image {
+        // Only operate if there's a single child and it's an image
+        let children: Vec<_> = center.children().collect();
+        if children.len() == 1 {
+            if let Some(image) = children[0].as_image() {
+                let halign = image.horizontal_alignment();
+                match halign {
+                    // Already centered, do nothing
+                    HorizontalAlignment::Center => {}
+                    // Unspecified, center it
+                    HorizontalAlignment::Unspecified => {
+                        image.set_horizontal_alignment(
+                            HorizontalAlignment::Center,
+                        );
+                    }
+                    // Aligned in a different direction, can't auto fix it
+                    _ => {
+                        return Ok(());
+                    }
+                }
+                // Move image out of center tag and remove it
+                center.insert_after(&image);
+                center.detach();
+                summary.center += 1;
+                return Ok(());
+            }
+        }
+    }
+
     // If there's a child with an inline style with margin, it
     // will interfere with class="center" so we skip for now.
     if has_inline_margin(&center) {

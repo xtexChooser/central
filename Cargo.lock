@@ -1021,6 +1021,7 @@ dependencies = [
 [[package]]
 name = "mwapi"
 version = "0.5.0-alpha.3"
+source = "git+https://gitlab.wikimedia.org/repos/mwbot-rs/mwbot#dec2b27a2e1f8782362f726db20e43aa9e7fc80c"
 dependencies = [
  "js-sys",
  "mwapi_responses",
@@ -1037,6 +1038,7 @@ dependencies = [
 [[package]]
 name = "mwapi_responses"
 version = "0.3.3"
+source = "git+https://gitlab.wikimedia.org/repos/mwbot-rs/mwbot#dec2b27a2e1f8782362f726db20e43aa9e7fc80c"
 dependencies = [
  "mwapi_responses_derive",
  "serde",
@@ -1046,6 +1048,7 @@ dependencies = [
 [[package]]
 name = "mwapi_responses_derive"
 version = "0.3.3"
+source = "git+https://gitlab.wikimedia.org/repos/mwbot-rs/mwbot#dec2b27a2e1f8782362f726db20e43aa9e7fc80c"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1057,6 +1060,7 @@ dependencies = [
 [[package]]
 name = "mwbot"
 version = "0.5.0-alpha.4"
+source = "git+https://gitlab.wikimedia.org/repos/mwbot-rs/mwbot#dec2b27a2e1f8782362f726db20e43aa9e7fc80c"
 dependencies = [
  "dirs 4.0.0",
  "libc",
@@ -1078,6 +1082,7 @@ dependencies = [
 [[package]]
 name = "mwtitle"
 version = "0.2.2"
+source = "git+https://gitlab.wikimedia.org/repos/mwbot-rs/mwbot#dec2b27a2e1f8782362f726db20e43aa9e7fc80c"
 dependencies = [
  "bytemuck",
  "regex",
@@ -1269,6 +1274,7 @@ dependencies = [
 [[package]]
 name = "parsoid"
 version = "0.8.0-alpha.5"
+source = "git+https://gitlab.wikimedia.org/repos/mwbot-rs/mwbot#dec2b27a2e1f8782362f726db20e43aa9e7fc80c"
 dependencies = [
  "indexmap",
  "kuchiki",
