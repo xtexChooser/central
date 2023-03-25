@@ -20,10 +20,14 @@ async fn main() -> Result<()> {
         center_tables: false,
         replace_strike: false,
         tt_emoticon: true,
+        center_image: true,
+        center_gallery: true,
     };
     let mut processed = 0;
     let mut results = HashMap::new();
     let bot = Bot::from_default_config().await?;
+    let page = bot.page("Wikipedia:WikiProject Pharmacology")?;
+    process_page(&opts, &bot, &page).await?;
     let mut gen = api::linterror_pages(&bot);
     while let Some(result) = gen.recv().await {
         let page = result?;
@@ -130,6 +134,8 @@ async fn process_page(
     let html = delint_html(opts, original_html.clone(), &mut summary)?;
     let original = page.wikitext().await?;
     let new_text = bot.parsoid().transform_to_wikitext(&html).await?;
+    // Round-trip our modified HTML through Parsoid
+    let html = bot.parsoid().transform_to_html(&new_text).await?;
     if new_text.matches("<nowiki>").count()
         > original.matches("<nowiki>").count()
     {
@@ -198,10 +204,45 @@ async fn html_diff(bot: &Bot, left: &str, right: &str) -> Result<String> {
 
 fn hack_stylesheet(html: ImmutableWikicode) -> ImmutableWikicode {
     let html = html.into_mutable();
+    for link in html.select("link") {
+        let href = link
+            .as_element()
+            .unwrap()
+            .attributes
+            .borrow()
+            .get("href")
+            .map(|s| s.to_string());
+        if let Some(href) = href {
+            if href.starts_with("/w/load.php") {
+                link.as_element()
+                    .unwrap()
+                    .attributes
+                    .borrow_mut()
+                    .insert("href", format!("https://en.wikipedia.org{href}"));
+            }
+        }
+    }
     let link = Wikicode::new_node("link");
     let attribs = &link.as_element().unwrap().attributes;
-    attribs.borrow_mut().insert("href", "https://en.wikipedia.org/w/load.php?modules=mediawiki.diff.styles|skins.vector.styles.legacy&only=styles".to_string());
+    attribs.borrow_mut().insert("href", "https://en.wikipedia.org/w/load.php?modules=skins.vector.styles.legacy&only=styles".to_string());
     attribs.borrow_mut().insert("rel", "stylesheet".to_string());
     html.select_first("head").unwrap().append(&link);
+    // Fix images
+    for img in html.select("img") {
+        let src = img
+            .as_element()
+            .unwrap()
+            .attributes
+            .borrow()
+            .get("src")
+            .map(|s| s.to_string());
+        if let Some(src) = src {
+            img.as_element()
+                .unwrap()
+                .attributes
+                .borrow_mut()
+                .insert("src", format!("https:{src}"));
+        }
+    }
     html.into_immutable()
 }

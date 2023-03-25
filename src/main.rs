@@ -24,6 +24,8 @@ async fn main() -> Result<()> {
         center_tables: false,
         replace_strike: false,
         tt_emoticon: false,
+        center_image: false,
+        center_gallery: false,
     };
     let bot = Bot::from_default_config().await?;
     let pool = Pool::new(
