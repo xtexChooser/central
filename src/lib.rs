@@ -27,6 +27,8 @@ pub struct Options {
     pub replace_strike: bool,
     /// Replace <tt>emoticon</tt> with {{mono|emoticon}}
     pub tt_emoticon: bool,
+    /// Replace <center><gallery/><center> with <gallery class="center"> when possible
+    pub center_gallery: bool,
 }
 
 #[derive(Default)]
@@ -149,7 +151,7 @@ pub fn delint_html(
         handle_tt(opts, tt, summary);
     }
     for center in html.select("center") {
-        center::handle_center(opts, center, summary);
+        center::handle_center(opts, center, summary)?;
     }
     Ok(html.into_immutable())
 }

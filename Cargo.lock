@@ -1021,8 +1021,6 @@ dependencies = [
 [[package]]
 name = "mwapi"
 version = "0.5.0-alpha.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ac63e26c9ace32988133da0a75fffbcd967513a521e1ebab301fe8c08928696c"
 dependencies = [
  "js-sys",
  "mwapi_responses",
@@ -1039,8 +1037,6 @@ dependencies = [
 [[package]]
 name = "mwapi_responses"
 version = "0.3.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fb5aeb6dda5b0b8147d5c995008c574e04acb78baf7ee53785113c0fccfc1699"
 dependencies = [
  "mwapi_responses_derive",
  "serde",
@@ -1050,21 +1046,17 @@ dependencies = [
 [[package]]
 name = "mwapi_responses_derive"
 version = "0.3.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "794c64a6ed8ee10337cae02277c85146cab81590cfd3fa4659d8c41eca9d9ce6"
 dependencies = [
  "proc-macro2",
  "quote",
  "serde",
  "serde_json",
- "syn 1.0.109",
+ "syn 2.0.4",
 ]
 
 [[package]]
 name = "mwbot"
 version = "0.5.0-alpha.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d1b2db123fd4a73dda95a190094d4183ccc77c59b72592006af93ff51c497841"
 dependencies = [
  "dirs 4.0.0",
  "libc",
@@ -1086,8 +1078,6 @@ dependencies = [
 [[package]]
 name = "mwtitle"
 version = "0.2.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7c0f488429997bc77a693a53b2977c53455819126590f555fe43fd1f4b4e059d"
 dependencies = [
  "bytemuck",
  "regex",
@@ -1279,8 +1269,6 @@ dependencies = [
 [[package]]
 name = "parsoid"
 version = "0.8.0-alpha.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "467b481d0cd2ec5c0c8b8504a2ae6c69b3889f6ea3bb86d49d8dfda70ae06b67"
 dependencies = [
  "indexmap",
  "kuchiki",

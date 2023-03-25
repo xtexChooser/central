@@ -20,10 +20,13 @@ async fn main() -> Result<()> {
         center_tables: false,
         replace_strike: false,
         tt_emoticon: true,
+        center_gallery: true,
     };
     let mut processed = 0;
     let mut results = HashMap::new();
     let bot = Bot::from_default_config().await?;
+    let page = bot.page("Talk:Death and funeral of Margaret Thatcher")?;
+    process_page(&opts, &bot, &page).await?;
     let mut gen = api::linterror_pages(&bot);
     while let Some(result) = gen.recv().await {
         let page = result?;
