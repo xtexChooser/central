@@ -83,11 +83,11 @@ static void notrace persistent_ram_encode_rs8(struct persistent_ram_zone *prz,
 static int persistent_ram_decode_rs8(struct persistent_ram_zone *prz,
 				     void *data, size_t len, uint8_t *ecc)
 {
-	int i;
+	int i, ret;
 	uint16_t *par = kmalloc(prz->ecc_size * sizeof(uint16_t), GFP_KERNEL);
 	for (i = 0; i < prz->ecc_size; i++)
 		par[i] = ecc[i];
-	int ret = decode_rs8(prz->rs_decoder, data, par, len, NULL, 0, NULL, 0,
+	ret = decode_rs8(prz->rs_decoder, data, par, len, NULL, 0, NULL, 0,
 			  NULL);
 	kfree(par);
 	return ret;
