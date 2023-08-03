@@ -42,7 +42,7 @@
 #include "services.h"
 
 #ifdef DEBUG_HASHES
-static const char *symtab_name[SYM_NUM] = {
+static const char *const symtab_name[SYM_NUM] = {
 	"common prefixes",
 	"classes",
 	"roles",
@@ -2257,6 +2257,10 @@ static int ocontext_read(struct policydb *p, const struct policydb_compat_info *
 				if (rc)
 					goto out;
 
+				if (i == OCON_FS)
+					pr_warn("SELinux:  void and deprecated fs ocon %s\n",
+						c->u.name);
+
 				rc = context_read_and_validate(&c->context[0], p, fp);
 				if (rc)
 					goto out;
@@ -2484,6 +2488,14 @@ int policydb_read(struct policydb *p, void *fp)
 	}
 	p->reject_unknown = !!(le32_to_cpu(buf[1]) & REJECT_UNKNOWN);
 	p->allow_unknown = !!(le32_to_cpu(buf[1]) & ALLOW_UNKNOWN);
+
+	if ((le32_to_cpu(buf[1]) & POLICYDB_CONFIG_ANDROID_NETLINK_ROUTE)) {
+		p->android_netlink_route = 1;
+	}
+
+	if ((le32_to_cpu(buf[1]) & POLICYDB_CONFIG_ANDROID_NETLINK_GETNEIGH)) {
+		p->android_netlink_getneigh = 1;
+	}
 
 	if (p->policyvers >= POLICYDB_VERSION_POLCAP) {
 		rc = ebitmap_read(&p->policycaps, fp);

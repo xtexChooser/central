@@ -17,6 +17,7 @@
 #include <linux/sched_clock.h>
 #include <linux/seqlock.h>
 #include <linux/bitops.h>
+#include <trace/hooks/epoch.h>
 
 #include "timekeeping.h"
 
@@ -64,7 +65,7 @@ static struct clock_data cd ____cacheline_aligned = {
 	.actual_read_sched_clock = jiffy_sched_clock_read,
 };
 
-static inline u64 notrace cyc_to_ns(u64 cyc, u32 mult, u32 shift)
+static __always_inline u64 cyc_to_ns(u64 cyc, u32 mult, u32 shift)
 {
 	return (cyc * mult) >> shift;
 }
@@ -77,24 +78,34 @@ notrace struct clock_read_data *sched_clock_read_begin(unsigned int *seq)
 
 notrace int sched_clock_read_retry(unsigned int seq)
 {
-	return read_seqcount_latch_retry(&cd.seq, seq);
+	return raw_read_seqcount_latch_retry(&cd.seq, seq);
 }
 
-unsigned long long notrace sched_clock(void)
+unsigned long long noinstr sched_clock_noinstr(void)
 {
-	u64 cyc, res;
-	unsigned int seq;
 	struct clock_read_data *rd;
+	unsigned int seq;
+	u64 cyc, res;
 
 	do {
-		rd = sched_clock_read_begin(&seq);
+		seq = raw_read_seqcount_latch(&cd.seq);
+		rd = cd.read_data + (seq & 1);
 
 		cyc = (rd->read_sched_clock() - rd->epoch_cyc) &
 		      rd->sched_clock_mask;
 		res = rd->epoch_ns + cyc_to_ns(cyc, rd->mult, rd->shift);
-	} while (sched_clock_read_retry(seq));
+	} while (raw_read_seqcount_latch_retry(&cd.seq, seq));
 
 	return res;
+}
+
+unsigned long long notrace sched_clock(void)
+{
+	unsigned long long ns;
+	preempt_disable_notrace();
+	ns = sched_clock_noinstr();
+	preempt_enable_notrace();
+	return ns;
 }
 
 /*
@@ -269,6 +280,7 @@ int sched_clock_suspend(void)
 	update_sched_clock();
 	hrtimer_cancel(&sched_clock_timer);
 	rd->read_sched_clock = suspended_sched_clock_read;
+	trace_android_vh_show_suspend_epoch_val(rd->epoch_ns, rd->epoch_cyc);
 
 	return 0;
 }
@@ -280,6 +292,7 @@ void sched_clock_resume(void)
 	rd->epoch_cyc = cd.actual_read_sched_clock();
 	hrtimer_start(&sched_clock_timer, cd.wrap_kt, HRTIMER_MODE_REL_HARD);
 	rd->read_sched_clock = cd.actual_read_sched_clock;
+	trace_android_vh_show_resume_epoch_val(rd->epoch_cyc);
 }
 
 static struct syscore_ops sched_clock_ops = {

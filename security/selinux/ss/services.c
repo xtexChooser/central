@@ -68,6 +68,8 @@
 #include "policycap_names.h"
 #include "ima.h"
 
+#include <trace/hooks/selinux.h>
+
 struct selinux_policy_convert_data {
 	struct convert_context_args args;
 	struct sidtab_convert_params sidtab_params;
@@ -583,7 +585,7 @@ static void type_attribute_bounds_av(struct policydb *policydb,
 
 /*
  * flag which drivers have permissions
- * only looking for ioctl based extended permssions
+ * only looking for ioctl based extended permissions
  */
 void services_compute_xperms_drivers(
 		struct extended_perms *xperms,
@@ -2123,6 +2125,10 @@ static void security_load_policycaps(struct selinux_policy *policy)
 			pr_info("SELinux:  unknown policy capability %u\n",
 				i);
 	}
+
+	selinux_state.android_netlink_route = p->android_netlink_route;
+	selinux_state.android_netlink_getneigh = p->android_netlink_getneigh;
+	selinux_nlmsg_init();
 }
 
 static int security_preserve_bools(struct selinux_policy *oldpolicy,
@@ -2215,6 +2221,7 @@ void selinux_policy_commit(struct selinux_load_state *load_state)
 		 */
 		selinux_mark_initialized();
 		selinux_complete_init();
+		trace_android_rvh_selinux_is_initialized(state);
 	}
 
 	/* Free the old policy */
@@ -3541,38 +3548,38 @@ int selinux_audit_rule_init(u32 field, u32 op, char *rulestr, void **vrule)
 	tmprule = kzalloc(sizeof(struct selinux_audit_rule), GFP_KERNEL);
 	if (!tmprule)
 		return -ENOMEM;
-
 	context_init(&tmprule->au_ctxt);
 
 	rcu_read_lock();
 	policy = rcu_dereference(state->policy);
 	policydb = &policy->policydb;
-
 	tmprule->au_seqno = policy->latest_granting;
-
 	switch (field) {
 	case AUDIT_SUBJ_USER:
 	case AUDIT_OBJ_USER:
-		rc = -EINVAL;
 		userdatum = symtab_search(&policydb->p_users, rulestr);
-		if (!userdatum)
-			goto out;
+		if (!userdatum) {
+			rc = -EINVAL;
+			goto err;
+		}
 		tmprule->au_ctxt.user = userdatum->value;
 		break;
 	case AUDIT_SUBJ_ROLE:
 	case AUDIT_OBJ_ROLE:
-		rc = -EINVAL;
 		roledatum = symtab_search(&policydb->p_roles, rulestr);
-		if (!roledatum)
-			goto out;
+		if (!roledatum) {
+			rc = -EINVAL;
+			goto err;
+		}
 		tmprule->au_ctxt.role = roledatum->value;
 		break;
 	case AUDIT_SUBJ_TYPE:
 	case AUDIT_OBJ_TYPE:
-		rc = -EINVAL;
 		typedatum = symtab_search(&policydb->p_types, rulestr);
-		if (!typedatum)
-			goto out;
+		if (!typedatum) {
+			rc = -EINVAL;
+			goto err;
+		}
 		tmprule->au_ctxt.type = typedatum->value;
 		break;
 	case AUDIT_SUBJ_SEN:
@@ -3582,20 +3589,18 @@ int selinux_audit_rule_init(u32 field, u32 op, char *rulestr, void **vrule)
 		rc = mls_from_string(policydb, rulestr, &tmprule->au_ctxt,
 				     GFP_ATOMIC);
 		if (rc)
-			goto out;
+			goto err;
 		break;
 	}
-	rc = 0;
-out:
 	rcu_read_unlock();
 
-	if (rc) {
-		selinux_audit_rule_free(tmprule);
-		tmprule = NULL;
-	}
-
 	*rule = tmprule;
+	return 0;
 
+err:
+	rcu_read_unlock();
+	selinux_audit_rule_free(tmprule);
+	*rule = NULL;
 	return rc;
 }
 

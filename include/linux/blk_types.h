@@ -55,6 +55,8 @@ struct block_device {
 	struct super_block *	bd_super;
 	void *			bd_claiming;
 	void *			bd_holder;
+	const struct blk_holder_ops *bd_holder_ops;
+	struct mutex		bd_holder_lock;
 	/* The counter of freeze processes */
 	int			bd_fsfreeze_count;
 	int			bd_holders;
@@ -286,6 +288,9 @@ struct bio {
 
 #ifdef CONFIG_BLK_INLINE_ENCRYPTION
 	struct bio_crypt_ctx	*bi_crypt_context;
+#if IS_ENABLED(CONFIG_DM_DEFAULT_KEY)
+	bool			bi_skip_dm_default_key;
+#endif
 #endif
 
 	union {
@@ -323,7 +328,7 @@ struct bio {
  * bio flags
  */
 enum {
-	BIO_NO_PAGE_REF,	/* don't put release vec pages */
+	BIO_PAGE_PINNED,	/* Unpin pages in bio_release_pages() */
 	BIO_CLONED,		/* doesn't own data */
 	BIO_BOUNCED,		/* bio is a bounce bio */
 	BIO_QUIET,		/* Make BIO Quiet */

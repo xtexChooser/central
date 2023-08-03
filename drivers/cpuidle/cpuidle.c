@@ -27,6 +27,7 @@
 #include <linux/mmu_context.h>
 #include <linux/context_tracking.h>
 #include <trace/events/power.h>
+#include <trace/hooks/cpuidle.h>
 
 #include "cpuidle.h"
 
@@ -145,7 +146,7 @@ static noinstr void enter_s2idle_proper(struct cpuidle_driver *drv,
 
 	instrumentation_begin();
 
-	time_start = ns_to_ktime(local_clock());
+	time_start = ns_to_ktime(local_clock_noinstr());
 
 	tick_freeze();
 	/*
@@ -169,7 +170,7 @@ static noinstr void enter_s2idle_proper(struct cpuidle_driver *drv,
 	tick_unfreeze();
 	start_critical_timings();
 
-	time_end = ns_to_ktime(local_clock());
+	time_end = ns_to_ktime(local_clock_noinstr());
 
 	dev->states_usage[index].s2idle_time += ktime_us_delta(time_end, time_start);
 	dev->states_usage[index].s2idle_usage++;
@@ -214,11 +215,22 @@ noinstr int cpuidle_enter_state(struct cpuidle_device *dev,
 {
 	int entered_state;
 
-	struct cpuidle_state *target_state = &drv->states[index];
-	bool broadcast = !!(target_state->flags & CPUIDLE_FLAG_TIMER_STOP);
+	struct cpuidle_state *target_state;
+	bool broadcast;
 	ktime_t time_start, time_end;
 
 	instrumentation_begin();
+
+	/*
+	 * The vendor hook may modify index, which means target_state and
+	 * broadcast must be assigned after the vendor hook.
+	 */
+	trace_android_vh_cpu_idle_enter(&index, dev);
+	if (index < 0)
+		return index;
+
+	target_state = &drv->states[index];
+	broadcast = !!(target_state->flags & CPUIDLE_FLAG_TIMER_STOP);
 
 	/*
 	 * Tell the time framework to switch to a broadcast timer because our
@@ -243,7 +255,7 @@ noinstr int cpuidle_enter_state(struct cpuidle_device *dev,
 	sched_idle_set_state(target_state);
 
 	trace_cpu_idle(index, dev->cpu);
-	time_start = ns_to_ktime(local_clock());
+	time_start = ns_to_ktime(local_clock_noinstr());
 
 	stop_critical_timings();
 	if (!(target_state->flags & CPUIDLE_FLAG_RCU_IDLE)) {
@@ -276,8 +288,9 @@ noinstr int cpuidle_enter_state(struct cpuidle_device *dev,
 	start_critical_timings();
 
 	sched_clock_idle_wakeup_event();
-	time_end = ns_to_ktime(local_clock());
+	time_end = ns_to_ktime(local_clock_noinstr());
 	trace_cpu_idle(PWR_EVENT_EXIT, dev->cpu);
+	trace_android_vh_cpu_idle_exit(entered_state, dev);
 
 	/* The cpu is no longer idle or about to enter idle. */
 	sched_idle_set_state(NULL);
