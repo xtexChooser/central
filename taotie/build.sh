@@ -14,8 +14,8 @@ ROOT_DIR=.
 KERNEL_DIR=.
 KDIR=$(pwd)
 OUT_DIR=output
-export KDIR
-export OUT_DIR
+OUT_DIR_F=$(readlink -e "$OUT_DIR")
+export KDIR OUT_DIR OUT_DIR_F
 if [[ ! -e $OUT_DIR ]]; then
     mkdir $OUT_DIR
 fi
@@ -47,7 +47,8 @@ CLANG_PREBUILT_BIN=../clang/clang-r498229/bin/
 export PATH=$CLANG_PREBUILT_BIN:$PATH
 
 # Build kernel make args
-KMAKE_ARGS="O=$OUT_DIR \
+KMAKE_ARGS="\
+KCONFIG_CONFIG=$DDIR/defconfig.merge \
 ARCH=$ARCH \
 CC=clang \
 LD=ld.lld \
@@ -55,7 +56,11 @@ LLVM=$LLVM \
 CROSS_COMPILE=$CROSS_COMPILE \
 CROSS_COMPILE_ARM32=$CROSS_COMPILE_ARM32 \
 DEPMOD=$DEPMOD \
-KCONFIG_CONFIG=$DDIR/defconfig.merge
+O=$OUT_DIR/build \
+INSTALL_PATH=$OUT_DIR_F/install \
+INSTALL_MOD_PATH=$OUT_DIR_F/modules \
+INSTALL_MOD_STRIP=1 \
+INSTALL_DTBS_PATH=$OUT_DIR_F/dtbs \
 "
 export KMAKE_ARGS
 
@@ -68,12 +73,17 @@ elif [[ -e "$DDIR/scripts/$2.sh" ]]; then
 fi
 
 if [[ "$2" == "build" ]]; then
+    set -xe
     # shellcheck disable=SC2086
-    exec make "-j$(nproc)" $KMAKE_ARGS $MAKE_GOALS
+    {
+        make -j64 $KMAKE_ARGS $MAKE_GOALS
+        make $KMAKE_ARGS $INSTALL_GOALS
+        rm -f "$OUT_DIR"/modules/lib/modules/*/build "$OUT_DIR"/modules/lib/modules/*/source
+    }
 elif [[ "$2" == "mrproper" || "$2" == "clean" ]]; then
     exec make -j4 ARCH="$ARCH" "$2"
 elif [[ "$2" == "make" ]]; then
     # shellcheck disable=SC2068,SC2086
-    exec make "-j$(nproc)" $KMAKE_ARGS ${@:3}
+    exec make -j64 $KMAKE_ARGS ${@:3}
 fi
  

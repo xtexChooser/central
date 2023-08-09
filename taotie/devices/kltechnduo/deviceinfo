@@ -2,3 +2,5 @@
 . build.config.arm
 
 CROSS_COMPILE=arm-linux-androideabi-
+MAKE_GOALS+=" qcom/qcom-msm8974pro-samsung-kltechn.dtb dtbs"
+INSTALL_GOALS="zinstall modules_install dtbs_install"
