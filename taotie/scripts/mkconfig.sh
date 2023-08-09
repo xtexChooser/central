@@ -6,4 +6,4 @@ cd "$KDIR" && eval $KMAKE_ARGS KCONFIG_CONFIG="$DDIR/defconfig.merge" \
     "$DDIR/defconfig.base" \
     "taotie/android-configs/u/android-6.1/android-base.config" \
     "$DDIR/defconfig.ext"
-rm "$DDIR/defconfig.merge.old"
+rm -f "$DDIR/defconfig.merge.old"
