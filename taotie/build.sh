@@ -16,9 +16,7 @@ KDIR=$(pwd)
 OUT_DIR=output
 OUT_DIR_F=$(readlink -e "$OUT_DIR")
 export KDIR OUT_DIR OUT_DIR_F
-if [[ ! -e $OUT_DIR ]]; then
-    mkdir $OUT_DIR
-fi
+mkdir -p "$OUT_DIR" "$OUT_DIR_F/kernel"
 
 if [[ "$1" == "all" ]]; then
     for device in taotie/devices/*
@@ -57,7 +55,7 @@ CROSS_COMPILE=$CROSS_COMPILE \
 CROSS_COMPILE_ARM32=$CROSS_COMPILE_ARM32 \
 DEPMOD=$DEPMOD \
 O=$OUT_DIR/build \
-INSTALL_PATH=$OUT_DIR_F/install \
+INSTALL_PATH=$OUT_DIR_F/kernel \
 INSTALL_MOD_PATH=$OUT_DIR_F/modules \
 INSTALL_MOD_STRIP=1 \
 INSTALL_DTBS_PATH=$OUT_DIR_F/dtbs \
@@ -78,8 +76,9 @@ if [[ "$2" == "build" ]]; then
     {
         make -j64 $KMAKE_ARGS $MAKE_GOALS
         kernelrelease=$(make $KMAKE_ARGS kernelrelease)
+        rm -rf $OUT_DIR_F/kernel/*
         find "$OUT_DIR_F/modules/lib/modules" -mindepth 1 -maxdepth 1 -not -name "$kernelrelease" -print0 | xargs -0 rm -rf --
-        make $KMAKE_ARGS $INSTALL_GOALS
+        make -j8 $KMAKE_ARGS $INSTALL_GOALS
         rm -f "$OUT_DIR"/modules/lib/modules/*/build "$OUT_DIR"/modules/lib/modules/*/source
     }
 elif [[ "$2" == "mrproper" || "$2" == "clean" ]]; then
