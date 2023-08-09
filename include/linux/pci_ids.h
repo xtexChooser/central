@@ -151,12 +151,18 @@
 #define PCI_CLASS_SP_DPIO		0x1100
 #define PCI_CLASS_SP_OTHER		0x1180
 
+#define PCI_BASE_CLASS_ACCELERATOR	0x12
+#define PCI_CLASS_ACCELERATOR_PROCESSING	0x1200
+
 #define PCI_CLASS_OTHERS		0xff
 
 /* Vendors and devices.  Sort key: vendor first, device next. */
 #define PCI_VENDOR_ID_PCI_SIG		0x0001
 
 #define PCI_VENDOR_ID_LOONGSON		0x0014
+
+#define PCI_DEVICE_ID_LOONGSON_HDA      0x7a07
+#define PCI_DEVICE_ID_LOONGSON_HDMI     0x7a37
 
 #define PCI_VENDOR_ID_TTTECH		0x0357
 #define PCI_DEVICE_ID_TTTECH_MC322	0x000a

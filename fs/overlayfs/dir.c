@@ -83,7 +83,7 @@ static struct dentry *ovl_whiteout(struct ovl_fs *ofs)
 		ofs->whiteout = whiteout;
 	}
 
-	if (ofs->share_whiteout) {
+	if (!ofs->no_shared_whiteout) {
 		whiteout = ovl_lookup_temp(ofs, workdir);
 		if (IS_ERR(whiteout))
 			goto out;
@@ -95,7 +95,7 @@ static struct dentry *ovl_whiteout(struct ovl_fs *ofs)
 		if (err != -EMLINK) {
 			pr_warn("Failed to link whiteout - disabling whiteout inode sharing(nlink=%u, err=%i)\n",
 				ofs->whiteout->d_inode->i_nlink, err);
-			ofs->share_whiteout = false;
+			ofs->no_shared_whiteout = true;
 		}
 		dput(whiteout);
 	}
@@ -269,8 +269,7 @@ static int ovl_instantiate(struct dentry *dentry, struct inode *inode,
 
 	ovl_dir_modified(dentry->d_parent, false);
 	ovl_dentry_set_upper_alias(dentry);
-	ovl_dentry_update_reval(dentry, newdentry,
-			DCACHE_OP_REVALIDATE | DCACHE_OP_WEAK_REVALIDATE);
+	ovl_dentry_init_reval(dentry, newdentry, NULL);
 
 	if (!hardlink) {
 		/*
@@ -556,7 +555,7 @@ static int ovl_create_or_link(struct dentry *dentry, struct inode *inode,
 			      struct ovl_cattr *attr, bool origin)
 {
 	int err;
-	const struct cred *old_cred, *hold_cred = NULL;
+	const struct cred *old_cred;
 	struct cred *override_cred;
 	struct dentry *parent = dentry->d_parent;
 
@@ -597,14 +596,13 @@ static int ovl_create_or_link(struct dentry *dentry, struct inode *inode,
 		override_cred->fsuid = inode->i_uid;
 		override_cred->fsgid = inode->i_gid;
 		err = security_dentry_create_files_as(dentry,
-				attr->mode, &dentry->d_name,
-				old_cred ? old_cred : current_cred(),
+				attr->mode, &dentry->d_name, old_cred,
 				override_cred);
 		if (err) {
 			put_cred(override_cred);
 			goto out_revert_creds;
 		}
-		hold_cred = override_creds(override_cred);
+		put_cred(override_creds(override_cred));
 		put_cred(override_cred);
 	}
 
@@ -614,9 +612,7 @@ static int ovl_create_or_link(struct dentry *dentry, struct inode *inode,
 		err = ovl_create_over_whiteout(dentry, inode, attr);
 
 out_revert_creds:
-	ovl_revert_creds(dentry->d_sb, old_cred ?: hold_cred);
-	if (old_cred && hold_cred)
-		put_cred(hold_cred);
+	revert_creds(old_cred);
 	return err;
 }
 
@@ -693,7 +689,7 @@ static int ovl_set_link_redirect(struct dentry *dentry)
 
 	old_cred = ovl_override_creds(dentry->d_sb);
 	err = ovl_set_redirect(dentry, false);
-	ovl_revert_creds(dentry->d_sb, old_cred);
+	revert_creds(old_cred);
 
 	return err;
 }
@@ -912,7 +908,7 @@ static int ovl_do_remove(struct dentry *dentry, bool is_dir)
 		err = ovl_remove_upper(dentry, is_dir, &list);
 	else
 		err = ovl_remove_and_whiteout(dentry, &list);
-	ovl_revert_creds(dentry->d_sb, old_cred);
+	revert_creds(old_cred);
 	if (!err) {
 		if (is_dir)
 			clear_nlink(dentry->d_inode);
@@ -956,7 +952,7 @@ static bool ovl_type_merge_or_lower(struct dentry *dentry)
 
 static bool ovl_can_move(struct dentry *dentry)
 {
-	return ovl_redirect_dir(dentry->d_sb) ||
+	return ovl_redirect_dir(OVL_FS(dentry->d_sb)) ||
 		!d_is_dir(dentry) || !ovl_type_merge_or_lower(dentry);
 }
 
@@ -1287,7 +1283,7 @@ out_dput_old:
 out_unlock:
 	unlock_rename(new_upperdir, old_upperdir);
 out_revert_creds:
-	ovl_revert_creds(old->d_sb, old_cred);
+	revert_creds(old_cred);
 	if (update_nlink)
 		ovl_nlink_end(new);
 out_drop_write:
