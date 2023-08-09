@@ -77,6 +77,8 @@ if [[ "$2" == "build" ]]; then
     # shellcheck disable=SC2086
     {
         make -j64 $KMAKE_ARGS $MAKE_GOALS
+        kernelrelease=$(make $KMAKE_ARGS kernelrelease)
+        find "$OUT_DIR_F/modules/lib/modules" -mindepth 1 -maxdepth 1 -not -name "$kernelrelease" -print0 | xargs -0 rm -rf --
         make $KMAKE_ARGS $INSTALL_GOALS
         rm -f "$OUT_DIR"/modules/lib/modules/*/build "$OUT_DIR"/modules/lib/modules/*/source
     }
