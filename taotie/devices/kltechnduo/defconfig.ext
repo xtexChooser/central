@@ -1,3 +1,11 @@
 CONFIG_LOCALVERSION="-taotie"
 
 CONFIG_SDFAT_FS=y
+
+# pmOS load these modules, but we are not patching ramdisk for /lib/modules yet now
+CONFIG_INPUT_PM8941_PWRKEY=y
+CONFIG_RMI4_CORE=y
+CONFIG_RMI4_I2C=y
+CONFIG_DRM_PANEL_SAMSUNG_S6E3FA2_FULL=y
+CONFIG_CFG80211=y
+CONFIG_BRCMFMAC=y
