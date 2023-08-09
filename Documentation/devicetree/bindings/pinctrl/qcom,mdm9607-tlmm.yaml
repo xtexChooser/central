@@ -117,7 +117,7 @@ examples:
         reg = <0x01000000 0x300000>;
         interrupts = <GIC_SPI 208 IRQ_TYPE_LEVEL_HIGH>;
         gpio-controller;
-        gpio-ranges = <&msmgpio 0 0 80>;
+        gpio-ranges = <&tlmm 0 0 80>;
         #gpio-cells = <2>;
         interrupt-controller;
         #interrupt-cells = <2>;

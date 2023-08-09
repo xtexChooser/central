@@ -93,7 +93,7 @@ examples:
             dvdd-supply = <&camera_vddd_1v2>;
             ovdd-supply = <&camera_vddo_1v8>;
 
-            reset-gpios = <&msmgpio 35 GPIO_ACTIVE_LOW>;
+            reset-gpios = <&tlmm 35 GPIO_ACTIVE_LOW>;
 
             port {
                 imx296_ep: endpoint {

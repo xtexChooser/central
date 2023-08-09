@@ -52,7 +52,7 @@ examples:
         reg = <0x10>;
         avdd-supply = <&reg_headphones_avdd>;
         tvdd-supply = <&pm8916_l6>;
-        pdn-gpios = <&msmgpio 114 GPIO_ACTIVE_HIGH>;
+        pdn-gpios = <&tlmm 114 GPIO_ACTIVE_HIGH>;
         pinctrl-names = "default";
         pinctrl-0 = <&headphones_pdn_default>;
         #sound-dai-cells = <0>;

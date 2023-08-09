@@ -453,7 +453,7 @@
 	 */
 	pinctrl-names = "default";
 	pinctrl-0 = <&sdhc3_pin_a /* &sdhc3_cd_pin */>;
-	// cd-gpios = <&msmgpio 62 GPIO_ACTIVE_LOW>;
+	// cd-gpios = <&tlmm 62 GPIO_ACTIVE_LOW>;
 };
 
 &tlmm {

@@ -29,7 +29,7 @@
 	};
 };
 
-&msmgpio {
+&tlmm {
 	/* MangOH GPIO Mapping :
 	 * - 2 : GPIOEXP_INT2
 	 * - 7 : IOT1_GPIO2
@@ -179,7 +179,7 @@
 				#interrupt-cells = <2>;
 				compatible = "semtech,sx1509q";
 				reg = <0x3f>;
-				interrupt-parent = <&msmgpio>;
+				interrupt-parent = <&tlmm>;
 				interrupts = <0 IRQ_TYPE_EDGE_FALLING>;
 
 				semtech,probe-reset;
@@ -239,5 +239,5 @@
 	pinctrl-0 = <&sdc_cd_pins>;
 	pinctrl-names = "default";
 	disable-wp;
-	cd-gpios = <&msmgpio 42 GPIO_ACTIVE_LOW>; /* Active low CD */
+	cd-gpios = <&tlmm 42 GPIO_ACTIVE_LOW>; /* Active low CD */
 };
