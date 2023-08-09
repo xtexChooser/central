@@ -5802,6 +5802,8 @@ CONFIG_STAGING=y
 # Android
 #
 CONFIG_ASHMEM=y
+# CONFIG_ANDROID_LOGGER is not set
+# CONFIG_ANDROID_RAM_CONSOLE is not set
 # end of Android
 
 # CONFIG_STAGING_BOARD is not set
