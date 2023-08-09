@@ -18,7 +18,7 @@
 	ext_l2: gpio-regulator {
 		compatible = "regulator-fixed";
 		regulator-name = "ext_l2";
-		gpio = <&tlmm 91 0>;
+		gpio = <&msmgpio 91 0>;
 		startup-delay-us = <10000>;
 		enable-active-high;
 	};
@@ -37,12 +37,12 @@
 	ethernet@0 {
 		compatible = "micrel,ks8851";
 		reg = <0>;
-		interrupt-parent = <&tlmm>;
+		interrupt-parent = <&msmgpio>;
 		interrupts = <90 IRQ_TYPE_LEVEL_LOW>;
 		spi-max-frequency = <5400000>;
 		vdd-supply = <&ext_l2>;
 		vdd-io-supply = <&pm8921_lvs6>;
-		reset-gpios = <&tlmm 89 0>;
+		reset-gpios = <&msmgpio 89 0>;
 	};
 };
 
@@ -55,7 +55,7 @@
 	status = "okay";
 };
 
-&tlmm {
+&msmgpio {
 	spi1_default: spi1-default-state {
 		 mosi-pins {
 			pins = "gpio6";

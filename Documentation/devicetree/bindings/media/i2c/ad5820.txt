@@ -23,6 +23,6 @@ Example:
                reg = <0x0c>;
 
                VANA-supply = <&vaux4>;
-               enable-gpios = <&tlmm 26 GPIO_ACTIVE_HIGH>;
+               enable-gpios = <&msmgpio 26 GPIO_ACTIVE_HIGH>;
        };
 

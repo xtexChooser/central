@@ -79,7 +79,7 @@ examples:
         compatible = "nxp,tfa9897";
         reg = <0x34>;
         vddd-supply = <&pm8916_l6>;
-        rcv-gpios = <&tlmm 50 GPIO_ACTIVE_HIGH>;
+        rcv-gpios = <&msmgpio 50 GPIO_ACTIVE_HIGH>;
         pinctrl-names = "default";
         pinctrl-0 = <&speaker_top_default>;
         sound-name-prefix = "Speaker Top";
@@ -90,7 +90,7 @@ examples:
         compatible = "nxp,tfa9897";
         reg = <0x36>;
         vddd-supply = <&pm8916_l6>;
-        rcv-gpios = <&tlmm 111 GPIO_ACTIVE_HIGH>;
+        rcv-gpios = <&msmgpio 111 GPIO_ACTIVE_HIGH>;
         pinctrl-names = "default";
         pinctrl-0 = <&speaker_bottom_default>;
         sound-name-prefix = "Speaker Bottom";

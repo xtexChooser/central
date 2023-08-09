@@ -18,7 +18,7 @@
 	};
 };
 
-&tlmm {
+&msmgpio {
 	pinctrl-0 = <&reset_out_pins>;
 	pinctrl-names = "default";
 

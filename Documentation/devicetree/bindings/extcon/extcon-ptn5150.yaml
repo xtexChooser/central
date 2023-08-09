@@ -55,8 +55,8 @@ examples:
         ptn5150@1d {
             compatible = "nxp,ptn5150";
             reg = <0x1d>;
-            interrupt-parent = <&tlmm>;
+            interrupt-parent = <&msmgpio>;
             interrupts = <78 IRQ_TYPE_LEVEL_HIGH>;
-            vbus-gpios = <&tlmm 148 GPIO_ACTIVE_HIGH>;
+            vbus-gpios = <&msmgpio 148 GPIO_ACTIVE_HIGH>;
         };
     };

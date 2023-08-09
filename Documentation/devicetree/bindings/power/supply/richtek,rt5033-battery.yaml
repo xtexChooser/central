@@ -48,7 +48,7 @@ examples:
       battery@35 {
         compatible = "richtek,rt5033-battery";
         reg = <0x35>;
-        interrupt-parent = <&tlmm>;
+        interrupt-parent = <&msmgpio>;
         interrupts = <121 IRQ_TYPE_EDGE_FALLING>;
       };
     };

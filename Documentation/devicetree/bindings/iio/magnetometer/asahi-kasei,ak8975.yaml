@@ -79,7 +79,7 @@ examples:
             interrupt-parent = <&gpio6>;
             interrupts = <15 IRQ_TYPE_EDGE_RISING>;
             vdd-supply = <&ldo_3v3_gnss>;
-            reset-gpios = <&tlmm 111 GPIO_ACTIVE_LOW>;
+            reset-gpios = <&msmgpio 111 GPIO_ACTIVE_LOW>;
             mount-matrix = "-0.984807753012208",  /* x0 */
                            "0",                   /* y0 */
                            "-0.173648177666930",  /* z0 */

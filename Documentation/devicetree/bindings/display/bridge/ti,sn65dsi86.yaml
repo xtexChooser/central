@@ -234,8 +234,8 @@ examples:
         compatible = "ti,sn65dsi86";
         reg = <0x2d>;
 
-        enable-gpios = <&tlmm 33 GPIO_ACTIVE_HIGH>;
-        suspend-gpios = <&tlmm 34 GPIO_ACTIVE_LOW>;
+        enable-gpios = <&msmgpio 33 GPIO_ACTIVE_HIGH>;
+        suspend-gpios = <&msmgpio 34 GPIO_ACTIVE_LOW>;
 
         interrupts-extended = <&gpio3 4 IRQ_TYPE_EDGE_FALLING>;
 

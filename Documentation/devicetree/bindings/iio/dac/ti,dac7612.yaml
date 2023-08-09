@@ -48,7 +48,7 @@ examples:
         dac@1 {
             compatible = "ti,dac7612";
             reg = <0x1>;
-            ti,loaddacs-gpios = <&tlmm 25 GPIO_ACTIVE_LOW>;
+            ti,loaddacs-gpios = <&msmgpio 25 GPIO_ACTIVE_LOW>;
         };
     };
 ...

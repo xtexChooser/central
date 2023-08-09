@@ -76,11 +76,11 @@ examples:
         ethernet@0 {
             compatible = "micrel,ks8851";
             reg = <0>;
-            interrupt-parent = <&tlmm>;
+            interrupt-parent = <&msmgpio>;
             interrupts = <90 8>;
             vdd-supply = <&ext_l2>;
             vdd-io-supply = <&pm8921_lvs6>;
-            reset-gpios = <&tlmm 89 0>;
+            reset-gpios = <&msmgpio 89 0>;
         };
     };
   - |

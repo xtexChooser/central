@@ -59,8 +59,8 @@ examples:
             reg = <0>;
             positive5-supply = <&positive5_reg>;
             negative5-supply = <&negative5_reg>;
-            reset-gpios = <&tlmm 25 GPIO_ACTIVE_LOW>;
-            enable-gpios = <&tlmm 10 GPIO_ACTIVE_HIGH>;
+            reset-gpios = <&msmgpio 25 GPIO_ACTIVE_LOW>;
+            enable-gpios = <&msmgpio 10 GPIO_ACTIVE_HIGH>;
 
             port {
                 panel_in: endpoint {

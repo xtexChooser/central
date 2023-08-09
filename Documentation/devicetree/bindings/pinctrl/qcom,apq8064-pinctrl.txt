@@ -60,7 +60,7 @@ Valid values for function are:
 
 Example:
 
-	tlmm: pinctrl@800000 {
+	msmgpio: pinctrl@800000 {
 		compatible = "qcom,apq8064-pinctrl";
 		reg = <0x800000 0x4000>;
 
@@ -72,7 +72,7 @@ Example:
 
 		pinctrl-names = "default";
 		pinctrl-0 = <&gsbi5_uart_default>;
-		gpio-ranges = <&tlmm 0 0 90>;
+		gpio-ranges = <&msmgpio 0 0 90>;
 
 		gsbi5_uart_default: gsbi5_uart_default {
 			mux {

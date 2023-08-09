@@ -51,6 +51,6 @@ examples:
 
                     vdd-supply = <&pm8916_l8>;
                     vddio-supply = <&pm8916_l6>;
-                    reset-gpios = <&tlmm 25 GPIO_ACTIVE_HIGH>;
+                    reset-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
             };
     };
