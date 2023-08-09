@@ -126,7 +126,7 @@ examples:
             vdda-supply = <&camera_vdda_2v8>;
             vddd-supply = <&camera_vddd_1v5>;
 
-            reset-gpios = <&msmgpio 35 GPIO_ACTIVE_LOW>;
+            reset-gpios = <&tlmm 35 GPIO_ACTIVE_LOW>;
 
             port {
                 imx290_ep: endpoint {

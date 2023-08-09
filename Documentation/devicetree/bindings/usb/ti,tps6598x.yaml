@@ -50,7 +50,7 @@ examples:
             reg = <0x38>;
             wakeup-source;
 
-            interrupt-parent = <&msmgpio>;
+            interrupt-parent = <&tlmm>;
             interrupts = <107 IRQ_TYPE_LEVEL_LOW>;
             interrupt-names = "irq";
 

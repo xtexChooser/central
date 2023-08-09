@@ -51,7 +51,7 @@
 	status = "okay";
 };
 
-&msmgpio {
+&tlmm {
 	spi1_default: spi1-default-state {
 		mosi-pins {
 			pins = "gpio6";

@@ -48,7 +48,7 @@ examples:
     #include <dt-bindings/gpio/gpio.h>
     audio-amplifier {
         compatible = "awinic,aw8738";
-        mode-gpios = <&msmgpio 114 GPIO_ACTIVE_HIGH>;
+        mode-gpios = <&tlmm 114 GPIO_ACTIVE_HIGH>;
         awinic,mode = <5>;
         sound-name-prefix = "Speaker Amp";
     };

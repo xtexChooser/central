@@ -108,7 +108,7 @@ examples:
             vddd-supply = <&camera_vddd_1v12>;
             vdda-supply = <&pm8994_l17>;
             lens-focus = <&ad5820>;
-            enable-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
+            enable-gpios = <&tlmm 25 GPIO_ACTIVE_HIGH>;
             clocks = <&camera_clk>;
             clock-frequency = <24000000>;
 

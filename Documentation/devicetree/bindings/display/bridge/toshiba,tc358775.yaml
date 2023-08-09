@@ -97,8 +97,8 @@ examples:
             vdd-supply = <&pm8916_l2>;
             vddio-supply = <&pm8916_l6>;
 
-            stby-gpios = <&msmgpio 99 GPIO_ACTIVE_LOW>;
-            reset-gpios = <&msmgpio 72 GPIO_ACTIVE_LOW>;
+            stby-gpios = <&tlmm 99 GPIO_ACTIVE_LOW>;
+            reset-gpios = <&tlmm 72 GPIO_ACTIVE_LOW>;
 
             ports {
                 #address-cells = <1>;
@@ -156,8 +156,8 @@ examples:
             vdd-supply = <&pm8916_l2>;
             vddio-supply = <&pm8916_l6>;
 
-            stby-gpios = <&msmgpio 99 GPIO_ACTIVE_LOW>;
-            reset-gpios = <&msmgpio 72 GPIO_ACTIVE_LOW>;
+            stby-gpios = <&tlmm 99 GPIO_ACTIVE_LOW>;
+            reset-gpios = <&tlmm 72 GPIO_ACTIVE_LOW>;
 
             ports {
                 #address-cells = <1>;

@@ -47,7 +47,7 @@ examples:
 
                     vdd3-supply = <&pm8916_l17>;
                     vci-supply = <&reg_vlcd_vci>;
-                    reset-gpios = <&msmgpio 25 GPIO_ACTIVE_HIGH>;
+                    reset-gpios = <&tlmm 25 GPIO_ACTIVE_HIGH>;
 
                     port {
                             panel_in: endpoint {

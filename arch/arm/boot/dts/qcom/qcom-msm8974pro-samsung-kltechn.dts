@@ -6,8 +6,8 @@
 	compatible = "samsung,kltechn", "qcom,msm8974";
 
 	i2c-gpio-led {
-		scl-gpios = <&msmgpio 61 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-		sda-gpios = <&msmgpio 60 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+		scl-gpios = <&tlmm 61 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+		sda-gpios = <&tlmm 60 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	};
 };
 

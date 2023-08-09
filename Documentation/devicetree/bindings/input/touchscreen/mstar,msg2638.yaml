@@ -60,9 +60,9 @@ examples:
       touchscreen@26 {
         compatible = "mstar,msg2638";
         reg = <0x26>;
-        interrupt-parent = <&msmgpio>;
+        interrupt-parent = <&tlmm>;
         interrupts = <13 IRQ_TYPE_EDGE_FALLING>;
-        reset-gpios = <&msmgpio 100 GPIO_ACTIVE_LOW>;
+        reset-gpios = <&tlmm 100 GPIO_ACTIVE_LOW>;
         pinctrl-names = "default";
         pinctrl-0 = <&ts_int_reset_default>;
         vdd-supply = <&pm8916_l17>;
