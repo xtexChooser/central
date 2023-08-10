@@ -2,6 +2,7 @@ menu "Legacy Android Persistent RAM"
 
 config ANDROID_PERSISTENT_RAM
 	bool "Android Persistent RAM"
+	depends on !PSTORE
 	select REED_SOLOMON
 	select REED_SOLOMON_ENC8
 	select REED_SOLOMON_DEC8
