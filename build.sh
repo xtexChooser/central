@@ -49,6 +49,7 @@ THREADS=16
 
 export ARCH=arm
 export CROSS_COMPILE=$TOOLCHAIN/bin/arm-linux-gnueabihf-
+export PATH=$TOOLCHAIN/bin/:$TOOLCHAIN/arm-linux-gnueabihf/bin/:$PATH
 
 [ "$DEVICE" ] || DEVICE=klte
 [ "$TARGET" ] || TARGET=twrp
@@ -56,6 +57,8 @@ export CROSS_COMPILE=$TOOLCHAIN/bin/arm-linux-gnueabihf-
 [ "$VARIANT" ] || VARIANT=unified
 DEFCONFIG=${TARGET}_${DEVICE}_defconfig
 VARIANT_DEFCONFIG=variant_${DEVICE}_${VARIANT}
+
+set -xe
 
 ABORT()
 {
@@ -85,7 +88,7 @@ SETUP_BUILD()
 	echo "Creating kernel config for $LOCALVERSION..."
 	cd "$RDIR"
 	mkdir -p build
-	make -C "$RDIR" O=build "$DEFCONFIG" \
+	make -C "$RDIR" ARCH=arm O=build "$DEFCONFIG" \
 		VARIANT_DEFCONFIG="$VARIANT_DEFCONFIG" \
 		|| ABORT "Failed to set up build"
 }
@@ -93,7 +96,7 @@ SETUP_BUILD()
 BUILD_KERNEL()
 {
 	echo "Starting build for $LOCALVERSION..."
-	while ! make -C "$RDIR" O=build -j"$THREADS"; do
+	while ! make -C "$RDIR" ARCH=arm O=build CROSS_COMPILE=$CROSS_COMPILE CROSS_COMPILE_ARM32=$CROSS_COMPILE CC=$(which arm-linux-gnueabihf-gcc) LD=$(which ld) -j"$THREADS"; do
 		read -p "Build failed. Retry? " do_retry
 		case $do_retry in
 			Y|y) continue ;;
