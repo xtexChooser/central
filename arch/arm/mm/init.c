@@ -41,6 +41,10 @@
 
 #include "mm.h"
 
+#ifdef CONFIG_ANDROID_RAM_CONSOLE
+#include "../../../drivers/android/pram_console/init.h"
+#endif
+
 #ifdef CONFIG_CPU_CP15_MMU
 unsigned long __init __clear_cr(unsigned long mask)
 {
@@ -192,6 +196,10 @@ void __init arm_memblock_init(const struct machine_desc *mdesc)
 	/* reserve any platform specific memblock areas */
 	if (mdesc->reserve)
 		mdesc->reserve();
+
+#ifdef CONFIG_ANDROID_RAM_CONSOLE
+	ram_console_early_init();
+#endif
 
 	early_init_fdt_scan_reserved_mem();
 
