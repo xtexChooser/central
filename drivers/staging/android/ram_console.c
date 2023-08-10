@@ -176,4 +176,5 @@ static int __init ram_console_late_init(void)
 }
 
 late_initcall(ram_console_late_init);
-postcore_initcall(ram_console_module_init);
+//postcore_initcall(ram_console_module_init);
+early_initcall(ram_console_module_init);

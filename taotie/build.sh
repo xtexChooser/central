@@ -46,7 +46,7 @@ export PATH=$CLANG_PREBUILT_BIN:$PATH
 
 # Build kernel make args
 KMAKE_ARGS="\
-KCONFIG_CONFIG=$DDIR/defconfig.merge \
+KCONFIG_CONFIG=$(readlink -e "$DDIR")/defconfig.merge \
 ARCH=$ARCH \
 CC=clang \
 LD=ld.lld \

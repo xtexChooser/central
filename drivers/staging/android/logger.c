@@ -800,7 +800,8 @@ static void __exit logger_exit(void)
 	}
 }
 
-device_initcall(logger_init);
+//device_initcall(logger_init);
+early_initcall(logger_init);
 module_exit(logger_exit);
 
 MODULE_LICENSE("GPL");

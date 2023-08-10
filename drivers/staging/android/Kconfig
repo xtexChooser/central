@@ -37,7 +37,7 @@ config ANDROID_RAM_CONSOLE
 config ANDROID_PERSISTENT_RAM
 	depends on PSTORE=n
 	select REED_SOLOMON
-	select REED_SOLOMON_ENC8  
+	select REED_SOLOMON_ENC8
 	select REED_SOLOMON_DEC8
 	bool
 
