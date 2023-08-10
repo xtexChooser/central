@@ -13,18 +13,15 @@
  *
  */
 
-#define pr_fmt(fmt) "ram_console: " fmt
-
 #include <linux/console.h>
 #include <linux/init.h>
 #include <linux/module.h>
+#include "persistent_ram.h"
 #include <linux/platform_device.h>
 #include <linux/proc_fs.h>
 #include <linux/string.h>
 #include <linux/uaccess.h>
 #include <linux/io.h>
-//#include <linux/pstore_ram.h>
-#include "persistent_ram.h"
 #include "ram_console.h"
 
 static struct persistent_ram_zone *ram_console_zone;
@@ -53,7 +50,7 @@ void ram_console_enable_console(int enabled)
 		ram_console.flags &= ~CON_ENABLED;
 }
 
-static int __init ram_console_probe(struct platform_device *pdev)
+static int __devinit ram_console_probe(struct platform_device *pdev)
 {
 	struct ram_console_platform_data *pdata = pdev->dev.platform_data;
 	struct persistent_ram_zone *prz;
@@ -81,11 +78,12 @@ static struct platform_driver ram_console_driver = {
 	.driver		= {
 		.name	= "ram_console",
 	},
+	.probe = ram_console_probe,
 };
 
 static int __init ram_console_module_init(void)
 {
-	return platform_driver_probe(&ram_console_driver, ram_console_probe);
+	return platform_driver_register(&ram_console_driver);
 }
 
 #ifndef CONFIG_PRINTK
@@ -147,12 +145,14 @@ out:
 	return count;
 }
 
-static const struct proc_ops ram_console_file_ops = {
-	.proc_read = ram_console_read_old,
+static const struct file_operations ram_console_file_ops = {
+	.owner = THIS_MODULE,
+	.read = ram_console_read_old,
 };
 
 static int __init ram_console_late_init(void)
 {
+	struct proc_dir_entry *entry;
 	struct persistent_ram_zone *prz = ram_console_zone;
 
 	if (!prz)
@@ -161,20 +161,20 @@ static int __init ram_console_late_init(void)
 	if (persistent_ram_old_size(prz) == 0)
 		return 0;
 
-	if (!proc_create("last_kmsg", S_IFREG | S_IRUGO, NULL,
-			 &ram_console_file_ops)) {
-		pr_err("failed to create proc entry\n");
+	entry = create_proc_entry("last_kmsg", S_IFREG | S_IRUGO, NULL);
+	if (!entry) {
+		printk(KERN_ERR "ram_console: failed to create proc entry\n");
 		persistent_ram_free_old(prz);
 		return 0;
 	}
 
-	/*entry->size = persistent_ram_old_size(prz) +
+	entry->proc_fops = &ram_console_file_ops;
+	entry->size = persistent_ram_old_size(prz) +
 		persistent_ram_ecc_string(prz, NULL, 0) +
-		bootinfo_size;*/
+		bootinfo_size;
 
 	return 0;
 }
 
 late_initcall(ram_console_late_init);
-//postcore_initcall(ram_console_module_init);
-early_initcall(ram_console_module_init);
+postcore_initcall(ram_console_module_init);
