@@ -40,10 +40,10 @@ RDIR=$(pwd)
 VER=$(cat "$RDIR/VERSION")
 
 # directory containing cross-compile arm toolchain
-TOOLCHAIN=$HOME/build/toolchain/gcc-linaro-4.9-2016.02-x86_64_arm-linux-gnueabihf
+TOOLCHAIN=/mnt/src2/kltechnduo/gcc-linaro-4.9-2016.02-x86_64_arm-linux-gnueabihf
 
 # amount of cpu threads to use in kernel make process
-THREADS=5
+THREADS=16
 
 ############## SCARY NO-TOUCHY STUFF ###############
 
