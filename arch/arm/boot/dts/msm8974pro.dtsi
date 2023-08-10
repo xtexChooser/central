@@ -10,17 +10,32 @@
  * GNU General Public License for more details.
  */
 
-/*
- * As a general rule, only version-specific property overrides should be placed
- * inside this file. However, device definitions should be placed inside the
- * msm8974.dtsi file.
- */
+ /*
+  * As a general rule, only version-specific property overrides should be placed
+  * inside this file. However, device definitions should be placed inside the
+  * msm8974.dtsi file.
+  */
 
-/include/ "msm8974.dtsi"
-/include/ "msm8974-v2-iommu.dtsi"
-/include/ "msm8974-v2-iommu-domains.dtsi"
-/include/ "msm8974pro-pm.dtsi"
-/include/ "msm8974pro-ion.dtsi"
+ /include/ "msm8974.dtsi"
+ /include/ "msm8974-v2-iommu.dtsi"
+ /include/ "msm8974-v2-iommu-domains.dtsi"
+ /include/ "msm8974pro-pm.dtsi"
+ /include/ "msm8974pro-ion.dtsi"
+
+/ {
+ 	&reserved-memory {
+ 		ramoops@3e8e0000 {
+ 			compatible = "ramoops";
+ 			reg = <0x3e8e0000 0x200000>;
+
+ 			console-size = <0x100000>;
+ 			record-size = <0x10000>;
+ 			ftrace-size = <0x10000>;
+ 			pmsg-size = <0x80000>;
+ 			ecc-size = <8>;
+		};
+	};
+}
 
 &soc {
 	android_usb@fe8050c8 {
