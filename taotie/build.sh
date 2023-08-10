@@ -48,8 +48,8 @@ export PATH=$CLANG_PREBUILT_BIN:$PATH
 KMAKE_ARGS="\
 KCONFIG_CONFIG=$(readlink -e "$DDIR")/defconfig.merge \
 ARCH=$ARCH \
-CC=clang \
-LD=ld.lld \
+CC=$(which clang) \
+LD=$(which ld.lld) \
 LLVM=$LLVM \
 CROSS_COMPILE=$CROSS_COMPILE \
 CROSS_COMPILE_ARM32=$CROSS_COMPILE_ARM32 \
@@ -74,6 +74,7 @@ if [[ "$2" == "build" ]]; then
     set -xe
     # shellcheck disable=SC2086
     {
+        clang --version
         make -j64 $KMAKE_ARGS $MAKE_GOALS
         kernelrelease=$(make $KMAKE_ARGS kernelrelease)
         rm -rf $OUT_DIR_F/kernel/*
