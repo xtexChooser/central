@@ -1,0 +1,23 @@
+menu "Legacy Android Persistent RAM"
+
+config ANDROID_PERSISTENT_RAM
+	bool "Android Persistent RAM"
+	depends on !PSTORE
+	select REED_SOLOMON
+	select REED_SOLOMON_ENC8
+	select REED_SOLOMON_DEC8
+    help
+        Read drivers/android/pram_console/README.md
+
+config ANDROID_RAM_CONSOLE
+	bool "Android RAM buffer console"
+	default n
+	select ANDROID_PERSISTENT_RAM
+    help
+        Read drivers/android/pram_console/README.md
+
+config ANDROID_RAM_CONSOLE_SAMSUNG_KLTE
+	bool "RAM console configuration for Samsung KLTE devices "
+	depends on ANDROID_RAM_CONSOLE
+
+endmenu

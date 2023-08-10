@@ -24,6 +24,35 @@
 #include <linux/io.h>
 #include "ram_console.h"
 
+#ifdef CONFIG_ANDROID_RAM_CONSOLE_SAMSUNG_KLTE
+#define PERSISTENT_RAM_BASE 0x7FA00000
+#define PERSISTENT_RAM_SIZE SZ_1M
+#define RAM_CONSOLE_SIZE (124 * SZ_1K * 2)
+#else
+#error No CONFIG_ANDROID_RAM_CONSOLE_XXX is selected
+#endif
+
+static struct persistent_ram_descriptor per_ram_descs[] __initdata = { {
+	.name = "ram_console",
+	.size = RAM_CONSOLE_SIZE,
+} };
+
+static struct persistent_ram per_ram __initdata = {
+	.descs = per_ram_descs,
+	.num_descs = ARRAY_SIZE(per_ram_descs),
+	.start = PERSISTENT_RAM_BASE,
+	.size = PERSISTENT_RAM_SIZE
+};
+
+static int __init ram_console_early_init(void)
+{
+	int ret;
+	ret = persistent_ram_early_init(&per_ram);
+	if (ret != 0)
+		return ret;
+	return 0;
+}
+
 static struct persistent_ram_zone *ram_console_zone;
 static const char *bootinfo;
 static size_t bootinfo_size;
@@ -81,9 +110,21 @@ static struct platform_driver ram_console_driver = {
 	.probe = ram_console_probe,
 };
 
+static struct platform_device ram_console_device = {
+	.name = "ram_console",
+	.id = -1,
+};
+
 static int __init ram_console_module_init(void)
 {
-	return platform_driver_register(&ram_console_driver);
+	int ret;
+	ret = platform_driver_register(&ram_console_driver);
+	if (ret != 0)
+		return ret;
+	ret = platform_device_register(&ram_console_device);
+	if (ret != 0)
+		return ret;
+	return 0;
 }
 
 #ifndef CONFIG_PRINTK
@@ -174,5 +215,6 @@ static int __init ram_console_late_init(void)
 	return 0;
 }
 
+early_initcall(ram_console_early_init);
 late_initcall(ram_console_late_init);
 postcore_initcall(ram_console_module_init);

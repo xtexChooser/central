@@ -103,4 +103,6 @@ config ANDROID_VENDOR_OEM_DATA
 
 	  If even slightly unsure, say Y.
 
+source "drivers/android/pram_console/Kconfig"
+
 endmenu
