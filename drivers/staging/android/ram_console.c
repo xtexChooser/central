@@ -145,14 +145,12 @@ out:
 	return count;
 }
 
-static const struct file_operations ram_console_file_ops = {
-	.owner = THIS_MODULE,
-	.read = ram_console_read_old,
+static const struct proc_ops ram_console_file_ops = {
+	.proc_read = ram_console_read_old,
 };
 
 static int __init ram_console_late_init(void)
 {
-	struct proc_dir_entry *entry;
 	struct persistent_ram_zone *prz = ram_console_zone;
 
 	if (!prz)
@@ -161,17 +159,17 @@ static int __init ram_console_late_init(void)
 	if (persistent_ram_old_size(prz) == 0)
 		return 0;
 
-	entry = create_proc_entry("last_kmsg", S_IFREG | S_IRUGO, NULL);
-	if (!entry) {
+	if (!proc_create("last_kmsg", S_IFREG | S_IRUGO, NULL,
+			 &ram_console_file_ops)) {
 		printk(KERN_ERR "ram_console: failed to create proc entry\n");
 		persistent_ram_free_old(prz);
 		return 0;
 	}
 
-	entry->proc_fops = &ram_console_file_ops;
-	entry->size = persistent_ram_old_size(prz) +
-		persistent_ram_ecc_string(prz, NULL, 0) +
-		bootinfo_size;
+	//entry->proc_fops = &ram_console_file_ops;
+	//entry->size = persistent_ram_old_size(prz) +
+	//	persistent_ram_ecc_string(prz, NULL, 0) +
+	//	bootinfo_size;
 
 	return 0;
 }

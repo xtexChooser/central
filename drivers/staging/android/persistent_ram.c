@@ -34,7 +34,7 @@ struct persistent_ram_buffer {
 
 #define PERSISTENT_RAM_SIG (0x43474244) /* DBGC */
 
-static LIST_HEAD(persistent_ram_list);
+static __initdata LIST_HEAD(persistent_ram_list);
 
 static inline size_t buffer_size(struct persistent_ram_zone *prz)
 {
@@ -100,25 +100,28 @@ static void notrace persistent_ram_encode_rs8(struct persistent_ram_zone *prz,
 	uint8_t *data, size_t len, uint8_t *ecc)
 {
 	int i;
-	uint16_t par[prz->ecc_size];
+	uint16_t *par = kmalloc(prz->ecc_size * sizeof(uint16_t), GFP_KERNEL);
 
 	/* Initialize the parity buffer */
-	memset(par, 0, sizeof(par));
+	memset(par, 0, prz->ecc_size * sizeof(uint16_t));
 	encode_rs8(prz->rs_decoder, data, len, par, 0);
 	for (i = 0; i < prz->ecc_size; i++)
 		ecc[i] = par[i];
+	kfree(par);
 }
 
 static int persistent_ram_decode_rs8(struct persistent_ram_zone *prz,
 	void *data, size_t len, uint8_t *ecc)
 {
-	int i;
-	uint16_t par[prz->ecc_size];
+	int i, ret;
+	uint16_t *par = kmalloc(prz->ecc_size * sizeof(uint16_t), GFP_KERNEL);
 
 	for (i = 0; i < prz->ecc_size; i++)
 		par[i] = ecc[i];
-	return decode_rs8(prz->rs_decoder, data, par, len,
+	ret = decode_rs8(prz->rs_decoder, data, par, len,
 				NULL, 0, NULL, 0, NULL);
+	kfree(par);
+	return ret;
 }
 
 static void notrace persistent_ram_update_ecc(struct persistent_ram_zone *prz,
