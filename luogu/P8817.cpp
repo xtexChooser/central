@@ -27,15 +27,16 @@ int main() {
   for (i = 2; i <= n; i++) {
     cin >> sc[i];
   }
-  for (i = 0; i <= n; i++) {
+  /*for (i = 0; i <= n; i++) {
     pt[n * al + n] = 0;
-  }
+  }*/
   for (i = 0; i < m; i++) {
     int a, b;
     cin >> a >> b;
     pt[a * al + b] = 0;
     pt[b * al + a] = 0;
   }
+  // 可以用BFS重写
   for (i = 0; i <= k; i++) {
     for (x = 0; x < al; x++) {
       for (y = 0; y < al; y++) {
