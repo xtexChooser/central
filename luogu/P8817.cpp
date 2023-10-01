@@ -1,107 +1,72 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <ctime>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
 int n, m, k;
-int al;
-int *sc;
-int *pt;
-int *ps;
+#define MAXN 2501
+#define MAXM 10001
+int s[MAXN];       // 点分数
+int d[MAXN][MAXN]; // 距离+1
 
 int main() {
-  int i, x, y, l;
+  int i, x, y, z, a;
+  clock_t time = clock();
 
   cin >> n >> m >> k;
-  al = (n + 1);
-  sc = (int *)malloc(sizeof(int) * al);
-  sc[1] = 0;
-  pt = (int *)malloc(sizeof(int) * (al + 1) * (al + 1));
-  ps = (int *)malloc(sizeof(int) * (al + 1) * (al + 1));
-  for (i = 0; i < (al * al); i++) {
-    pt[i] = 0xffff;
-    ps[i] = 0;
+  for (i = 1 + 1; i <= n; i++) {
+    cin >> s[i];
   }
-  for (i = 2; i <= n; i++) {
-    cin >> sc[i];
+  for (i = 1; i <= m; i++) {
+    cin >> x >> y;
+    d[x][y] = 1;
+    d[y][x] = 1;
   }
-  /*for (i = 0; i <= n; i++) {
-    pt[n * al + n] = 0;
-  }*/
-  for (i = 0; i < m; i++) {
-    int a, b;
-    cin >> a >> b;
-    pt[a * al + b] = 0;
-    pt[b * al + a] = 0;
-  }
-  // 可以用BFS重写
-  for (i = 0; i <= k; i++) {
-    for (x = 0; x < al; x++) {
-      for (y = 0; y < al; y++) {
-        if (x != y && pt[x * al + y] == i) {
-          // x to y possible
-          // extend all routes
-          for (l = 0; l < al; l++) {
-            if (y != l && pt[y * al + l] != 0xffff) {
-              pt[x * al + l] = min(pt[x * al + l], pt[y * al + l] + i + 1);
-            }
-          }
-        }
-      }
-    }
-  }
-  /*for (x = 1; x < al; x++) {
-    for (y = 1; y < al; y++) {
-      cout << pt[x * al + y] << " ";
-    }
-    cout << "\n";
-  }*/
-  for (x = 0; x < al; x++) {
-    for (y = 0; y < al; y++) {
-      pt[x * al + y] = pt[x * al + y] <= k;
-    }
-  }
-  /*cout << "---\n";
-  for (x = 1; x < al; x++) {
-    for (y = 1; y < al; y++) {
-      cout << pt[x * al + y] << " ";
-    }
-    cout << "\n";
-  }*/
-  /*for (x = 1; x < al; x++) {
-    for (y = 1; y < al; y++) {
-      cout << pt[x * al + y] << " ";
-    }
-    cout << "\n";
-  }*/
-  int a, b, c, d;
-  int scs = -1;
-  for (a = 0; a < al; a++) {
-    if (!pt[1 * al + a])
-      continue;
-    for (b = 0; b < al; b++) {
-      if (a == b || !pt[a * al + b])
-        continue;
-      for (c = 0; c < al; c++) {
-        if (c == a || c == b || !pt[b * al + c])
+  for (a = 1; a <= k; a++) {
+    for (x = 1; x <= n; x++) {
+      for (y = 1; y <= n; y++) {
+        if (d[x][y] != a)
           continue;
-        for (d = 0; d < al; d++) {
-          if (d == a || d == b || d == c || !pt[c * al + d] || !pt[d * al + 1])
+        // x -> y 间存在路径
+        int r = k + 1 - a;
+        for (z = 1; z <= n; z++) {
+          int dyz = d[y][z];
+          if (!dyz || dyz >= r)
             continue;
-          int s = sc[a] + sc[b] + sc[c] + sc[d];
-          if (s == 30) {
-            // printf("%d %d %d %d\n", a, b, c, d);
-          }
-          scs = max(scs, s);
+          // y -> z
+          int dxz = d[x][z];
+          d[x][z] = min(dxz == 0 ? 1000 : dxz, a + dyz);
         }
       }
     }
   }
-  cout << scs;
-  free(sc);
-  free(pt);
-  free(ps);
+  int max = -1;
+  for (x = 2; x <= n; x++) {
+    for (y = 2; y <= n; y++) {
+      if (x == y || !d[x][y])
+        continue;
+      for (z = 2; z <= n; z++) {
+        if (x == z || y == z || !d[y][z])
+          continue;
+        for (a = 2; a <= n; a++) {
+          if (x == a || y == a || z == a || !d[z][a] || !d[a][1])
+            continue;
+          int sum = s[x] + s[y] + s[z] + s[a];
+          max = std::max(max, sum);
+          if ((clock() - time) > (int)(1.99f * CLOCKS_PER_SEC)) {
+            cout << max << "\n";
+            return 0;
+          }
+
+          // cout << d[x][y] << " ";
+        }
+      }
+    }
+  }
+  cout << max << "\n";
   return 0;
 }
