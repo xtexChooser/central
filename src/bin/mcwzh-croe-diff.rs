@@ -70,6 +70,7 @@ struct CroeEvent {
     pub date: chrono::NaiveDate,
     pub edition: McEdition,
     pub text: String,
+    #[serde(skip_serializing_if = "Option::is_none", default)]
     pub origin: Option<String>,
 }
 
@@ -225,7 +226,11 @@ async fn parse_croe_zh(wt: String) -> Result<CroePage> {
         {
             if let Some(cap) = re_event_line.captures(&ln) {
                 let (_, [day, _, text]) = cap.extract();
-                let day = if day == "?" || day == "？" { 1 } else { day.parse::<u32>()? };
+                let day = if day == "?" || day == "？" {
+                    1
+                } else {
+                    day.parse::<u32>()?
+                };
                 let edition = match_mc_edition(&text);
                 info!(
                     year,
