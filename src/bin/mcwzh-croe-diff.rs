@@ -4,13 +4,14 @@
 use std::{
     cell::LazyCell,
     collections::HashMap,
-    fs::{create_dir_all, File},
+    fs::{self, create_dir_all, read_to_string, File},
     io::Write,
     path::Path,
 };
 
 use chrono::NaiveDate;
 use regex::Regex;
+use similar::TextDiff;
 use xt_bot_wiki::{mcw::McEdition, prelude::*};
 
 #[tokio::main]
@@ -46,15 +47,48 @@ async fn main() -> Result<()> {
     File::create("pub/mcwzh-croe-diff/zh.txt")?.write_all(zhwt.as_bytes())?;
 
     let en = parse_croe_en(enwt).await?;
-    {
-        let mut file = File::create("pub/mcwzh-croe-diff/en.json")?;
-        file.write_all(serde_json::to_string_pretty(&en)?.as_bytes())?;
-    }
+    fs::write(
+        "pub/mcwzh-croe-diff/en.json",
+        serde_json::to_string_pretty(&en)?.as_bytes(),
+    )?;
 
     let zh = parse_croe_zh(zhwt).await?;
+    fs::write(
+        "pub/mcwzh-croe-diff/zh.json",
+        serde_json::to_string_pretty(&zh)?.as_bytes(),
+    )?;
+
     {
-        let mut file = File::create("pub/mcwzh-croe-diff/zh.json")?;
-        file.write_all(serde_json::to_string_pretty(&zh)?.as_bytes())?;
+        let mut summary = en.clone();
+        drop_text(&mut summary);
+        let mut wtr = csv::Writer::from_writer(File::create("pub/mcwzh-croe-diff/en.csv")?);
+        for event in summary.events.iter() {
+            wtr.serialize(event)?;
+        }
+    }
+
+    {
+        let mut summary: CroePage = zh.clone();
+        drop_text(&mut summary);
+        let mut wtr = csv::Writer::from_writer(File::create("pub/mcwzh-croe-diff/zh.csv")?);
+        for event in summary.events.iter() {
+            wtr.serialize(event)?;
+        }
+    }
+
+    {
+        let encsv = read_to_string("pub/mcwzh-croe-diff/en.csv")?;
+        let zhcsv = read_to_string("pub/mcwzh-croe-diff/zh.csv")?;
+        let diff = TextDiff::configure()
+            .algorithm(similar::Algorithm::Patience)
+            .diff_lines(&encsv, &zhcsv);
+
+        let udiff = diff
+            .unified_diff()
+            .context_radius(5)
+            .header("en", "zh")
+            .to_string();
+        fs::write("pub/mcwzh-croe-diff/diff.diff", udiff)?;
     }
 
     Ok(())
@@ -70,13 +104,12 @@ struct CroeEvent {
     pub date: chrono::NaiveDate,
     pub edition: McEdition,
     pub text: String,
-    #[serde(skip_serializing_if = "Option::is_none", default)]
-    pub origin: Option<String>,
 }
 
 const MC_EDITION_KEYWORDS: LazyCell<HashMap<&str, McEdition>> = LazyCell::new(|| {
     HashMap::from([
         ("java", McEdition::JE),
+        ("classic", McEdition::JE),
         ("bedrock", McEdition::BE),
         ("基岩版", McEdition::BE),
         ("education", McEdition::EDU),
@@ -176,7 +209,6 @@ async fn parse_croe_en(wt: String) -> Result<CroePage> {
                     date: NaiveDate::from_ymd_opt(year as i32, month, day).unwrap(),
                     edition,
                     text: text.to_string(),
-                    origin: None,
                 })
             } else {
                 // error!(year, month, line = ln, "could not parse event line");
@@ -244,7 +276,6 @@ async fn parse_croe_zh(wt: String) -> Result<CroePage> {
                     date: NaiveDate::from_ymd_opt(year as i32, month, day).unwrap(),
                     edition,
                     text: text.to_string(),
-                    origin: None,
                 })
             } else {
                 // error!(year, month, line = ln, "could not parse event line");
@@ -253,4 +284,10 @@ async fn parse_croe_zh(wt: String) -> Result<CroePage> {
         }
     }
     Ok(page)
+}
+
+fn drop_text(page: &mut CroePage) {
+    for event in page.events.iter_mut() {
+        event.text = String::new();
+    }
 }
