@@ -1,0 +1,7 @@
+steps:
+    build:
+        image: bash
+        commands:
+            - podman build --force-rm --squash --tag exozy.me/xtex/xt-bot-wiki .
+            - export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
+            - systemctl --user restart xt-bot.service
