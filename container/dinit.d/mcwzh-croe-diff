@@ -1,4 +1,5 @@
-type = triggered
+type = process
 command = /dist/bin/mcwzh-croe-diff
+restart = false
 log-type = file
 logfile = /srv/run/logs/mcwzh-croe-diff.log
