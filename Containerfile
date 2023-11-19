@@ -7,7 +7,7 @@ WORKDIR /build
 RUN bash ./build.sh
 
 FROM docker.io/library/alpine
-RUN apk add --no-cache musl dcron
+RUN apk add --no-cache musl dcron bash
 COPY --from=builder /dist /dist
 COPY container /dist
 WORKDIR /dist
