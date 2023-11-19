@@ -19,7 +19,7 @@ cargo install --root /dist --all-features --bins --path /build
 rm -f /dist/bin/.crates.toml /dist/bin/.crates2.json
 
 # Install dinit
-apk add tar clang llvm make
+apk add tar clang llvm make m4
 curl --proto '=https' --tlsv1.2 -sSL -o dinit.tar.gz https://github.com/davmac314/dinit/archive/refs/heads/master.tar.gz
 tar -xf dinit.tar.gz
 cd dinit-master
