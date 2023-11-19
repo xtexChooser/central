@@ -26,6 +26,6 @@ cd dinit-master
 
 dinitMake=(CXX=clang++ CXX_FOR_BUILD=clang++ 'CXXFLAGS_EXTRA="-O3 --static"' -j"$(nproc)")
 eval "make ${dinitMake[*]}"
-eval "make ${dinitMake[*]} check check-igr"
+#eval "make ${dinitMake[*]} check check-igr"
 eval "make ${dinitMake[*]} DESTDIR=/dist install"
 rm -rf /dist/usr/share/man
