@@ -1,1 +1,1 @@
-0 0 * * * /dist/bin/dinitctl trigger mcwzh-croe-diff
+0 0 * * * dinitctl trigger mcwzh-croe-diff
