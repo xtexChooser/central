@@ -1,5 +1,5 @@
 type = process
-command = /bin/sh -c '/usr/sbin/crond -s /dist/cron.d -f -L /dev/stdout'
+command = /dist/crond.sh
 restart = true
 log-type = file
 logfile = /srv/run/logs/crond.log
