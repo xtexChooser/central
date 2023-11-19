@@ -109,11 +109,14 @@ struct CroeEvent {
 const MC_EDITION_KEYWORDS: LazyCell<HashMap<&str, McEdition>> = LazyCell::new(|| {
     HashMap::from([
         ("java", McEdition::JE),
+        ("je", McEdition::JE),
         ("classic", McEdition::JE),
         ("bedrock", McEdition::BE),
+        ("be", McEdition::BE),
         ("基岩版", McEdition::BE),
         ("education", McEdition::EDU),
         ("教育版", McEdition::EDU),
+        ("chinese", McEdition::CHN),
         ("中国版", McEdition::CHN),
         ("dungeons", McEdition::MCD),
         ("legends", McEdition::MCL),
