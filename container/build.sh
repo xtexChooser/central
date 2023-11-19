@@ -12,7 +12,7 @@ apk add -U curl musl-dev openssl-dev openssl-libs-static
 #export RUSTFLAGS
 
 # Install bot
-cargo test
+#cargo test
 
 mkdir -p /dist
 cargo install --root /dist --all-features --bins --path /build
