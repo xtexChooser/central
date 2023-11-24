@@ -3,3 +3,4 @@ command = /dist/crond.sh
 restart = true
 log-type = file
 logfile = /srv/run/logs/crond.log
+working-dir = /dist
