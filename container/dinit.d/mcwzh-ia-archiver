@@ -1,0 +1,6 @@
+type = process
+command = /dist/bin/mcwzh-ia-archiver
+restart = false
+log-type = file
+logfile = /srv/run/logs/mcwzh-ia-archiver.log
+working-dir = /dist
