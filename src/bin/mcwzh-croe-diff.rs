@@ -18,7 +18,7 @@ use xt_bot_wiki::{mcw::McEdition, prelude::*};
 async fn main() -> Result<()> {
     tracing_subscriber::fmt().init();
     create_dir_all("pub/mcwzh-croe-diff")?;
-    let bot = MwBot::from_path(&Path::new("mwbot-mcwzh.toml")).await?;
+    let bot = MwBot::from_path(&Path::new("config/mwbot-mcwzh.toml")).await?;
     let http = bot.api().http_client();
 
     let en = http
