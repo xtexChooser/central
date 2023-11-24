@@ -12,13 +12,11 @@ use std::{
 use chrono::NaiveDate;
 use regex::Regex;
 use similar::TextDiff;
-use xt_bot_wiki::{mcw::McEdition, prelude::*};
+use xt_bot_wiki::{mcw::McEdition, prelude::*, init_log};
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    tracing_subscriber::fmt()
-        .with_env_filter(tracing_subscriber::EnvFilter::from_default_env())
-        .init();
+    init_log();
     create_dir_all("pub/mcwzh-croe-diff")?;
     let bot = MwBot::from_path(&Path::new("config/mwbot-mcwzh.toml")).await?;
     let http = bot.api().http_client();
