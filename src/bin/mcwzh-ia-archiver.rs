@@ -83,6 +83,7 @@ const API_ENDPOINT: LazyCell<String> = LazyCell::new(|| env::var("IA_API").unwra
 const SPN_REGEX: LazyCell<Regex> = LazyCell::new(|| Regex::new(r"spn2-[a-z0-9-]*").unwrap());
 
 async fn archive_url(bot: &MwBot, page: &str, url: &str) -> Result<()> {
+    let mut check_retries = 0;
     loop {
         let http = bot.api().http_client();
         let check_resp = http
@@ -104,6 +105,10 @@ async fn archive_url(bot: &MwBot, page: &str, url: &str) -> Result<()> {
             debug!(delay, "IA API too many requests");
             // Too Many Requests
             time::sleep(time::Duration::from_secs(delay)).await;
+            check_retries += 1;
+            if check_retries > 120 {
+                panic!("IA available endpoint Too Many Requests")
+            }
             continue;
         }
         let check_resp = check_resp
@@ -184,7 +189,7 @@ async fn archive_url(bot: &MwBot, page: &str, url: &str) -> Result<()> {
             }
             retries += 1;
             if retries > 60 {
-                panic!("Too Many Requests")
+                panic!("IA archive endpoint Too Many Requests")
             }
         }
     }
