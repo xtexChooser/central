@@ -1,0 +1,23 @@
+--- struct.cpp	2023-11-26 11:45:44.283745113 +0800
++++ struct1.cpp	2023-11-26 11:47:16.402384905 +0800
+@@ -1,3 +1,4 @@
++// 2023/11/26 调，+15pts
+ #include <bits/stdc++.h>
+ #include <algorithm>
+ #include <map>
+@@ -123,7 +124,6 @@
+ 			size += msize;
+ 			++ m;
+ 		}
+-		if (size % align != 0) size += align - (size % align);
+ 		t->size = size;
+ 	}
+ 	
+@@ -152,6 +152,7 @@
+ 		t = frStr(0); n = readStr();
+ 		Typ *typ = typs[t];
+ 		El *el = (El *) malloc(sizeof (El));
++		if (addralloc % typ->align != 0) addralloc += typ->align - (addralloc % typ->align);
+ 		el->name = n;
+ 		el->addr = addralloc;
+ 		el->typ = typ;
