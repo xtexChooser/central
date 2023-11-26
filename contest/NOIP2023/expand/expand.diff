@@ -1,0 +1,42 @@
+--- expand.cpp	2023-11-18 12:54:08.000000000 +0800
++++ expand1.cpp	2023-11-26 11:58:50.907260586 +0800
+@@ -1,4 +1,6 @@
++// 2023/11/26 调，+5 pts
+ #include <bits/stdc++.h>
++#include <cstring>
+ 
+ namespace noipTribool
+ {
+@@ -8,6 +10,7 @@
+ #define MAXN 500005
+     int c, n, m, q;
+     unsigned int x[MAXN], y[MAXN];
++    unsigned int olx[MAXN], oly[MAXN];
+     int xmin = numeric_limits<int>::max();
+     int ymin = numeric_limits<int>::max();
+     int xmax = numeric_limits<int>::min();
+@@ -45,9 +48,11 @@
+         // P1, X Y長度為1，Fi Gi全部為x或y，Fi == Fj, Gi == Gj, (Fi - Gi) == (Fj - Gj), (Fi-Gi)(Fj-Gj) = (Fi-Gi)^2
+         unsigned int x, y;
+         scanf("%u%u", &x, &y);
++        unsigned int ox = x, oy = y;
+         putchar('0' + (x != y));
+         for (unsigned int i = 0; i < q; ++i)
+         {
++            x = ox, y = oy;
+             unsigned int kx, ky;
+             scanf("%u%u", &kx, &ky);
+             for (unsigned int j = 0; j < kx; ++j)
+@@ -81,8 +86,12 @@
+             ymax = max(ymax, (int)y[i]);
+         }
+         putchar('0' + check());
++        memcpy(olx, x, sizeof(x));
++        memcpy(oly, y, sizeof(y));
+         for (unsigned int i = 0; i < q; ++i)
+         {
++            memcpy(x, olx, sizeof(x));
++            memcpy(y, oly, sizeof(y));
+             unsigned int kx, ky;
+             scanf("%u%u", &kx, &ky);
+             for (unsigned int j = 0; j < kx; ++j)
