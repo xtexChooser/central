@@ -1,0 +1,94 @@
+{
+    "version": 7,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 23,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "mingw32",
+            "displayName": "MinGW32",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": "toolchain/mingw32.cmake"
+            }
+        },
+        {
+            "name": "mingw64",
+            "displayName": "MinGW64",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": "toolchain/mingw64.cmake"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "mingw32",
+            "configurePreset": "mingw32"
+        },
+        {
+            "name": "mingw64",
+            "configurePreset": "mingw64"
+        }
+    ],
+    "packagePresets": [
+        {
+            "name": "mingw32",
+            "configurePreset": "mingw32",
+            "generators": [
+                "TGZ",
+                "TZST",
+                "ZIP"
+            ]
+        },
+        {
+            "name": "mingw64",
+            "configurePreset": "mingw64",
+            "generators": [
+                "TGZ",
+                "TZST",
+                "ZIP"
+            ]
+        }
+    ],
+    "workflowPresets": [
+        {
+            "name": "mingw32",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "mingw32"
+                },
+                {
+                    "type": "build",
+                    "name": "mingw32"
+                },
+                {
+                    "type": "package",
+                    "name": "mingw32"
+                }
+            ]
+        },
+        {
+            "name": "mingw64",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "mingw64"
+                },
+                {
+                    "type": "build",
+                    "name": "mingw64"
+                },
+                {
+                    "type": "package",
+                    "name": "mingw64"
+                }
+            ]
+        }
+    ]
+}

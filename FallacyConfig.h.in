@@ -1,0 +1,2 @@
+#define Fallacy_VERSION_MAJOR @Fallacy_VERSION_MAJOR@
+#define Fallacy_VERSION_MINOR @Fallacy_VERSION_MINOR@
