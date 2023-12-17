@@ -8,7 +8,7 @@ anyhow = "1.0.75"
 chrono = { version = "0.4.31", features = ["serde"] }
 csv = "1.3.0"
 dotenv = "0.15.0"
-mwbot = "0.5.3"
+mwbot = { git = "https://gitlab.wikimedia.org/repos/mwbot-rs/mwbot.git", version = "0.6.0" }
 rand = "0.8.5"
 regex = "1.10.2"
 reqwest = { version = "0.11.22", features = ["json"] }

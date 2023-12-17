@@ -1,0 +1,6 @@
+type = process
+command = /dist/bin/mcwzh-walker
+restart = false
+log-type = file
+logfile = /srv/run/logs/mcwzh-walker.log
+working-dir = /dist
