@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 
 #define ll long long
-#define MOD 19260817
 
 inline ll rdll() {
   using namespace std;
@@ -11,7 +10,6 @@ inline ll rdll() {
     c = getchar();
   while (isdigit(c)) {
     v = (v << 3) + (v << 1) + (c ^ '0');
-    v = v % MOD;
     c = getchar();
   }
   return v;
@@ -33,13 +31,9 @@ inline ll exgcd(ll a, ll b, ll &x, ll &y) {
 int main() {
   ll a = rdll();
   ll b = rdll();
-  if (b % MOD == 0) {
-    printf("Angry!\n");
-    return 0;
-  }
   ll x, y;
-  exgcd(b, MOD, x, y);
-  x = (x % MOD + MOD) % MOD;
-  printf("%lld\n", (a * x) % MOD);
+  exgcd(a, b, x, y);
+  x = (x % b + b) % b;
+  printf("%lld\n", x);
   return 0;
 }
