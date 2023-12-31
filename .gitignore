@@ -4,6 +4,7 @@
 !/.gitignore
 !/.gitconfig
 !/.profile
+!/.gdbinit
 
 !/.ssh/authorized_keys
 !/.ssh/config
