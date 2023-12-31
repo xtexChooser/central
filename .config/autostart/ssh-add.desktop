@@ -1,4 +1,4 @@
 [Desktop Entry]
-Exec=ssh-add /home/xtex/.ssh/id_ed25519_sk.pub
+Exec=ssh-add -q
 Name=ssh-add
 Type=Application
