@@ -9,6 +9,7 @@
 !/.ssh/config
 
 !/.config/user-dirs.dirs
+!/.config/autostart/ssh-add.desktop
 !/.config/Code - Exploration/User/settings.json
 !/.config/Code - Insiders/User/settings.json
 !/.config/fish/config.fish
