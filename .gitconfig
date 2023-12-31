@@ -7,7 +7,7 @@
 [commit]
 	gpgSign = true
 [push]
-	gpgSign = true
+	gpgSign = if-asked
 [tag]
 	gpgSign = true
 [core]
