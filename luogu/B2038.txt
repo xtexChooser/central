@@ -1,0 +1,14 @@
+Metadata-Version: 1
+Problem-Id: B2038
+Record-Id: 131379560
+Timestamp: 1698142605
+Status: Accepted
+Score: 100/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 0
+		Case: 0 AC 3 ms 808 KiB ok accepted
+		Case: 1 AC 3 ms 808 KiB ok accepted
+		Case: 2 AC 3 ms 688 KiB ok accepted
+		Case: 3 AC 3 ms 808 KiB ok accepted

@@ -1,0 +1,15 @@
+Metadata-Version: 1
+Problem-Id: P3383
+Record-Id: 140114405
+Timestamp: 1702895884
+Status: Accepted
+Score: 100/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 0
+		Case: 0 AC 622 ms 129.36 MiB ok accepted
+		Case: 1 AC 623 ms 128.25 MiB ok accepted
+		Case: 2 AC 787 ms 128.58 MiB ok accepted
+		Case: 3 AC 790 ms 129.81 MiB ok accepted
+		Case: 4 AC 755 ms 128.95 MiB ok accepted

@@ -1,0 +1,30 @@
+Metadata-Version: 1
+Problem-Id: P9753
+Record-Id: 133132217
+Timestamp: 1699011210
+Status: Unaccepted
+Score: 25/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 0
+		Case: 0 AC 3 ms 684 KiB ok accepted
+		Case: 1 AC 3 ms 684 KiB ok accepted
+		Case: 2 AC 3 ms 680 KiB ok accepted
+		Case: 3 AC 3 ms 680 KiB ok accepted
+		Case: 4 AC 3 ms 680 KiB ok accepted
+		Case: 5 WA 4 ms 2.84 MiB wrong answer On line 1 column 2, read 6, expected 8.
+		Case: 6 WA 4 ms 2.47 MiB wrong answer On line 1 column 2, read 6, expected 7.
+		Case: 7 WA 40 ms 23.49 MiB wrong answer On line 1 column 2, read 5, expected 8.
+		Case: 8 WA 35 ms 17.31 MiB wrong answer On line 1 column 2, read 5, expected 7.
+		Case: 9 WA 35 ms 16.4 MiB wrong answer On line 1 column 2, read 5, expected 7.
+		Case: 10 RE 0 ms 0 KiB 
+		Case: 11 RE 0 ms 0 KiB 
+		Case: 12 RE 0 ms 0 KiB 
+		Case: 13 RE 0 ms 0 KiB 
+		Case: 14 RE 0 ms 0 KiB 
+		Case: 15 RE 0 ms 0 KiB 
+		Case: 16 RE 0 ms 0 KiB 
+		Case: 17 RE 0 ms 0 KiB 
+		Case: 18 RE 0 ms 0 KiB 
+		Case: 19 RE 0 ms 0 KiB 

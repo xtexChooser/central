@@ -1,0 +1,27 @@
+Metadata-Version: 1
+Problem-Id: P6589
+Record-Id: 134394866
+Timestamp: 1699623422
+Status: Unaccepted
+Score: 0/400
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 2
+		Case: 3 MLE 263 ms 512 MiB 
+		Case: 4 MLE 280 ms 512 MiB 
+		Case: 5 MLE 260 ms 512 MiB 
+	Subtask: 3
+		Case: 6 MLE 251 ms 512 MiB 
+		Case: 7 MLE 251 ms 512 MiB 
+		Case: 8 MLE 255 ms 512 MiB 
+		Case: 9 MLE 252 ms 512 MiB 
+	Subtask: 4
+		Case: 10 MLE 310 ms 512 MiB 
+		Case: 11 MLE 314 ms 512 MiB 
+		Case: 12 MLE 302 ms 512 MiB 
+		Case: 13 MLE 309 ms 512 MiB 
+	Subtask: 1
+		Case: 0 TLE 1.2 s 25.08 MiB 
+		Case: 1 TLE 1.2 s 51.72 MiB 
+		Case: 2 TLE 1.2 s 51.92 MiB 

@@ -1,0 +1,30 @@
+Metadata-Version: 1
+Problem-Id: P7077
+Record-Id: 133681716
+Timestamp: 1699264677
+Status: Unaccepted
+Score: 40/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 0
+		Case: 0 AC 7 ms 680 KiB ok accepted
+		Case: 1 AC 8 ms 688 KiB ok accepted
+		Case: 2 AC 5 ms 684 KiB ok accepted
+		Case: 3 AC 5 ms 684 KiB ok accepted
+		Case: 4 AC 19 ms 1.97 MiB ok accepted
+		Case: 5 TLE 2.2 s 1.73 MiB 
+		Case: 6 AC 377 ms 1.59 MiB ok accepted
+		Case: 7 AC 1.813 s 1.81 MiB ok accepted
+		Case: 8 TLE 2.155 s 1.73 MiB 
+		Case: 9 TLE 2.2 s 2.45 MiB 
+		Case: 10 TLE 2.2 s 2.47 MiB 
+		Case: 11 AC 98 ms 8.06 MiB ok accepted
+		Case: 12 TLE 2.2 s 7.73 MiB 
+		Case: 13 TLE 2.2 s 6.05 MiB 
+		Case: 14 TLE 2.2 s 7.24 MiB 
+		Case: 15 TLE 2.2 s 7.24 MiB 
+		Case: 16 TLE 2.2 s 8.39 MiB 
+		Case: 17 TLE 2.2 s 9 MiB 
+		Case: 18 TLE 2.2 s 11.51 MiB 
+		Case: 19 TLE 2.2 s 10.96 MiB 

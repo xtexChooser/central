@@ -1,0 +1,51 @@
+Metadata-Version: 1
+Problem-Id: P8818
+Record-Id: 127328179
+Timestamp: 1696325658
+Status: Unaccepted
+Score: 40/100
+Language: C++20
+
+Test-Result:
+	Subtask: 1
+		Case: 0 AC 3 ms 684 KiB ok accepted
+		Case: 1 AC 4 ms 808 KiB ok accepted
+		Case: 2 AC 4 ms 684 KiB ok accepted
+		Case: 3 WA 4 ms 684 KiB wrong answer On line 1 column 1, read 5, expected -.
+		Case: 4 WA 3 ms 684 KiB wrong answer On line 1 column 1, read 1, expected -.
+		Case: 5 AC 4 ms 804 KiB ok accepted
+		Case: 6 AC 4 ms 692 KiB ok accepted
+		Case: 7 AC 4 ms 692 KiB ok accepted
+		Case: 8 AC 4 ms 692 KiB ok accepted
+		Case: 9 AC 4 ms 684 KiB ok accepted
+		Case: 10 WA 5 ms 688 KiB wrong answer On line 1 column 1, read 8, expected -.
+		Case: 11 WA 5 ms 668 KiB wrong answer On line 1 column 1, read 8, expected -.
+		Case: 12 TLE 1.2 s 2.97 MiB 
+		Case: 13 TLE 1.2 s 2.98 MiB 
+		Case: 14 TLE 1.2 s 2.98 MiB 
+		Case: 15 TLE 1.2 s 2.96 MiB 
+		Case: 16 TLE 1.2 s 2.98 MiB 
+		Case: 17 TLE 1.2 s 2.88 MiB 
+		Case: 18 TLE 1.2 s 2.97 MiB 
+		Case: 19 TLE 1.2 s 2.98 MiB 
+	Subtask: 0
+		Case: 20 AC 3 ms 684 KiB ok accepted
+		Case: 21 AC 3 ms 692 KiB ok accepted
+		Case: 22 AC 3 ms 696 KiB ok accepted
+		Case: 23 WA 3 ms 696 KiB wrong answer On line 1 column 1, read 4, expected -.
+		Case: 24 WA 4 ms 688 KiB wrong answer On line 1 column 1, read 1, expected -.
+		Case: 25 AC 4 ms 680 KiB ok accepted
+		Case: 26 AC 4 ms 684 KiB ok accepted
+		Case: 27 AC 4 ms 684 KiB ok accepted
+		Case: 28 AC 4 ms 680 KiB ok accepted
+		Case: 29 AC 4 ms 692 KiB ok accepted
+		Case: 30 WA 4 ms 728 KiB wrong answer On line 3 column 1, read 1, expected -.
+		Case: 31 WA 4 ms 684 KiB wrong answer On line 2 column 1, read 5, expected -.
+		Case: 32 TLE 1.2 s 2.95 MiB 
+		Case: 33 TLE 1.2 s 2.97 MiB 
+		Case: 34 TLE 1.2 s 2.97 MiB 
+		Case: 35 TLE 1.2 s 2.99 MiB 
+		Case: 36 TLE 1.2 s 2.99 MiB 
+		Case: 37 TLE 1.2 s 2.98 MiB 
+		Case: 38 TLE 1.2 s 2.97 MiB 
+		Case: 39 TLE 1.2 s 2.98 MiB 

@@ -1,0 +1,30 @@
+Metadata-Version: 1
+Problem-Id: P9870
+Record-Id: 137687176
+Timestamp: 1701423623
+Status: Unaccepted
+Score: 5/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 0
+		Case: 0 AC 3 ms 564 KiB ok accepted
+		Case: 1 WA 25 ms 7.98 MiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 2 WA 25 ms 8.03 MiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 3 WA 25 ms 7.98 MiB wrong answer On line 1 column 6, read 0, expected 1.
+		Case: 4 WA 28 ms 7.99 MiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 5 WA 52 ms 8.05 MiB wrong answer On line 1 column 2, read 0, expected 1.
+		Case: 6 WA 52 ms 8.04 MiB wrong answer On line 1 column 5, read 0, expected 1.
+		Case: 7 WA 108 ms 7.99 MiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 8 WA 92 ms 8 MiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 9 WA 120 ms 8.05 MiB wrong answer On line 1 column 10, read 1, expected 0.
+		Case: 10 WA 120 ms 8.03 MiB wrong answer On line 1 column 3, read 0, expected 1.
+		Case: 11 WA 192 ms 8.01 MiB wrong answer On line 1 column 2, read 0, expected 1.
+		Case: 12 WA 199 ms 8.08 MiB wrong answer On line 1 column 1, read 1, expected 0.
+		Case: 13 WA 190 ms 7.96 MiB wrong answer On line 1 column 2, read 0, expected 1.
+		Case: 14 WA 93 ms 7.98 MiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 15 WA 92 ms 8.08 MiB wrong answer On line 1 column 1, read 1, expected 0.
+		Case: 16 WA 120 ms 7.98 MiB wrong answer On line 1 column 1, read 1, expected 0.
+		Case: 17 WA 122 ms 8.02 MiB wrong answer On line 1 column 4, read 0, expected 1.
+		Case: 18 WA 190 ms 8.06 MiB wrong answer On line 1 column 2, read 0, expected 1.
+		Case: 19 WA 192 ms 7.97 MiB wrong answer On line 1 column 1, read 1, expected 0.

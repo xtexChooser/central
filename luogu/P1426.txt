@@ -1,0 +1,15 @@
+Metadata-Version: 1
+Problem-Id: P1426
+Record-Id: 127165405
+Timestamp: 1696254159
+Status: Accepted
+Score: 100/100
+Language: C++20
+
+Test-Result:
+	Subtask: 0
+		Case: 0 AC 4 ms 808 KiB ok accepted
+		Case: 1 AC 3 ms 808 KiB ok accepted
+		Case: 2 AC 4 ms 808 KiB ok accepted
+		Case: 3 AC 4 ms 808 KiB ok accepted
+		Case: 4 AC 3 ms 808 KiB ok accepted

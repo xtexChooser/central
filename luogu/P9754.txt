@@ -1,0 +1,30 @@
+Metadata-Version: 1
+Problem-Id: P9754
+Record-Id: 136963404
+Timestamp: 1700970498
+Status: Unaccepted
+Score: 40/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 0
+		Case: 0 AC 3 ms 560 KiB ok accepted
+		Case: 1 AC 3 ms 680 KiB ok accepted
+		Case: 2 AC 3 ms 564 KiB ok accepted
+		Case: 3 WA 4 ms 552 KiB wrong answer Too short on line 51.
+		Case: 4 AC 4 ms 552 KiB ok accepted
+		Case: 5 AC 3 ms 564 KiB ok accepted
+		Case: 6 WA 4 ms 564 KiB wrong answer On line 1 column 3, read 0, expected 6.
+		Case: 7 WA 3 ms 552 KiB wrong answer On line 1 column 3, read 3, expected 4.
+		Case: 8 WA 4 ms 620 KiB wrong answer On line 56 column 1, read a, expected f.
+		Case: 9 AC 4 ms 616 KiB ok accepted
+		Case: 10 WA 4 ms 648 KiB wrong answer On line 1 column 3, read 6, expected 8.
+		Case: 11 WA 4 ms 656 KiB wrong answer On line 1 column 2, read 3, expected 4.
+		Case: 12 WA 4 ms 628 KiB wrong answer On line 1 column 2, read 6, expected 7.
+		Case: 13 WA 4 ms 636 KiB wrong answer On line 57 column 22, read a, expected x.
+		Case: 14 AC 4 ms 652 KiB ok accepted
+		Case: 15 AC 4 ms 676 KiB ok accepted
+		Case: 16 WA 4 ms 624 KiB wrong answer On line 3 column 2, read 5, expected 6.
+		Case: 17 WA 4 ms 644 KiB wrong answer On line 1 column 2, read 7, expected 8.
+		Case: 18 WA 4 ms 612 KiB wrong answer On line 2 column 2, read 1, expected 2.
+		Case: 19 WA 4 ms 624 KiB wrong answer On line 1 column 2, read 3, expected 4.

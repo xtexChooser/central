@@ -1,0 +1,43 @@
+Metadata-Version: 1
+Problem-Id: P8865
+Record-Id: 132718830
+Timestamp: 1698803754
+Status: Accepted
+Score: 100/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 1
+		Case: 0 AC 16 ms 5.21 MiB ok accepted
+		Case: 1 AC 6 ms 5.17 MiB ok accepted
+		Case: 2 AC 6 ms 5.17 MiB ok accepted
+		Case: 3 AC 6 ms 5.09 MiB ok accepted
+		Case: 4 AC 51 ms 5.2 MiB ok accepted
+		Case: 5 AC 55 ms 5.22 MiB ok accepted
+		Case: 6 AC 6 ms 5.16 MiB ok accepted
+		Case: 7 AC 6 ms 5.22 MiB ok accepted
+		Case: 8 AC 6 ms 5.22 MiB ok accepted
+		Case: 9 AC 6 ms 5.1 MiB ok accepted
+		Case: 10 AC 7 ms 5.21 MiB ok accepted
+		Case: 11 AC 8 ms 5.16 MiB ok accepted
+		Case: 12 AC 11 ms 5.22 MiB ok accepted
+		Case: 13 AC 19 ms 5.22 MiB ok accepted
+		Case: 14 AC 64 ms 5.17 MiB ok accepted
+		Case: 15 AC 64 ms 5.21 MiB ok accepted
+	Subtask: 0
+		Case: 16 AC 72 ms 5.19 MiB ok accepted
+		Case: 17 AC 6 ms 5.18 MiB ok accepted
+		Case: 18 AC 6 ms 5.23 MiB ok accepted
+		Case: 19 AC 6 ms 5.22 MiB ok accepted
+		Case: 20 AC 62 ms 5.22 MiB ok accepted
+		Case: 21 AC 57 ms 5.21 MiB ok accepted
+		Case: 22 AC 6 ms 5.2 MiB ok accepted
+		Case: 23 AC 6 ms 5.09 MiB ok accepted
+		Case: 24 AC 6 ms 5.1 MiB ok accepted
+		Case: 25 AC 6 ms 5.2 MiB ok accepted
+		Case: 26 AC 6 ms 5.2 MiB ok accepted
+		Case: 27 AC 6 ms 5.1 MiB ok accepted
+		Case: 28 AC 12 ms 5.22 MiB ok accepted
+		Case: 29 AC 22 ms 5.1 MiB ok accepted
+		Case: 30 AC 49 ms 5.22 MiB ok accepted
+		Case: 31 AC 55 ms 5.21 MiB ok accepted

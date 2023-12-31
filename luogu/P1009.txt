@@ -1,0 +1,14 @@
+Metadata-Version: 1
+Problem-Id: P1009
+Record-Id: 117901788
+Timestamp: 1690551244
+Status: Unaccepted
+Score: 50/100
+Language: C
+
+Test-Result:
+	Subtask: 0
+		Case: 0 AC 3 ms 808 KiB ok accepted
+		Case: 1 AC 2 ms 808 KiB ok accepted
+		Case: 2 WA 3 ms 808 KiB wrong answer On line 1 column 11, read 2, expected 4.
+		Case: 3 WA 3 ms 808 KiB wrong answer Too short on line 1.

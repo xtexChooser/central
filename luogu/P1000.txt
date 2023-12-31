@@ -1,0 +1,11 @@
+Metadata-Version: 1
+Problem-Id: P1000
+Record-Id: 135756010
+Timestamp: 1700302238
+Status: Accepted
+Score: 100/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 0
+		Case: 0 AC 3 ms 684 KiB ok accepted

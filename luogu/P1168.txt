@@ -1,0 +1,17 @@
+Metadata-Version: 1
+Problem-Id: P1168
+Record-Id: 127141610
+Timestamp: 1696248072
+Status: Accepted
+Score: 100/200
+Language: C++20
+
+Test-Result:
+	Subtask: 0
+		Case: 0 AC 3 ms 692 KiB ok accepted
+		Case: 1 AC 4 ms 808 KiB ok accepted
+		Case: 2 AC 163 ms 1.04 MiB ok accepted
+		Case: 3 AC 91 ms 976 KiB ok accepted
+		Case: 4 AC 233 ms 1.04 MiB ok accepted
+	Subtask: 1
+		Case: 5 AC 297 ms 972 KiB ok accepted

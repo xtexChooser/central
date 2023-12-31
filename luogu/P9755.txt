@@ -1,0 +1,30 @@
+Metadata-Version: 1
+Problem-Id: P9755
+Record-Id: 130995995
+Timestamp: 1697953611
+Status: Unaccepted
+Score: 0/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 0
+		Case: 0 WA 3 ms 684 KiB wrong answer Too short on line 1.
+		Case: 1 WA 3 ms 808 KiB wrong answer Too short on line 1.
+		Case: 2 WA 3 ms 808 KiB wrong answer Too short on line 1.
+		Case: 3 WA 3 ms 792 KiB wrong answer Too short on line 1.
+		Case: 4 WA 3 ms 756 KiB wrong answer Too short on line 1.
+		Case: 5 WA 3 ms 680 KiB wrong answer Too short on line 1.
+		Case: 6 WA 3 ms 684 KiB wrong answer Too short on line 1.
+		Case: 7 WA 3 ms 688 KiB wrong answer Too short on line 1.
+		Case: 8 WA 3 ms 804 KiB wrong answer Too short on line 1.
+		Case: 9 WA 3 ms 808 KiB wrong answer Too short on line 1.
+		Case: 10 WA 3 ms 764 KiB wrong answer Too short on line 1.
+		Case: 11 WA 3 ms 684 KiB wrong answer Too short on line 1.
+		Case: 12 WA 3 ms 684 KiB wrong answer Too short on line 1.
+		Case: 13 WA 3 ms 696 KiB wrong answer Too short on line 1.
+		Case: 14 WA 3 ms 692 KiB wrong answer Too short on line 1.
+		Case: 15 WA 3 ms 732 KiB wrong answer Too short on line 1.
+		Case: 16 WA 3 ms 680 KiB wrong answer Too short on line 1.
+		Case: 17 WA 3 ms 684 KiB wrong answer Too short on line 1.
+		Case: 18 WA 3 ms 688 KiB wrong answer Too short on line 1.
+		Case: 19 WA 3 ms 696 KiB wrong answer Too short on line 1.

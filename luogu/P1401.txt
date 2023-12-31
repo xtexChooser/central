@@ -1,0 +1,113 @@
+Metadata-Version: 1
+Problem-Id: P1401
+Record-Id: 140271715
+Timestamp: 1703037910
+Status: Accepted
+Score: 100/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 1
+		Case: 0 AC 3 ms 552 KiB ok accepted
+		Case: 1 AC 4 ms 608 KiB ok accepted
+		Case: 2 AC 3 ms 552 KiB ok accepted
+		Case: 3 AC 3 ms 568 KiB ok accepted
+		Case: 4 AC 3 ms 616 KiB ok accepted
+		Case: 5 AC 3 ms 668 KiB ok accepted
+		Case: 6 AC 3 ms 556 KiB ok accepted
+		Case: 7 AC 3 ms 676 KiB ok accepted
+		Case: 8 AC 3 ms 568 KiB ok accepted
+		Case: 9 AC 3 ms 552 KiB ok accepted
+		Case: 10 AC 3 ms 552 KiB ok accepted
+		Case: 11 AC 3 ms 552 KiB ok accepted
+		Case: 12 AC 3 ms 556 KiB ok accepted
+		Case: 13 AC 3 ms 560 KiB ok accepted
+		Case: 14 AC 3 ms 564 KiB ok accepted
+		Case: 15 AC 3 ms 628 KiB ok accepted
+		Case: 16 AC 3 ms 552 KiB ok accepted
+		Case: 17 AC 3 ms 604 KiB ok accepted
+		Case: 18 AC 3 ms 552 KiB ok accepted
+		Case: 19 AC 3 ms 572 KiB ok accepted
+		Case: 20 AC 3 ms 672 KiB ok accepted
+		Case: 21 AC 3 ms 572 KiB ok accepted
+		Case: 22 AC 3 ms 564 KiB ok accepted
+		Case: 23 AC 3 ms 552 KiB ok accepted
+		Case: 24 AC 3 ms 556 KiB ok accepted
+		Case: 25 AC 3 ms 556 KiB ok accepted
+		Case: 26 AC 3 ms 568 KiB ok accepted
+		Case: 27 AC 3 ms 556 KiB ok accepted
+		Case: 28 AC 3 ms 556 KiB ok accepted
+		Case: 29 AC 3 ms 564 KiB ok accepted
+		Case: 30 AC 3 ms 572 KiB ok accepted
+		Case: 31 AC 3 ms 572 KiB ok accepted
+		Case: 32 AC 3 ms 552 KiB ok accepted
+		Case: 33 AC 3 ms 620 KiB ok accepted
+		Case: 34 AC 3 ms 564 KiB ok accepted
+		Case: 35 AC 3 ms 552 KiB ok accepted
+		Case: 36 AC 3 ms 552 KiB ok accepted
+		Case: 37 AC 3 ms 620 KiB ok accepted
+		Case: 38 AC 3 ms 552 KiB ok accepted
+		Case: 39 AC 3 ms 556 KiB ok accepted
+		Case: 40 AC 3 ms 540 KiB ok accepted
+		Case: 41 AC 3 ms 600 KiB ok accepted
+		Case: 42 AC 3 ms 556 KiB ok accepted
+		Case: 43 AC 3 ms 528 KiB ok accepted
+		Case: 44 AC 3 ms 568 KiB ok accepted
+		Case: 45 AC 3 ms 556 KiB ok accepted
+		Case: 46 AC 3 ms 568 KiB ok accepted
+		Case: 47 AC 3 ms 596 KiB ok accepted
+		Case: 48 AC 3 ms 556 KiB ok accepted
+		Case: 49 AC 3 ms 568 KiB ok accepted
+		Case: 50 AC 3 ms 568 KiB ok accepted
+		Case: 51 AC 3 ms 616 KiB ok accepted
+		Case: 52 AC 3 ms 556 KiB ok accepted
+		Case: 53 AC 3 ms 680 KiB ok accepted
+		Case: 54 AC 3 ms 552 KiB ok accepted
+		Case: 55 AC 3 ms 552 KiB ok accepted
+		Case: 56 AC 3 ms 556 KiB ok accepted
+		Case: 57 AC 3 ms 564 KiB ok accepted
+		Case: 58 AC 3 ms 564 KiB ok accepted
+		Case: 59 AC 3 ms 552 KiB ok accepted
+		Case: 60 AC 3 ms 504 KiB ok accepted
+		Case: 61 AC 3 ms 680 KiB ok accepted
+		Case: 62 AC 3 ms 556 KiB ok accepted
+		Case: 63 AC 3 ms 560 KiB ok accepted
+		Case: 64 AC 3 ms 556 KiB ok accepted
+		Case: 65 AC 3 ms 556 KiB ok accepted
+		Case: 66 AC 3 ms 568 KiB ok accepted
+		Case: 67 AC 3 ms 556 KiB ok accepted
+		Case: 68 AC 3 ms 552 KiB ok accepted
+		Case: 69 AC 3 ms 564 KiB ok accepted
+		Case: 70 AC 3 ms 552 KiB ok accepted
+		Case: 71 AC 3 ms 552 KiB ok accepted
+		Case: 72 AC 3 ms 568 KiB ok accepted
+		Case: 73 AC 3 ms 552 KiB ok accepted
+		Case: 74 AC 3 ms 680 KiB ok accepted
+		Case: 75 AC 3 ms 564 KiB ok accepted
+		Case: 76 AC 3 ms 552 KiB ok accepted
+		Case: 77 AC 3 ms 552 KiB ok accepted
+		Case: 78 AC 3 ms 552 KiB ok accepted
+		Case: 79 AC 3 ms 552 KiB ok accepted
+		Case: 80 AC 3 ms 556 KiB ok accepted
+		Case: 81 AC 3 ms 608 KiB ok accepted
+		Case: 82 AC 3 ms 556 KiB ok accepted
+		Case: 83 AC 3 ms 552 KiB ok accepted
+		Case: 84 AC 3 ms 600 KiB ok accepted
+		Case: 85 AC 3 ms 564 KiB ok accepted
+		Case: 86 AC 3 ms 552 KiB ok accepted
+		Case: 87 AC 3 ms 552 KiB ok accepted
+		Case: 88 AC 3 ms 556 KiB ok accepted
+		Case: 89 AC 3 ms 552 KiB ok accepted
+		Case: 90 AC 3 ms 556 KiB ok accepted
+		Case: 91 AC 3 ms 536 KiB ok accepted
+		Case: 92 AC 3 ms 552 KiB ok accepted
+		Case: 93 AC 3 ms 556 KiB ok accepted
+		Case: 94 AC 3 ms 588 KiB ok accepted
+		Case: 95 AC 3 ms 564 KiB ok accepted
+		Case: 96 AC 3 ms 536 KiB ok accepted
+		Case: 97 AC 3 ms 552 KiB ok accepted
+		Case: 98 AC 3 ms 528 KiB ok accepted
+		Case: 99 AC 3 ms 556 KiB ok accepted
+	Subtask: 0
+		Case: 100 AC 3 ms 564 KiB ok accepted
+		Case: 101 AC 3 ms 556 KiB ok accepted

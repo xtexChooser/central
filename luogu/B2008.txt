@@ -1,0 +1,15 @@
+Metadata-Version: 1
+Problem-Id: B2008
+Record-Id: 131381043
+Timestamp: 1698143156
+Status: Accepted
+Score: 100/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 0
+		Case: 0 AC 3 ms 808 KiB ok accepted
+		Case: 1 AC 3 ms 808 KiB ok accepted
+		Case: 2 AC 3 ms 852 KiB ok accepted
+		Case: 3 AC 3 ms 808 KiB ok accepted
+		Case: 4 AC 3 ms 808 KiB ok accepted

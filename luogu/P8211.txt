@@ -1,0 +1,11 @@
+Metadata-Version: 1
+Problem-Id: P8211
+Record-Id: 134974310
+Timestamp: 1699884451
+Status: Unaccepted
+Score: null/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 0
+		Case: 3 TLE 10.2 s 828 KiB 

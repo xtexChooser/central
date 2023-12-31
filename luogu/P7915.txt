@@ -1,0 +1,37 @@
+Metadata-Version: 1
+Problem-Id: P7915
+Record-Id: 129010918
+Timestamp: 1697118873
+Status: Accepted
+Score: 100/100
+Language: C++20
+
+Test-Result:
+	Subtask: 1
+		Case: 25 AC 72 ms 9.17 MiB ok accepted
+	Subtask: 0
+		Case: 0 AC 4 ms 808 KiB ok accepted
+		Case: 1 AC 3 ms 696 KiB ok accepted
+		Case: 2 AC 3 ms 692 KiB ok accepted
+		Case: 3 AC 3 ms 704 KiB ok accepted
+		Case: 4 AC 4 ms 696 KiB ok accepted
+		Case: 5 AC 4 ms 692 KiB ok accepted
+		Case: 6 AC 4 ms 692 KiB ok accepted
+		Case: 7 AC 3 ms 692 KiB ok accepted
+		Case: 8 AC 3 ms 692 KiB ok accepted
+		Case: 9 AC 4 ms 808 KiB ok accepted
+		Case: 10 AC 4 ms 684 KiB ok accepted
+		Case: 11 AC 4 ms 732 KiB ok accepted
+		Case: 12 AC 6 ms 732 KiB ok accepted
+		Case: 13 AC 6 ms 684 KiB ok accepted
+		Case: 14 AC 6 ms 684 KiB ok accepted
+		Case: 15 AC 70 ms 8.23 MiB ok accepted
+		Case: 16 AC 77 ms 9.22 MiB ok accepted
+		Case: 17 AC 71 ms 8.36 MiB ok accepted
+		Case: 18 AC 63 ms 2.14 MiB ok accepted
+		Case: 19 AC 61 ms 680 KiB ok accepted
+		Case: 20 AC 64 ms 660 KiB ok accepted
+		Case: 21 AC 67 ms 2.18 MiB ok accepted
+		Case: 22 AC 64 ms 888 KiB ok accepted
+		Case: 23 AC 65 ms 920 KiB ok accepted
+		Case: 24 AC 66 ms 832 KiB ok accepted

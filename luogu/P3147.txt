@@ -1,0 +1,9 @@
+Metadata-Version: 1
+Problem-Id: P3147
+Record-Id: 133930907
+Timestamp: 1699410561
+Status: Compile Error
+Score: null/100
+Language: C++14 (GCC 9)
+
+Test-Result:

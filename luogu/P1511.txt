@@ -1,0 +1,50 @@
+Metadata-Version: 1
+Problem-Id: P1511
+Record-Id: 133177145
+Timestamp: 1699020814
+Status: Unaccepted
+Score: 42/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 0
+		Case: 0 AC 3 ms 684 KiB ok accepted
+		Case: 1 AC 3 ms 700 KiB ok accepted
+		Case: 2 WA 3 ms 680 KiB wrong answer On line 1 column 1, read 1, expected 2.
+		Case: 3 WA 4 ms 768 KiB wrong answer On line 1 column 1, read 1, expected 3.
+		Case: 4 WA 3 ms 808 KiB wrong answer On line 1 column 1, read 1, expected 9.
+		Case: 5 AC 3 ms 804 KiB ok accepted
+		Case: 6 AC 3 ms 660 KiB ok accepted
+		Case: 7 WA 3 ms 712 KiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 8 WA 3 ms 696 KiB wrong answer On line 1 column 1, read 1, expected 6.
+		Case: 9 AC 3 ms 692 KiB ok accepted
+		Case: 10 AC 3 ms 688 KiB ok accepted
+		Case: 11 AC 3 ms 680 KiB ok accepted
+		Case: 12 AC 3 ms 808 KiB ok accepted
+		Case: 13 WA 3 ms 692 KiB wrong answer On line 1 column 1, read 1, expected 6.
+		Case: 14 WA 3 ms 684 KiB wrong answer On line 1 column 1, read 1, expected 2.
+		Case: 15 WA 3 ms 684 KiB wrong answer On line 1 column 1, read 1, expected 8.
+		Case: 16 WA 3 ms 684 KiB wrong answer On line 1 column 2, read 8, expected 4.
+		Case: 17 AC 3 ms 808 KiB ok accepted
+		Case: 18 WA 3 ms 684 KiB wrong answer On line 1 column 2, read 8, expected 0.
+		Case: 19 WA 3 ms 812 KiB wrong answer On line 1 column 2, read 8, expected 9.
+		Case: 20 WA 3 ms 684 KiB wrong answer On line 1 column 1, read 1, expected 5.
+		Case: 21 WA 3 ms 692 KiB wrong answer On line 1 column 2, read 8, expected 7.
+		Case: 22 AC 3 ms 692 KiB ok accepted
+		Case: 23 WA 3 ms 688 KiB wrong answer On line 1 column 1, read 1, expected 4.
+		Case: 24 WA 3 ms 684 KiB wrong answer On line 1 column 1, read 1, expected 6.
+		Case: 25 WA 3 ms 688 KiB wrong answer On line 1 column 2, read 8, expected 0.
+		Case: 26 WA 3 ms 684 KiB wrong answer On line 1 column 2, read 8, expected 1.
+		Case: 27 WA 3 ms 724 KiB wrong answer On line 1 column 1, read 1, expected 9.
+		Case: 28 WA 3 ms 692 KiB wrong answer On line 1 column 1, read 1, expected 4.
+		Case: 29 AC 3 ms 692 KiB ok accepted
+		Case: 30 WA 3 ms 808 KiB wrong answer On line 1 column 1, read 1, expected 5.
+		Case: 31 WA 3 ms 680 KiB wrong answer On line 1 column 1, read 1, expected 8.
+		Case: 32 WA 3 ms 692 KiB wrong answer On line 1 column 2, read 8, expected 1.
+		Case: 33 AC 3 ms 688 KiB ok accepted
+		Case: 34 AC 3 ms 684 KiB ok accepted
+		Case: 35 AC 3 ms 692 KiB ok accepted
+		Case: 36 AC 3 ms 808 KiB ok accepted
+		Case: 37 AC 3 ms 808 KiB ok accepted
+		Case: 38 AC 3 ms 692 KiB ok accepted
+		Case: 39 WA 3 ms 808 KiB wrong answer On line 1 column 1, read 1, expected 9.

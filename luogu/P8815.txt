@@ -1,0 +1,72 @@
+Metadata-Version: 1
+Problem-Id: P8815
+Record-Id: 119817227
+Timestamp: 1691551544
+Status: Unaccepted
+Score: 15/100
+Language: C++20
+
+Test-Result:
+	Subtask: 1
+		Case: 0 WA 3 ms 684 KiB wrong answer On line 2 column 1, read 1, expected 0.
+		Case: 1 AC 3 ms 804 KiB ok accepted
+		Case: 2 WA 3 ms 684 KiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 3 AC 3 ms 692 KiB ok accepted
+		Case: 4 WA 3 ms 692 KiB wrong answer On line 2 column 3, read 1, expected 5.
+		Case: 5 WA 3 ms 680 KiB wrong answer On line 1 column 1, read 1, expected 0.
+		Case: 6 WA 3 ms 724 KiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 7 WA 3 ms 688 KiB wrong answer On line 2 column 1, read 0, expected 1.
+		Case: 8 WA 3 ms 688 KiB wrong answer On line 2 column 1, read 1, expected 2.
+		Case: 9 WA 3 ms 708 KiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 10 WA 24 ms 2.35 MiB wrong answer Too short on line 2.
+		Case: 11 WA 24 ms 2.36 MiB wrong answer On line 2 column 3, read 1, expected 2.
+		Case: 12 WA 24 ms 2.33 MiB wrong answer On line 1 column 1, read 1, expected 0.
+		Case: 13 WA 24 ms 2.36 MiB wrong answer On line 2 column 1, read 1, expected 2.
+		Case: 14 WA 17 ms 684 KiB wrong answer Too short on line 2.
+		Case: 15 WA 18 ms 680 KiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 16 WA 17 ms 684 KiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 17 WA 25 ms 2.32 MiB wrong answer On line 2 column 1, read 2, expected 6.
+		Case: 18 WA 25 ms 2.34 MiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 19 WA 25 ms 2.27 MiB wrong answer Too short on line 2.
+	Subtask: 2
+		Case: 20 AC 3 ms 684 KiB ok accepted
+		Case: 21 AC 3 ms 704 KiB ok accepted
+		Case: 22 WA 4 ms 700 KiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 23 AC 3 ms 696 KiB ok accepted
+		Case: 24 WA 3 ms 680 KiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 25 WA 3 ms 692 KiB wrong answer On line 1 column 1, read 1, expected 0.
+		Case: 26 WA 3 ms 752 KiB wrong answer On line 2 column 1, read 0, expected 1.
+		Case: 27 WA 3 ms 684 KiB wrong answer On line 2 column 1, read 6, expected 1.
+		Case: 28 WA 3 ms 684 KiB wrong answer On line 1 column 1, read 1, expected 0.
+		Case: 29 WA 3 ms 676 KiB wrong answer On line 1 column 1, read 1, expected 0.
+		Case: 30 WA 29 ms 7.89 MiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 31 WA 29 ms 7.88 MiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 32 WA 29 ms 7.87 MiB wrong answer On line 1 column 1, read 1, expected 0.
+		Case: 33 WA 29 ms 7.9 MiB wrong answer On line 1 column 1, read 1, expected 0.
+		Case: 34 WA 21 ms 804 KiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 35 WA 21 ms 688 KiB wrong answer On line 2 column 1, read 0, expected 7.
+		Case: 36 WA 22 ms 684 KiB wrong answer On line 2 column 1, read 1, expected 7.
+		Case: 37 WA 30 ms 7.93 MiB wrong answer On line 2 column 1, read 2, expected 1.
+		Case: 38 WA 30 ms 7.83 MiB wrong answer On line 2 column 1, read 2, expected 6.
+		Case: 39 WA 30 ms 7.94 MiB wrong answer On line 2 column 1, read 2, expected 6.
+	Subtask: 0
+		Case: 40 AC 3 ms 688 KiB ok accepted
+		Case: 41 AC 3 ms 676 KiB ok accepted
+		Case: 42 WA 3 ms 680 KiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 43 AC 3 ms 680 KiB ok accepted
+		Case: 44 WA 3 ms 684 KiB wrong answer On line 2 column 3, read 3, expected 1.
+		Case: 45 WA 3 ms 684 KiB wrong answer On line 2 column 1, read 1, expected 3.
+		Case: 46 WA 3 ms 680 KiB wrong answer On line 2 column 2, read (ASCII 32), expected 9.
+		Case: 47 WA 3 ms 692 KiB wrong answer Too short on line 2.
+		Case: 48 WA 3 ms 680 KiB wrong answer On line 1 column 1, read 1, expected 0.
+		Case: 49 WA 3 ms 692 KiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 50 WA 28 ms 4.5 MiB wrong answer On line 2 column 3, read 2, expected 3.
+		Case: 51 WA 28 ms 4.51 MiB wrong answer On line 2 column 3, read 8, expected 3.
+		Case: 52 WA 29 ms 4.62 MiB wrong answer On line 1 column 1, read 1, expected 0.
+		Case: 53 WA 28 ms 4.52 MiB wrong answer On line 2 column 1, read 2, expected 3.
+		Case: 54 WA 21 ms 684 KiB wrong answer On line 1 column 1, read 0, expected 1.
+		Case: 55 WA 22 ms 760 KiB wrong answer On line 2 column 2, read (ASCII 32), expected 2.
+		Case: 56 WA 22 ms 688 KiB wrong answer On line 1 column 1, read 1, expected 0.
+		Case: 57 WA 27 ms 3.63 MiB wrong answer On line 1 column 1, read 1, expected 0.
+		Case: 58 WA 28 ms 3.56 MiB wrong answer On line 1 column 1, read 1, expected 0.
+		Case: 59 WA 28 ms 3.68 MiB wrong answer On line 2 column 1, read 0, expected 1.

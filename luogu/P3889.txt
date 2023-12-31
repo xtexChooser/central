@@ -1,0 +1,19 @@
+Metadata-Version: 1
+Problem-Id: P3889
+Record-Id: 134371910
+Timestamp: 1699619538
+Status: Unaccepted
+Score: 22/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 0
+		Case: 0 AC 6 ms 5.02 MiB ok accepted
+		Case: 1 AC 6 ms 4.97 MiB ok accepted
+		Case: 2 TLE 1.2 s 8.8 MiB 
+		Case: 3 TLE 1.2 s 8.79 MiB 
+		Case: 4 TLE 1.2 s 8.79 MiB 
+		Case: 5 TLE 1.2 s 88.2 MiB 
+		Case: 6 TLE 1.2 s 88.17 MiB 
+		Case: 7 TLE 1.2 s 54.31 MiB 
+		Case: 8 TLE 1.2 s 54.31 MiB 

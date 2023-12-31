@@ -1,0 +1,11 @@
+Metadata-Version: 1
+Problem-Id: P1008
+Record-Id: 117899152
+Timestamp: 1690550160
+Status: Accepted
+Score: 100/100
+Language: C
+
+Test-Result:
+	Subtask: 0
+		Case: 0 AC 42 ms 852 KiB ok accepted

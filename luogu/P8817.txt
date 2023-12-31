@@ -1,0 +1,58 @@
+Metadata-Version: 1
+Problem-Id: P8817
+Record-Id: 126953935
+Timestamp: 1696169224
+Status: Accepted
+Score: 100/100
+Language: C++20
+
+Test-Result:
+	Subtask: 2
+		Case: 20 AC 8 ms 2.61 MiB ok accepted
+		Case: 21 AC 17 ms 2.8 MiB ok accepted
+		Case: 22 AC 291 ms 6.64 MiB ok accepted
+		Case: 23 AC 1.263 s 6.84 MiB ok accepted
+		Case: 24 AC 1.993 s 52.26 MiB ok accepted
+		Case: 25 AC 1.984 s 32.77 MiB ok accepted
+	Subtask: 1
+		Case: 0 AC 8 ms 2.64 MiB ok accepted
+		Case: 1 AC 8 ms 2.59 MiB ok accepted
+		Case: 2 AC 8 ms 2.6 MiB ok accepted
+		Case: 3 AC 8 ms 2.59 MiB ok accepted
+		Case: 4 AC 9 ms 2.6 MiB ok accepted
+		Case: 5 AC 14 ms 2.79 MiB ok accepted
+		Case: 6 AC 12 ms 2.79 MiB ok accepted
+		Case: 7 AC 18 ms 2.8 MiB ok accepted
+		Case: 8 AC 33 ms 6.56 MiB ok accepted
+		Case: 9 AC 31 ms 6.48 MiB ok accepted
+		Case: 10 AC 30 ms 6.47 MiB ok accepted
+		Case: 11 AC 347 ms 6.59 MiB ok accepted
+		Case: 12 AC 638 ms 7.14 MiB ok accepted
+		Case: 13 AC 798 ms 7.1 MiB ok accepted
+		Case: 14 AC 325 ms 24.91 MiB ok accepted
+		Case: 15 AC 323 ms 24.85 MiB ok accepted
+		Case: 16 AC 319 ms 24.85 MiB ok accepted
+		Case: 17 AC 1.992 s 61.02 MiB ok accepted
+		Case: 18 AC 1.989 s 38.17 MiB ok accepted
+		Case: 19 AC 1.996 s 60.35 MiB ok accepted
+	Subtask: 0
+		Case: 26 AC 8 ms 2.59 MiB ok accepted
+		Case: 27 AC 8 ms 2.59 MiB ok accepted
+		Case: 28 AC 8 ms 2.6 MiB ok accepted
+		Case: 29 AC 8 ms 2.68 MiB ok accepted
+		Case: 30 AC 10 ms 2.65 MiB ok accepted
+		Case: 31 AC 16 ms 2.77 MiB ok accepted
+		Case: 32 AC 11 ms 2.75 MiB ok accepted
+		Case: 33 AC 14 ms 2.72 MiB ok accepted
+		Case: 34 AC 18 ms 4.04 MiB ok accepted
+		Case: 35 AC 28 ms 6.55 MiB ok accepted
+		Case: 36 AC 30 ms 6.55 MiB ok accepted
+		Case: 37 AC 603 ms 6.81 MiB ok accepted
+		Case: 38 AC 416 ms 6.66 MiB ok accepted
+		Case: 39 AC 888 ms 6.97 MiB ok accepted
+		Case: 40 AC 197 ms 18.84 MiB ok accepted
+		Case: 41 AC 317 ms 24.82 MiB ok accepted
+		Case: 42 AC 276 ms 24.9 MiB ok accepted
+		Case: 43 AC 1.988 s 35.96 MiB ok accepted
+		Case: 44 AC 1.992 s 39.7 MiB ok accepted
+		Case: 45 AC 1.988 s 46.81 MiB ok accepted

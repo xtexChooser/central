@@ -1,0 +1,20 @@
+Metadata-Version: 1
+Problem-Id: P9868
+Record-Id: 137687143
+Timestamp: 1701423614
+Status: Accepted
+Score: 100/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 0
+		Case: 0 AC 3 ms 556 KiB ok accepted
+		Case: 1 AC 4 ms 4.65 MiB ok accepted
+		Case: 2 AC 4 ms 4.52 MiB ok accepted
+		Case: 3 AC 4 ms 4.57 MiB ok accepted
+		Case: 4 AC 4 ms 4.49 MiB ok accepted
+		Case: 5 AC 4 ms 4.49 MiB ok accepted
+		Case: 6 AC 4 ms 4.48 MiB ok accepted
+		Case: 7 AC 5 ms 5.73 MiB ok accepted
+		Case: 8 AC 13 ms 18.07 MiB ok accepted
+		Case: 9 AC 51 ms 42.11 MiB ok accepted

@@ -17,12 +17,12 @@ int main() {
   for (; i <= n; i++) {
     sum += S(i);
   }
-  char buf[129];
-  int ptr = 12;
-  buf[128] = 0;
+  char buf[100];
+  int ptr = 98;
+  buf[99] = 0;
   while (sum > 0) {
-    buf[ptr] = '0' + (((unsigned int)sum) % 2);
-    sum /= 2;
+    buf[ptr] = '0' + (((unsigned int)sum) % 10);
+    sum /= 10;
     ptr--;
   }
   printf("%s\n", &buf[ptr + 1]);

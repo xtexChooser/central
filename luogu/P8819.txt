@@ -1,0 +1,51 @@
+Metadata-Version: 1
+Problem-Id: P8819
+Record-Id: 127812688
+Timestamp: 1696498520
+Status: Unaccepted
+Score: 60/100
+Language: C++20
+
+Test-Result:
+	Subtask: 1
+		Case: 0 AC 17 ms 34.83 MiB ok accepted
+		Case: 1 AC 17 ms 34.84 MiB ok accepted
+		Case: 2 AC 16 ms 34.84 MiB ok accepted
+		Case: 3 AC 18 ms 34.97 MiB ok accepted
+		Case: 4 AC 18 ms 35.06 MiB ok accepted
+		Case: 5 AC 18 ms 34.98 MiB ok accepted
+		Case: 6 AC 19 ms 35.14 MiB ok accepted
+		Case: 7 AC 18 ms 35.08 MiB ok accepted
+		Case: 8 AC 671 ms 60.7 MiB ok accepted
+		Case: 9 AC 691 ms 65.22 MiB ok accepted
+		Case: 10 AC 693 ms 64.55 MiB ok accepted
+		Case: 11 AC 1.457 s 58.32 MiB ok accepted
+		Case: 12 AC 1.767 s 62.28 MiB ok accepted
+		Case: 13 AC 1.814 s 61.64 MiB ok accepted
+		Case: 14 AC 1.834 s 61.47 MiB ok accepted
+		Case: 15 AC 1.826 s 61.81 MiB ok accepted
+		Case: 16 AC 1.745 s 65.03 MiB ok accepted
+		Case: 17 AC 1.712 s 62.73 MiB ok accepted
+		Case: 18 AC 1.703 s 62.95 MiB ok accepted
+		Case: 19 AC 1.761 s 63.58 MiB ok accepted
+	Subtask: 0
+		Case: 20 AC 16 ms 34.82 MiB ok accepted
+		Case: 21 AC 17 ms 34.84 MiB ok accepted
+		Case: 22 AC 17 ms 34.86 MiB ok accepted
+		Case: 23 AC 19 ms 35.47 MiB ok accepted
+		Case: 24 AC 19 ms 35.35 MiB ok accepted
+		Case: 25 AC 19 ms 35.33 MiB ok accepted
+		Case: 26 AC 19 ms 35.44 MiB ok accepted
+		Case: 27 AC 19 ms 35.38 MiB ok accepted
+		Case: 28 WA 1.815 s 65.68 MiB wrong answer On line 90671 column 1, read N, expected Y.
+		Case: 29 WA 1.782 s 64.69 MiB wrong answer On line 14630 column 1, read N, expected Y.
+		Case: 30 WA 1.801 s 66.24 MiB wrong answer On line 60358 column 1, read N, expected Y.
+		Case: 31 WA 1.799 s 65.92 MiB wrong answer On line 78518 column 1, read N, expected Y.
+		Case: 32 AC 1.93 s 62.8 MiB ok accepted
+		Case: 33 AC 1.893 s 64.34 MiB ok accepted
+		Case: 34 AC 1.87 s 59.59 MiB ok accepted
+		Case: 35 AC 1.94 s 62.75 MiB ok accepted
+		Case: 36 WA 1.7 s 61.06 MiB wrong answer On line 307366 column 1, read N, expected Y.
+		Case: 37 WA 1.661 s 59.83 MiB wrong answer On line 346019 column 1, read N, expected Y.
+		Case: 38 WA 1.651 s 59.92 MiB wrong answer On line 342671 column 1, read N, expected Y.
+		Case: 39 WA 1.676 s 60.96 MiB wrong answer On line 285872 column 1, read N, expected Y.
