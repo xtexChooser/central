@@ -1,0 +1,16 @@
+[init]
+	defaultBranch = main
+[user]
+	email = xtexchooser@duck.com
+	name = xtex
+	signingKey = 7231804B052C670F15A6771DB918086ED8045B91
+[commit]
+	gpgSign = true
+[push]
+	gpgSign = true
+[tag]
+	gpgSign = true
+[core]
+	autocrlf = input
+[url "git@github.com:"]
+	insteadof = https://github.com/
