@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // (C) Copyright 2023 Kunal Mehta <legoktm@debian.org>
-use kuchiki::NodeRef;
+use kuchikiki::NodeRef;
 
 /// Copy children from the old node to the new one
 pub(crate) fn copy_children(old: &NodeRef, new: &NodeRef) {

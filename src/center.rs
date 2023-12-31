@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // (C) Copyright 2023 Kunal Mehta <legoktm@debian.org>
 use crate::{util, Options, Result, Summary};
-use kuchiki::NodeRef;
+use kuchikiki::NodeRef;
 use mwbot::parsoid::{image::HorizontalAlignment, prelude::*};
 
 /// Add the specified class to a node, if it

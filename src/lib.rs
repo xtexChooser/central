@@ -11,7 +11,7 @@ mod legacy;
 pub mod util;
 
 use anyhow::Result;
-use kuchiki::NodeRef;
+use kuchikiki::NodeRef;
 use lazy_static::lazy_static;
 use mwbot::parsoid::map::IndexMap;
 use mwbot::parsoid::prelude::*;
