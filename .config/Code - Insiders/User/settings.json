@@ -1,5 +1,9 @@
 {
     "files.autoSave": "afterDelay",
     "editor.fontFamily": "'Fira Code', 'Droid Sans Mono', 'monospace', monospace",
-    "git.confirmSync": false
+    "git.confirmSync": false,
+    "editor.fontLigatures": true,
+    "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }
