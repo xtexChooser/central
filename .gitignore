@@ -11,6 +11,9 @@
 
 !/.config/user-dirs.dirs
 !/.config/autostart/ssh-add.desktop
+!/.config/environment.d/sdk.conf
+!/.config/environment.d/editor.conf
+!/.config/environment.d/ssh.conf
 !/.config/Code - Exploration/User/settings.json
 !/.config/Code - Insiders/User/settings.json
 !/.config/fish/config.fish
