@@ -16,3 +16,5 @@
 	insteadof = https://github.com/
 [pull]
 	rebase = false
+[merge]
+	conflictstyle = diff3
