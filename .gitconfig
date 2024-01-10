@@ -6,8 +6,6 @@
 	signingKey = 7231804B052C670F15A6771DB918086ED8045B91
 [commit]
 	gpgSign = true
-[push]
-	gpgSign = if-asked
 [tag]
 	gpgSign = true
 [core]
@@ -18,3 +16,13 @@
 	rebase = false
 [merge]
 	conflictstyle = diff3
+[diff]
+	tool = difftastic
+[difftool]
+	prompt = false
+[difftool "difftastic"]
+	cmd = difft \"$LOCAL\" \"$REMOTE\"
+[pager]
+	difftool = true
+[alias]
+	dft = difftool
