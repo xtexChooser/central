@@ -29,6 +29,7 @@
 	logt = "!f() { GIT_EXTERNAL_DIFF=difft git log -p --ext-diff $@; }; f"
 	l = log
 	lt = logt
+	ol = "log --oneline"
 	c = commit
 	p = push
 	g = pull
