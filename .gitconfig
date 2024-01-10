@@ -26,3 +26,15 @@
 	difftool = true
 [alias]
 	dft = difftool
+	logt = "!f() { GIT_EXTERNAL_DIFF=difft git log -p --ext-diff $@; }; f"
+	l = log
+	lt = logt
+	c = commit
+	p = push
+	g = pull
+	f = fetch
+	s = status
+	a = add
+	d = diff
+	dt = difftool
+	cp = cherry-pick
