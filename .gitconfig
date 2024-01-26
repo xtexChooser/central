@@ -39,5 +39,11 @@
 	d = diff
 	dt = difftool
 	cp = cherry-pick
+[sendemail]
+	smtpServer = mail.envs.net
+	smtpEncryption = ssl
+	smtpUser = xtex@envs.net
+	from = xtex <xtex@envs.net>
+	smtpDomain = xtexx.eu.org
 [am]
 	threeWay = true
