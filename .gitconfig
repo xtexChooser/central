@@ -39,3 +39,5 @@
 	d = diff
 	dt = difftool
 	cp = cherry-pick
+[am]
+	threeWay = true
