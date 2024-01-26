@@ -5,5 +5,7 @@
     "editor.fontLigatures": true,
     "[jsonc]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
-    }
+    },
+    "kerneldev.experimental.newDtsEngine": true,
+    "ctags.disable": true,
 }
