@@ -1,0 +1,14 @@
+Metadata-Version: 1
+Problem-Id: P1024
+Record-Id: 148435618
+Timestamp: 1708944035
+Status: Accepted
+Score: 100/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 0
+		Case: 0 AC 4 ms 552 KiB ok accepted
+		Case: 1 AC 4 ms 556 KiB ok accepted
+		Case: 2 AC 4 ms 580 KiB ok accepted
+		Case: 3 AC 4 ms 576 KiB ok accepted
