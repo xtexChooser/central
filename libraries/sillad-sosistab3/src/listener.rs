@@ -1,6 +1,6 @@
 use std::{
     io::ErrorKind,
-    time::{Duration, SystemTime, UNIX_EPOCH},
+    time::{SystemTime, UNIX_EPOCH},
 };
 
 use async_executor::Executor;
@@ -36,8 +36,6 @@ async fn listen_loop<P: Pipe>(
     send_pipe: Sender<SosistabPipe<P>>,
     cookie: Cookie,
 ) -> std::io::Result<()> {
-    const WAIT_INTERVAL: Duration = Duration::from_secs(30);
-
     let lexec = Executor::new();
     lexec
         .run(async {
