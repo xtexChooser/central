@@ -1,5 +1,5 @@
 [package]
-name = "geph5-broker-protocol"
+name = "wezen-broker-protocol"
 version = "0.1.0"
 edition = "2021"
 
@@ -19,5 +19,5 @@ blake3 = {version="1.5.1", features=["serde"]}
 isocountry = "0.3.2"
 language-tags = {version="0.3.2", features=["serde"]}
 serde_with = {version="3.8.1", features=["hex"]}
-mizaru2={path="../mizaru2"}
+mizaru2={package="wezen-mizaru2", path="../mizaru2"}
 tracing = "0.1.40"

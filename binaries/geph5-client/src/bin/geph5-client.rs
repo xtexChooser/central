@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use argh::FromArgs;
-use geph5_client::{Client, Config};
+use wezen_client::{Client, Config};
 use tracing_subscriber::{layer::SubscriberExt as _, util::SubscriberInitExt as _, EnvFilter};
 
 /// Run the Geph5 broker.

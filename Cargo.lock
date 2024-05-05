@@ -2090,267 +2090,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "geph5-bridge"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-io 2.3.2",
- "async-trait",
- "blake3",
- "dashmap",
- "deadpool",
- "futures-util",
- "geph5-broker-protocol",
- "geph5-misc-rpc",
- "moka",
- "nanorpc",
- "nanorpc-sillad",
- "once_cell",
- "picomux",
- "rand",
- "reqwest",
- "sillad",
- "sillad-sosistab3",
- "smol 2.0.0",
- "smolscale",
- "stdcode",
- "tap",
- "tracing",
- "tracing-subscriber",
-]
-
-[[package]]
-name = "geph5-broker"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "argh",
- "argon2",
- "async-io 2.3.2",
- "async-trait",
- "axum",
- "blake3",
- "bytes",
- "ed25519-dalek",
- "futures-util",
- "geph5-broker-protocol",
- "geph5-misc-rpc",
- "isocountry",
- "mizaru2",
- "moka",
- "nanorpc",
- "nanorpc-sillad",
- "once_cell",
- "oneshot",
- "pollster",
- "rand",
- "rusty_pool",
- "serde",
- "serde_json",
- "serde_yaml",
- "sillad",
- "sillad-sosistab3",
- "smol-timeout",
- "smolscale",
- "sqlx",
- "stdcode",
- "thiserror",
- "tokio",
- "tracing",
- "tracing-subscriber",
-]
-
-[[package]]
-name = "geph5-broker-protocol"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-trait",
- "blake3",
- "bytes",
- "ed25519-dalek",
- "isocountry",
- "language-tags",
- "mizaru2",
- "nanorpc",
- "serde",
- "serde_json",
- "serde_with 3.8.1",
- "stdcode",
- "thiserror",
- "tracing",
-]
-
-[[package]]
-name = "geph5-client"
-version = "0.1.0"
-dependencies = [
- "anyctx",
- "anyhow",
- "argh",
- "async-compat",
- "async-trait",
- "atomic_float",
- "blake3",
- "blind-rsa-signatures",
- "bytes",
- "clone-macro",
- "dashmap",
- "dirs",
- "ed25519-dalek",
- "event-listener 5.3.0",
- "futures-util",
- "geph5-broker-protocol",
- "geph5-misc-rpc",
- "hex",
- "http 1.1.0",
- "http-body-util",
- "hyper",
- "hyper-util",
- "isahc",
- "isocountry",
- "mizaru2",
- "moka",
- "nanorpc",
- "nanorpc-sillad",
- "nursery_macro",
- "once_cell",
- "oneshot",
- "picomux",
- "pin-project",
- "rand",
- "reqwest",
- "scopeguard",
- "serde",
- "serde_json",
- "serde_yaml",
- "sillad",
- "sillad-sosistab3",
- "smol 2.0.0",
- "smol-timeout",
- "smol_str",
- "smolscale",
- "socksv5",
- "sqlx",
- "stdcode",
- "tachyonix",
- "tap",
- "thiserror",
- "tokio",
- "tower-service",
- "tracing",
- "tracing-subscriber",
- "x25519-dalek",
-]
-
-[[package]]
-name = "geph5-client-gui"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "chrono",
- "csv",
- "dirs",
- "eframe",
- "egui",
- "futures-util",
- "geph5-broker-protocol",
- "geph5-client",
- "http 1.1.0",
- "isocountry",
- "itertools 0.12.1",
- "moka",
- "native-dialog",
- "once_cell",
- "oneshot",
- "poll-promise",
- "serde",
- "serde_json",
- "serde_yaml",
- "smol 2.0.0",
- "smol-timeout",
- "smol_str",
- "smolscale",
- "tap",
- "tracing",
- "tracing-subscriber",
- "winapi",
- "winreg",
-]
-
-[[package]]
-name = "geph5-exit"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "argh",
- "async-io 2.3.2",
- "async-trait",
- "atomic_float",
- "blake3",
- "ed25519-dalek",
- "futures-util",
- "geph5-broker-protocol",
- "geph5-misc-rpc",
- "governor",
- "hex",
- "isocountry",
- "mizaru2",
- "moka",
- "nanorpc",
- "nursery_macro",
- "once_cell",
- "picomux",
- "quanta",
- "rand",
- "reqwest",
- "serde",
- "serde_json",
- "serde_yaml",
- "sillad",
- "sillad-sosistab3",
- "smol 2.0.0",
- "smolscale",
- "stdcode",
- "sysinfo",
- "tachyonix",
- "tap",
- "thiserror",
- "tikv-jemallocator",
- "tracing",
- "tracing-subscriber",
- "x25519-dalek",
-]
-
-[[package]]
-name = "geph5-misc-rpc"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-task",
- "async-trait",
- "bipe",
- "blake3",
- "bytes",
- "chacha20poly1305",
- "ed25519-dalek",
- "futures-util",
- "nanorpc",
- "pin-project",
- "serde",
- "serde_json",
- "sillad",
- "smallvec",
- "smolscale",
- "socksv5",
- "stdcode",
- "tachyonix",
- "tap",
- "thiserror",
- "x25519-dalek",
-]
-
-[[package]]
 name = "gethostname"
 version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3230,19 +2969,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "mizaru2"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "blake3",
- "blind-rsa-signatures",
- "rand",
- "rayon",
- "serde",
- "stdcode",
-]
-
-[[package]]
 name = "moka"
 version = "0.12.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3320,20 +3046,6 @@ checksum = "5018dd1f05b88bb28d0bbc0705a5c837477894f1f31c6112a6a90db5d133b030"
 dependencies = [
  "quote",
  "syn 1.0.109",
-]
-
-[[package]]
-name = "nanorpc-sillad"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-executor",
- "async-trait",
- "futures-util",
- "nanorpc",
- "serde_json",
- "sillad",
- "thiserror",
 ]
 
 [[package]]
@@ -3824,48 +3536,6 @@ name = "percent-encoding"
 version = "2.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e3148f5046208a5d56bcfc03053e3ca6334e51da8dfb19b6cdc8b306fae3283e"
-
-[[package]]
-name = "picomux"
-version = "0.1.1"
-dependencies = [
- "ahash",
- "anyhow",
- "argh",
- "async-channel 2.2.1",
- "async-dup",
- "async-event",
- "async-io 2.3.2",
- "async-task",
- "async_io_stream",
- "bipe",
- "bytemuck",
- "bytes",
- "dashmap",
- "fastrand 2.1.0",
- "futures-intrusive 0.5.0",
- "futures-lite 2.3.0",
- "futures-util",
- "oneshot",
- "parking_lot 0.12.2",
- "pin-project",
- "rand",
- "recycle-box",
- "scopeguard",
- "serde",
- "serde_json",
- "sillad",
- "sillad-sosistab3",
- "smol 2.0.0",
- "smol-timeout",
- "smolscale",
- "socksv5",
- "tachyonix",
- "tap",
- "tracing",
- "tracing-subscriber",
- "tracing-test",
-]
 
 [[package]]
 name = "pin-project"
@@ -4758,44 +4428,6 @@ checksum = "77549399552de45a898a580c1b41d445bf730df867cc44e6c0233bbc4b8329de"
 dependencies = [
  "digest",
  "rand_core",
-]
-
-[[package]]
-name = "sillad"
-version = "0.1.1"
-dependencies = [
- "async-io 2.3.2",
- "async-trait",
- "futures-lite 2.3.0",
- "futures-util",
- "libc",
- "pin-project",
- "smol-timeout",
-]
-
-[[package]]
-name = "sillad-sosistab3"
-version = "0.1.2"
-dependencies = [
- "arrayref",
- "async-executor",
- "async-io 2.3.2",
- "async-task",
- "async-trait",
- "blake3",
- "chacha20poly1305",
- "futures-util",
- "hex",
- "pin-project",
- "rand",
- "serde",
- "sillad",
- "smallvec",
- "smolscale",
- "tachyonix",
- "tap",
- "tracing",
- "x25519-dalek",
 ]
 
 [[package]]
@@ -6120,6 +5752,374 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b3de34ae270483955a94f4b21bdaaeb83d508bb84a01435f393818edb0012009"
 dependencies = [
  "rustls-pki-types",
+]
+
+[[package]]
+name = "wezen-bridge"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-io 2.3.2",
+ "async-trait",
+ "blake3",
+ "dashmap",
+ "deadpool",
+ "futures-util",
+ "moka",
+ "nanorpc",
+ "once_cell",
+ "rand",
+ "reqwest",
+ "smol 2.0.0",
+ "smolscale",
+ "stdcode",
+ "tap",
+ "tracing",
+ "tracing-subscriber",
+ "wezen-broker-protocol",
+ "wezen-misc-rpc",
+ "wezen-nanorpc-sillad",
+ "wezen-picomux",
+ "wezen-sillad",
+ "wezen-sillad-sosistab3",
+]
+
+[[package]]
+name = "wezen-broker"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "argh",
+ "argon2",
+ "async-io 2.3.2",
+ "async-trait",
+ "axum",
+ "blake3",
+ "bytes",
+ "ed25519-dalek",
+ "futures-util",
+ "isocountry",
+ "moka",
+ "nanorpc",
+ "once_cell",
+ "oneshot",
+ "pollster",
+ "rand",
+ "rusty_pool",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "smol-timeout",
+ "smolscale",
+ "sqlx",
+ "stdcode",
+ "thiserror",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+ "wezen-broker-protocol",
+ "wezen-misc-rpc",
+ "wezen-mizaru2",
+ "wezen-nanorpc-sillad",
+ "wezen-sillad",
+ "wezen-sillad-sosistab3",
+]
+
+[[package]]
+name = "wezen-broker-protocol"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "blake3",
+ "bytes",
+ "ed25519-dalek",
+ "isocountry",
+ "language-tags",
+ "nanorpc",
+ "serde",
+ "serde_json",
+ "serde_with 3.8.1",
+ "stdcode",
+ "thiserror",
+ "tracing",
+ "wezen-mizaru2",
+]
+
+[[package]]
+name = "wezen-client"
+version = "0.1.0"
+dependencies = [
+ "anyctx",
+ "anyhow",
+ "argh",
+ "async-compat",
+ "async-trait",
+ "atomic_float",
+ "blake3",
+ "blind-rsa-signatures",
+ "bytes",
+ "clone-macro",
+ "dashmap",
+ "dirs",
+ "ed25519-dalek",
+ "event-listener 5.3.0",
+ "futures-util",
+ "hex",
+ "http 1.1.0",
+ "http-body-util",
+ "hyper",
+ "hyper-util",
+ "isahc",
+ "isocountry",
+ "moka",
+ "nanorpc",
+ "nursery_macro",
+ "once_cell",
+ "oneshot",
+ "pin-project",
+ "rand",
+ "reqwest",
+ "scopeguard",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "smol 2.0.0",
+ "smol-timeout",
+ "smol_str",
+ "smolscale",
+ "socksv5",
+ "sqlx",
+ "stdcode",
+ "tachyonix",
+ "tap",
+ "thiserror",
+ "tokio",
+ "tower-service",
+ "tracing",
+ "tracing-subscriber",
+ "wezen-broker-protocol",
+ "wezen-misc-rpc",
+ "wezen-mizaru2",
+ "wezen-nanorpc-sillad",
+ "wezen-picomux",
+ "wezen-sillad",
+ "wezen-sillad-sosistab3",
+ "x25519-dalek",
+]
+
+[[package]]
+name = "wezen-client-gui"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "csv",
+ "dirs",
+ "eframe",
+ "egui",
+ "futures-util",
+ "http 1.1.0",
+ "isocountry",
+ "itertools 0.12.1",
+ "moka",
+ "native-dialog",
+ "once_cell",
+ "oneshot",
+ "poll-promise",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "smol 2.0.0",
+ "smol-timeout",
+ "smol_str",
+ "smolscale",
+ "tap",
+ "tracing",
+ "tracing-subscriber",
+ "wezen-broker-protocol",
+ "wezen-client",
+ "winapi",
+ "winreg",
+]
+
+[[package]]
+name = "wezen-exit"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "argh",
+ "async-io 2.3.2",
+ "async-trait",
+ "atomic_float",
+ "blake3",
+ "ed25519-dalek",
+ "futures-util",
+ "governor",
+ "hex",
+ "isocountry",
+ "moka",
+ "nanorpc",
+ "nursery_macro",
+ "once_cell",
+ "quanta",
+ "rand",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "smol 2.0.0",
+ "smolscale",
+ "stdcode",
+ "sysinfo",
+ "tachyonix",
+ "tap",
+ "thiserror",
+ "tikv-jemallocator",
+ "tracing",
+ "tracing-subscriber",
+ "wezen-broker-protocol",
+ "wezen-misc-rpc",
+ "wezen-mizaru2",
+ "wezen-picomux",
+ "wezen-sillad",
+ "wezen-sillad-sosistab3",
+ "x25519-dalek",
+]
+
+[[package]]
+name = "wezen-misc-rpc"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-task",
+ "async-trait",
+ "bipe",
+ "blake3",
+ "bytes",
+ "chacha20poly1305",
+ "ed25519-dalek",
+ "futures-util",
+ "nanorpc",
+ "pin-project",
+ "serde",
+ "serde_json",
+ "smallvec",
+ "smolscale",
+ "socksv5",
+ "stdcode",
+ "tachyonix",
+ "tap",
+ "thiserror",
+ "wezen-sillad",
+ "x25519-dalek",
+]
+
+[[package]]
+name = "wezen-mizaru2"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "blake3",
+ "blind-rsa-signatures",
+ "rand",
+ "rayon",
+ "serde",
+ "stdcode",
+]
+
+[[package]]
+name = "wezen-nanorpc-sillad"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-executor",
+ "async-trait",
+ "futures-util",
+ "nanorpc",
+ "serde_json",
+ "thiserror",
+ "wezen-sillad",
+]
+
+[[package]]
+name = "wezen-picomux"
+version = "0.1.1"
+dependencies = [
+ "ahash",
+ "anyhow",
+ "argh",
+ "async-channel 2.2.1",
+ "async-dup",
+ "async-event",
+ "async-io 2.3.2",
+ "async-task",
+ "async_io_stream",
+ "bipe",
+ "bytemuck",
+ "bytes",
+ "dashmap",
+ "fastrand 2.1.0",
+ "futures-intrusive 0.5.0",
+ "futures-lite 2.3.0",
+ "futures-util",
+ "oneshot",
+ "parking_lot 0.12.2",
+ "pin-project",
+ "rand",
+ "recycle-box",
+ "scopeguard",
+ "serde",
+ "serde_json",
+ "smol 2.0.0",
+ "smol-timeout",
+ "smolscale",
+ "socksv5",
+ "tachyonix",
+ "tap",
+ "tracing",
+ "tracing-subscriber",
+ "tracing-test",
+ "wezen-sillad",
+ "wezen-sillad-sosistab3",
+]
+
+[[package]]
+name = "wezen-sillad"
+version = "0.1.1"
+dependencies = [
+ "async-io 2.3.2",
+ "async-trait",
+ "futures-lite 2.3.0",
+ "futures-util",
+ "libc",
+ "pin-project",
+ "smol-timeout",
+]
+
+[[package]]
+name = "wezen-sillad-sosistab3"
+version = "0.1.2"
+dependencies = [
+ "arrayref",
+ "async-executor",
+ "async-io 2.3.2",
+ "async-task",
+ "async-trait",
+ "blake3",
+ "chacha20poly1305",
+ "futures-util",
+ "hex",
+ "pin-project",
+ "rand",
+ "serde",
+ "smallvec",
+ "smolscale",
+ "tachyonix",
+ "tap",
+ "tracing",
+ "wezen-sillad",
+ "x25519-dalek",
 ]
 
 [[package]]
