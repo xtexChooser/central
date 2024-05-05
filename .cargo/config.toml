@@ -1,0 +1,5 @@
+[registry]
+default = "forgejo"
+
+[registries.forgejo]
+index = "sparse+https://git.exozy.me/api/packages/xtex/cargo/"
