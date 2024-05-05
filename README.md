@@ -1,6 +1,6 @@
-# Mizar
+# Wezen
 
-Mizar is a fork of [Geph5](https://github.com/geph-official/geph5), to provide some extra features.
+Wezen is a fork of [Geph5](https://github.com/geph-official/geph5), to provide some extra features.
 
 # Geph5
 
