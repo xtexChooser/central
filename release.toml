@@ -1,0 +1,5 @@
+pre-release-commit-message = "{{crate_name}}: Release {{version}}"
+tag-message = "{{crate_name}}: Release {{version}}"
+tag-name = "{{crate_name}}-{{version}}"
+consolidate-commits = false
+pre-release-hook = []
