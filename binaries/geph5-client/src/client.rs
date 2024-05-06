@@ -6,7 +6,7 @@ use smol::future::FutureExt as _;
 use std::{
     net::SocketAddr,
     path::PathBuf,
-    sync::{Arc},
+    sync::Arc,
     task::Context,
     time::{Duration, Instant},
 };
@@ -47,6 +47,10 @@ pub struct Client {
 impl Client {
     /// Starts the client logic in the loop, returnign the handle.
     pub fn start(cfg: Config) -> Self {
+        std::env::remove_var("http_proxy");
+        std::env::remove_var("https_proxy");
+        std::env::remove_var("HTTP_PROXY");
+        std::env::remove_var("HTTPS_PROXY");
         let ctx = AnyCtx::new(cfg);
         let task = smolscale::spawn(client_main(ctx.clone()).map_err(Arc::new));
         Client {
