@@ -2,6 +2,9 @@
 
 Wezen is a fork of [Geph5](https://github.com/geph-official/geph5), to provide some extra features.
 
+Differences from upstream:
+- Follow system settings for dark mode
+
 # Geph5
 
 Geph5 is a major rewrite with a few big architectural differences from Geph4 that largely serve the goal of **simplifying and massively cleaning up the design**:
