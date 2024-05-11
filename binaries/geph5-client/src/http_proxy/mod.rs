@@ -7,38 +7,42 @@ use std::{net::SocketAddr, str::FromStr as _};
 pub async fn run_http_proxy(ctx: &AnyCtx<Config>) -> anyhow::Result<()> {
     let shared_server: SharedProxyServer = ProxyServer::new_shared(ctx.clone());
     let listen = ctx.init().http_proxy_listen;
+    if let Some(listen) = listen {
+        let tcp_listener = tokio::net::TcpListener::bind(&listen).await?;
+        let mut join_set = JoinSet::new();
+        loop {
+            let (stream, addr) = match tcp_listener.accept().await {
+                Ok(x) => x,
+                Err(e) => {
+                    tracing::info!(%e, "failed to accept inbound HTTP proxy connection");
+                    continue;
+                }
+            };
+            let ctx = ctx.clone();
+            let cloned_server = shared_server.clone();
+            join_set.spawn(async move {
+                tracing::trace!(%addr, "accepted a HTTP proxy connection");
 
-    let tcp_listener = tokio::net::TcpListener::bind(&listen).await?;
-    let mut join_set = JoinSet::new();
-    loop {
-        let (stream, addr) = match tcp_listener.accept().await {
-            Ok(x) => x,
-            Err(e) => {
-                tracing::info!(%e, "failed to accept inbound HTTP proxy connection");
-                continue;
-            }
-        };
-        let ctx = ctx.clone();
-        let cloned_server = shared_server.clone();
-        join_set.spawn(async move {
-            tracing::trace!(%addr, "accepted a HTTP proxy connection");
+                let service = service_fn(move |req: Request<Incoming>| {
+                    server_dispatch(req, addr, cloned_server.clone(), ctx.clone())
+                });
 
-            let service = service_fn(move |req: Request<Incoming>| {
-                server_dispatch(req, addr, cloned_server.clone(), ctx.clone())
+                let result = hyper_util::server::conn::auto::Builder::new(
+                    hyper_util::rt::TokioExecutor::new(),
+                )
+                .http1()
+                .serve_connection(hyper_util::rt::TokioIo::new(stream), service)
+                .await;
+                if let Err(e) = result {
+                    tracing::error!(%addr, %e, "error serving HTTP proxy conn: {addr}");
+                }
             });
-
-            let result =
-                hyper_util::server::conn::auto::Builder::new(hyper_util::rt::TokioExecutor::new())
-                    .http1()
-                    .serve_connection(hyper_util::rt::TokioIo::new(stream), service)
-                    .await;
-            if let Err(e) = result {
-                tracing::error!(%addr, %e, "error serving HTTP proxy conn: {addr}");
-            }
-        });
+        }
+        // while let Some(_) = join_set.join_next().await {}
+        // Ok(())
+    } else {
+        smol::future::pending().await
     }
-    // while let Some(_) = join_set.join_next().await {}
-    // Ok(())
 }
 type SharedProxyServer = std::sync::Arc<ProxyServer>;
 

@@ -1,4 +1,3 @@
-
 label,en,zh,ru,fa
 about,About,关于,О программе,Darbāre
 account_info,Account Info,帐户信息,Информация об аккаунте,Eṭṭelā'āt-e ḥesāb
@@ -7,18 +6,30 @@ cancel,Cancel,取消,Отмена,Lagv
 connect,Connect,连接,Подключить,Etesāl
 connected,Connected,已连接,Подключено,Mottasel
 connection_time,Connection time,连接时间,Время соединения,Zamān-e etesāl
-country_af,Afghanistan,阿富汗,Афганистан,Āfqānestān
-country_ar,Argentina,阿根廷,Аргентина,Ārjāntīn
+exit,Exit,退出,Выход,Koruj
+exit_location,Exit location,出口位置,Выходная точка,Makān-e xoroj
+geph,Geph,迷雾通,Геф,Gef
+help,Help,帮助,Помощь,Rāhnamā
+language,Language,语言,Язык,Zabān
+loading,Loading,加载中,Загрузка,Dar hāl-e bārgozārī
+loading_exit_list,Loading exit list...,正在加载出口列表...,Загрузка списка выходов...,Dar hāl-e bārgozārī-ye liste xuruji-hā
+login,Login,登录,Вход,Vorūd
+logout,Logout,登出,Выход,Az vorūd khārej shodan
+logs,Logs,日志,Журналы,Lāg-hā
+network_settings,Network Settings,网络设置,Настройки сети,Tanzimāt-e šabake
+ok,OK,确定,ОК,Tayīd
+password,Password,密码,Пароль,Ramz-e 'obur
+country_ar,Argentina,阿根廷,Аргентина,Argentīn
+country_au,Australia,澳大利亚,Австралия,Ostūrālīyā
 country_at,Austria,奥地利,Австрия,Otrīsh
-country_au,Australia,澳大利亚,Австралия,Ostrālīyā
 country_be,Belgium,比利时,Бельгия,Beljīk
-country_bg,Bulgaria,保加利亚,Болгария,Bolgārīyā
 country_br,Brazil,巴西,Бразилия,Brazīl
 country_ca,Canada,加拿大,Канада,Kānādā
-country_ch,Switzerland,瑞士,Швейцария,Sveyss
+country_ch,Switzerland,瑞士,Швейцария,Ravīz
 country_cl,Chile,智利,Чили,Chīlī
 country_cn,China,中国,Китай,Chīn
-country_co,Colombia,哥伦比亚,Колумбия,Colombīyā
+country_co,Colombia,哥伦比亚,Колумбия,Kolūmbīyā
+country_cz,Czech Republic,捷克,Чехия,Chek
 country_de,Germany,德国,Германия,Ālmān
 country_dk,Denmark,丹麦,Дания,Dānmārk
 country_eg,Egypt,埃及,Египет,Mesr
@@ -69,8 +80,10 @@ help,Help,帮助,Помощь,Rāhnamā
 language,Language,语言,Язык,Zabān
 loading,Loading,加载中,Загрузка,Dar hāl-e bārgozārī
 loading_exit_list,Loading exit list...,正在加载出口列表...,Загрузка списка выходов...,Dar hāl-e bārgozārī-ye liste xuruji-hā
+login,Login,登录,Вход,Vorūd
 logs,Logs,日志,Журналы,Lāg-hā
 network_settings,Network Settings,网络设置,Настройки сети,Tanzimāt-e šabake
+ok,OK,确定,ОК,Tayīd
 password,Password,密码,Пароль,Ramz-e 'obur
 preferences,Preferences,首选项,Настройки,Tanzimāt-e 'olaviyat
 protocol,Protocol,协议,Протокол,Protokol
@@ -82,4 +95,4 @@ settings,Settings,设置,Настройки,Tanzimāt
 status,Status,状态,Статус,Vazīyat
 upload_speed,Upload Speed,上传速度,Скорость отдачи,Sor'at-e āplod
 username,Username,用户名,Имя пользователя,Nām-e karbarī
-zoom_factor,Zoom Factor,缩放,Масштабирование,Zarīb-e bozorg-namā'ī 
+zoom_factor,Zoom Factor,缩放,Масштабирование,Zarīb-e bozorg-namā'ī

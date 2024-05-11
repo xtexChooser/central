@@ -12,14 +12,17 @@ mod tabs;
 
 use std::time::Duration;
 
-use egui::{FontData, FontDefinitions, FontFamily, Visuals};
+use egui::{style::Spacing, FontData, FontDefinitions, FontFamily, IconData, Visuals};
 use l10n::l10n;
 use logs::LogLayer;
 use native_dialog::MessageType;
+use once_cell::sync::Lazy;
 use prefs::{pref_read, pref_write};
-use settings::{render_settings, ZOOM_FACTOR};
-use tabs::{dashboard::Dashboard, logs::Logs};
+use settings::USERNAME;
+use tabs::{dashboard::Dashboard, login::Login, logs::Logs, settings::render_settings};
 use tracing_subscriber::{layer::SubscriberExt as _, util::SubscriberInitExt, EnvFilter};
+
+use crate::{settings::PASSWORD, store_cell::StoreCell};
 
 // 0123456789
 
@@ -44,10 +47,25 @@ fn main() {
         }
     }
 
+    let (icon_rgba, icon_width, icon_height) = {
+        let icon = include_bytes!("../icon.ico");
+        let image = image::load_from_memory(icon)
+            .expect("Failed to open icon path")
+            .into_rgba8();
+        let (width, height) = image.dimensions();
+        let rgba = image.into_raw();
+        (rgba, width, height)
+    };
+
     let native_options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
             .with_inner_size([320.0, 320.0])
-            .with_min_inner_size([320.0, 320.0]),
+            .with_min_inner_size([320.0, 320.0])
+            .with_icon(IconData {
+                rgba: icon_rgba,
+                width: icon_width,
+                height: icon_height,
+            }),
         ..Default::default()
     };
     eframe::run_native(
@@ -67,6 +85,7 @@ enum TabName {
 
 pub struct App {
     selected_tab: TabName,
+    login: Login,
 
     dashboard: Dashboard,
     logs: Logs,
@@ -102,9 +121,13 @@ impl App {
         }
 
         cc.egui_ctx.set_fonts(fonts);
+        cc.egui_ctx.style_mut(|style| {
+            style.spacing.item_spacing = egui::vec2(8.0, 8.0);
+        });
 
         Self {
             selected_tab: TabName::Dashboard,
+            login: Login::new(),
 
             dashboard: Dashboard::new(),
             logs: Logs::new(),
@@ -114,9 +137,16 @@ impl App {
 
 impl eframe::App for App {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        ctx.set_zoom_factor(ZOOM_FACTOR.get());
+        ctx.set_zoom_factor(1.1);
         ctx.request_repaint_after(Duration::from_millis(100));
-        // ctx.request_repaint();
+
+        if USERNAME.get().is_empty() {
+            egui::CentralPanel::default().show(ctx, |ui| {
+                self.login.render(ui).unwrap();
+            });
+
+            return;
+        }
 
         egui::TopBottomPanel::top("top").show(ctx, |ui| {
             ui.horizontal(|ui| {

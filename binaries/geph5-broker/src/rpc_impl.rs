@@ -1,12 +1,7 @@
-use std::{
-    net::SocketAddr,
-    ops::Deref,
-    sync::Arc,
-    time::{Duration, Instant},
-};
-
 use async_trait::async_trait;
 use bytes::Bytes;
+use cadence::prelude::*;
+use cadence::{StatsdClient, UdpMetricSink};
 use ed25519_dalek::VerifyingKey;
 use futures_util::future::join_all;
 use geph5_broker_protocol::{
@@ -17,6 +12,12 @@ use isocountry::CountryCode;
 use mizaru2::{BlindedClientToken, BlindedSignature, ClientToken, UnblindedSignature};
 use moka::future::Cache;
 use once_cell::sync::Lazy;
+use std::{
+    net::SocketAddr,
+    ops::Deref,
+    sync::Arc,
+    time::{Duration, Instant},
+};
 
 use crate::{
     auth::{new_auth_token, valid_auth_token, validate_username_pwd},
@@ -64,9 +65,11 @@ impl BrokerProtocol for BrokerImpl {
         epoch: u16,
         blind_token: BlindedClientToken,
     ) -> Result<BlindedSignature, AuthError> {
-        match valid_auth_token(&auth_token).await {
+        let user_level = match valid_auth_token(&auth_token).await {
             Ok(auth) => {
-                if !auth {
+                if let Some(level) = auth {
+                    level
+                } else {
                     return Err(AuthError::Forbidden);
                 }
             }
@@ -74,8 +77,11 @@ impl BrokerProtocol for BrokerImpl {
                 tracing::warn!(err = debug(err), "database failed");
                 return Err(AuthError::RateLimited);
             }
-        }
+        };
         let start = Instant::now();
+        if user_level != level {
+            return Err(AuthError::WrongLevel);
+        }
         let signed = match level {
             AccountLevel::Free => &FREE_MIZARU_SK,
             AccountLevel::Plus => &PLUS_MIZARU_SK,
@@ -210,4 +216,16 @@ impl BrokerProtocol for BrokerImpl {
         .await?;
         Ok(())
     }
+
+    async fn incr_stat(&self, stat: String, value: i32) {
+        STATSD_CLIENT.count(&stat, value).unwrap();
+    }
 }
+
+static STATSD_CLIENT: Lazy<StatsdClient> = Lazy::new(|| {
+    let socket = std::net::UdpSocket::bind("0.0.0.0:0").unwrap();
+    StatsdClient::from_sink(
+        "geph5",
+        UdpMetricSink::from(CONFIG_FILE.wait().statsd_addr, socket).unwrap(),
+    )
+});

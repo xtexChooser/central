@@ -6,14 +6,14 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-serde = {version="1.0.200", features=["derive"]}
+serde = {version="1.0.201", features=["derive"]}
 stdcode = "0.1.14"
 futures-util = {version="0.3.30", features=["io"]}
 async-trait = "0.1.80"
 nanorpc = "0.1.12"
-serde_json = "1.0.116"
-thiserror = "1.0.59"
-anyhow = "1.0.82"
+serde_json = "1.0.117"
+thiserror = "1.0.60"
+anyhow = "1.0.83"
 bytes = {version="1.6.0", features=["serde"]}
 ed25519-dalek = {version="2.1.1", features=["serde"]}
 x25519-dalek = {version="2.0.1", features=["serde"]}

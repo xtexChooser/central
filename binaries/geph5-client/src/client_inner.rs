@@ -1,5 +1,6 @@
 use anyctx::AnyCtx;
 use anyhow::Context;
+use bytes::Bytes;
 use clone_macro::clone;
 use ed25519_dalek::VerifyingKey;
 use futures_util::{future::try_join_all, AsyncReadExt as _};
@@ -91,7 +92,7 @@ pub async fn client_once(ctx: AnyCtx<Config>) -> anyhow::Result<()> {
             );
             anyhow::Ok(authed_pipe)
         }
-        .timeout(Duration::from_secs(60))
+        .timeout(Duration::from_secs(15))
         .await
         .context("overall dial/mux/auth timeout")??;
         smolscale::spawn(client_inner(ctx.clone(), authed_pipe)).await?;
@@ -147,13 +148,19 @@ async fn client_auth(
     pubkey: VerifyingKey,
 ) -> anyhow::Result<impl Pipe> {
     let server = pipe.remote_addr().unwrap_or("").to_string();
-    let (level, token, sig) = get_connect_token(ctx).await?;
+
+    let credentials = if ctx.init().broker.is_none() {
+        Bytes::new()
+    } else {
+        let (level, token, sig) = get_connect_token(ctx).await?;
+        (level, token, sig).stdcode().into()
+    };
     match pipe.shared_secret().map(|s| s.to_owned()) {
         Some(ss) => {
             tracing::debug!(server, "using shared secret for authentication");
             let challenge = rand::random();
             let client_hello = ClientHello {
-                credentials: (level, token, sig).stdcode().into(),
+                credentials,
                 crypt_hello: ClientCryptHello::SharedSecretChallenge(challenge),
             };
             write_prepend_length(&client_hello.stdcode(), &mut pipe).await?;
@@ -177,7 +184,7 @@ async fn client_auth(
             tracing::debug!(server, "requiring full authentication");
             let my_esk = x25519_dalek::EphemeralSecret::random_from_rng(rand::thread_rng());
             let client_hello = ClientHello {
-                credentials: (level, token, sig).stdcode().into(),
+                credentials,
                 crypt_hello: ClientCryptHello::X25519((&my_esk).into()),
             };
             write_prepend_length(&client_hello.stdcode(), &mut pipe).await?;

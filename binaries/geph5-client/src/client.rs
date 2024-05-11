@@ -6,7 +6,7 @@ use smol::future::FutureExt as _;
 use std::{
     net::SocketAddr,
     path::PathBuf,
-    sync::{Arc},
+    sync::Arc,
     task::Context,
     time::{Duration, Instant},
 };
@@ -27,8 +27,9 @@ use crate::{
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Config {
-    pub socks5_listen: SocketAddr,
-    pub http_proxy_listen: SocketAddr,
+    pub socks5_listen: Option<SocketAddr>,
+    pub http_proxy_listen: Option<SocketAddr>,
+    pub stats_listen: Option<SocketAddr>,
     pub exit_constraint: ExitConstraint,
     pub cache: Option<PathBuf>,
     pub broker: Option<BrokerSource>,
@@ -47,6 +48,10 @@ pub struct Client {
 impl Client {
     /// Starts the client logic in the loop, returnign the handle.
     pub fn start(cfg: Config) -> Self {
+        std::env::remove_var("http_proxy");
+        std::env::remove_var("https_proxy");
+        std::env::remove_var("HTTP_PROXY");
+        std::env::remove_var("HTTPS_PROXY");
         let ctx = AnyCtx::new(cfg);
         let task = smolscale::spawn(client_main(ctx.clone()).map_err(Arc::new));
         Client {

@@ -9,8 +9,8 @@ edition = "2021"
 sillad={package="wezen-sillad", path="../sillad"}
 async-trait = "0.1.80"
 nanorpc = "0.1.12"
-serde_json = "1.0.116"
-thiserror = "1.0.59"
-anyhow = "1.0.82"
+serde_json = "1.0.117"
+thiserror = "1.0.60"
+anyhow = "1.0.83"
 futures-util = {version="0.3.30", features=["io"]}
 async-executor = "1.11.0"
