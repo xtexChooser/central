@@ -10,7 +10,7 @@ copybins() {
         -X DELETE \
         https://git.exozy.me/api/packages/"$EXOGIT_USER"/generic/wezen/"$deployto"-"$1"
 
-    for file in wezen-bridge wezen-broker wezen-exit wezen-client wezen-client-gui; do
+    for file in sha256sum.txt wezen-bridge wezen-broker wezen-exit wezen-client wezen-client-gui; do
         curl -X GET -o /tmp/xtex-copybin-temp \
             https://git.exozy.me/api/packages/"$EXOGIT_USER"/generic/wezen/dev-"$1"/"$file"
         curl --user "$EXOGIT_USER":"$EXOGIT_TOKEN" \

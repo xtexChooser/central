@@ -8,16 +8,27 @@ zigbuild() {
     distrobox enter archlinux -- fish -c "cargo zigbuild --target \"$1\" --bins --release"
 }
 
+checksums() {
+    local -a execfiles
+    readarray -d '' execfiles < <(find target/"$1"/release -maxdepth 1 -name 'wezen-*' -executable -printf '%f\0')
+    pushd target/"$1"/release
+    sha256sum "${execfiles[@]}" >sha256sum.txt
+    popd
+}
+
 uploadbins() {
     curl --user "$EXOGIT_USER":"$EXOGIT_TOKEN" \
         -X DELETE \
         https://git.exozy.me/api/packages/"$EXOGIT_USER"/generic/wezen/dev-"$2"
+    curl --user "$EXOGIT_USER":"$EXOGIT_TOKEN" \
+        --upload-file target/"$1"/release/sha256sum.txt \
+        https://git.exozy.me/api/packages/"$EXOGIT_USER"/generic/wezen/dev-"$2"/sha256sum.txt
 
-    for file in target/$1/release/{wezen-bridge,wezen-broker,wezen-exit,wezen-client,wezen-client-gui}; do
+    while IFS= read -r -d '' file; do
         curl --user "$EXOGIT_USER":"$EXOGIT_TOKEN" \
             --upload-file "$file" \
             https://git.exozy.me/api/packages/"$EXOGIT_USER"/generic/wezen/dev-"$2"/"$(basename "$file")"
-    done
+    done < <(find target/"$1"/release -maxdepth 1 -name 'wezen-*' -executable -print0)
 }
 
 buildoci() {
@@ -27,10 +38,12 @@ buildoci() {
 podman manifest rm git.exozy.me/"$EXOGIT_USER"/wezen:dev || true
 
 zigbuild x86_64-unknown-linux-gnu
+checksums x86_64-unknown-linux-gnu
 uploadbins x86_64-unknown-linux-gnu amd64
 buildoci x86_64-unknown-linux-gnu linux/amd64
 
 zigbuild aarch64-unknown-linux-gnu
+checksums aarch64-unknown-linux-gnu
 uploadbins aarch64-unknown-linux-gnu aarch64
 # buildoci aarch64-unknown-linux-gnu linux/arm64
 
