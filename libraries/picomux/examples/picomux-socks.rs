@@ -1,3 +1,5 @@
+extern crate wezen_picomux as picomux;
+
 use argh::FromArgs;
 use futures_lite::FutureExt;
 use futures_util::{AsyncReadExt, TryFutureExt};

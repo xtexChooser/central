@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+set -eux
+
+EXOGIT_USER=$(id -un)
+deployto="$CI_PIPELINE_DEPLOY_TARGET"
+
+copybins() {
+    curl --user "$EXOGIT_USER":"$EXOGIT_TOKEN" \
+        -X DELETE \
+        https://git.exozy.me/api/packages/"$EXOGIT_USER"/generic/wezen/"$deployto"-"$1"
+
+    for file in wezen-bridge wezen-broker wezen-exit wezen-client wezen-client-gui; do
+        curl -X GET -o /tmp/xtex-copybin-temp \
+            https://git.exozy.me/api/packages/"$EXOGIT_USER"/generic/wezen/dev-"$1"/"$file"
+        curl --user "$EXOGIT_USER":"$EXOGIT_TOKEN" \
+            --upload-file "/tmp/xtex-copybin-temp" \
+            https://git.exozy.me/api/packages/"$EXOGIT_USER"/generic/wezen/"$deployto"-"$1"/"$file"
+    done
+    rm -f /tmp/xtex-copybin-temp
+}
+
+copybins amd64
+copybins aarch64
+
+podman manifest rm git.exozy.me/"$EXOGIT_USER"/wezen:"$deployto" || true
+podman manifest create --all git.exozy.me/"$EXOGIT_USER"/wezen:"$deployto" git.exozy.me/"$EXOGIT_USER"/wezen:dev
+podman manifest push git.exozy.me/"$EXOGIT_USER"/wezen:"$deployto"

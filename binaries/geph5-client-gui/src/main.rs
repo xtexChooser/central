@@ -12,7 +12,7 @@ mod tabs;
 
 use std::time::Duration;
 
-use egui::{FontData, FontDefinitions, FontFamily, IconData, Visuals};
+use egui::{FontData, FontDefinitions, FontFamily, IconData};
 use l10n::l10n;
 use logs::LogLayer;
 use native_dialog::MessageType;

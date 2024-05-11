@@ -1,0 +1,10 @@
+steps:
+  - name: deploy
+    image: fish
+    environment:
+      EXOGIT_TOKEN:
+        from_secret: exogit_token
+    commands:
+      - contrib/wezen-ci-deploy
+when:
+  - event: deployment

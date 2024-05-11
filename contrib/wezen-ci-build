@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+set -eux
+
+EXOGIT_USER=$(id -un)
+
+zigbuild() {
+    distrobox enter archlinux -- fish -c "cargo zigbuild --target \"$1\" --bins --release"
+}
+
+uploadbins() {
+    curl --user "$EXOGIT_USER":"$EXOGIT_TOKEN" \
+        -X DELETE \
+        https://git.exozy.me/api/packages/"$EXOGIT_USER"/generic/wezen/dev-"$2"
+
+    for file in target/$1/release/{wezen-bridge,wezen-broker,wezen-exit,wezen-client,wezen-client-gui}; do
+        curl --user "$EXOGIT_USER":"$EXOGIT_TOKEN" \
+            --upload-file "$file" \
+            https://git.exozy.me/api/packages/"$EXOGIT_USER"/generic/wezen/dev-"$2"/"$(basename "$file")"
+    done
+}
+
+buildoci() {
+    podman build --platform "$2" --manifest=git.exozy.me/"$EXOGIT_USER"/wezen:dev --build-arg=TARGETDIR="$1" --no-cache .
+}
+
+podman manifest rm git.exozy.me/"$EXOGIT_USER"/wezen:dev || true
+
+zigbuild x86_64-unknown-linux-gnu
+uploadbins x86_64-unknown-linux-gnu amd64
+buildoci x86_64-unknown-linux-gnu linux/amd64
+
+zigbuild aarch64-unknown-linux-gnu
+uploadbins aarch64-unknown-linux-gnu aarch64
+# buildoci aarch64-unknown-linux-gnu linux/arm64
+
+podman manifest push git.exozy.me/"$EXOGIT_USER"/wezen:dev

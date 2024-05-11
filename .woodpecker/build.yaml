@@ -1,0 +1,12 @@
+steps:
+  - name: build
+    image: fish
+    environment:
+      EXOGIT_TOKEN:
+        from_secret: exogit_token
+    commands:
+      - git fetch --unshallow || true
+      - git push --force --all --follow-tags git@git.sr.ht:~xtex/wezen
+      - contrib/wezen-ci-build
+when:
+  - event: push

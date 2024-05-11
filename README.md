@@ -2,8 +2,14 @@
 
 Wezen is a fork of [Geph5](https://github.com/geph-official/geph5), to provide some extra features.
 
-Differences from upstream:
+Features:
 - Follow system settings for dark mode
+- Newer dependencies (upstream PR #5)
+- Initialize database automatically (upstream PR #5)
+- Allow customizing mizaru's key count and key bits  (upstream PR #5)
+- Allow passing custom exit IP address  (upstream PR #5)
+- Create mizaru keys directory if it does not exist  (upstream PR #5)
+- Make PostgresQL TLS encryption optional (upstream PR #5)
 
 # Geph5
 
