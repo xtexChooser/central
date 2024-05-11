@@ -1,2 +1,5 @@
 [registries.exogit]
 index = "sparse+https://git.exozy.me/api/packages/xtex/cargo/"
+
+[registry]
+default = "exogit"
