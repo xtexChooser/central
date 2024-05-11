@@ -25,7 +25,7 @@ fn main() -> anyhow::Result<()> {
         )
         .with(
             EnvFilter::builder()
-                .with_default_directive("geph5_client=debug".parse()?)
+                .with_default_directive("wezen_client=debug".parse()?)
                 .from_env_lossy(),
         )
         .init();

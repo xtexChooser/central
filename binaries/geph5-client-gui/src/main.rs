@@ -33,7 +33,7 @@ fn main() {
         )
         .with(
             EnvFilter::builder()
-                .with_default_directive("geph5=debug".parse().unwrap())
+                .with_default_directive("wezen=debug".parse().unwrap())
                 .from_env_lossy(),
         )
         .with(LogLayer)

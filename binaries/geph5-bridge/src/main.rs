@@ -19,7 +19,7 @@ fn main() {
         .with(tracing_subscriber::fmt::layer().compact())
         .with(
             EnvFilter::builder()
-                .with_default_directive("geph5_bridge".parse().unwrap())
+                .with_default_directive("wezen_bridge".parse().unwrap())
                 .from_env_lossy(),
         )
         .init();

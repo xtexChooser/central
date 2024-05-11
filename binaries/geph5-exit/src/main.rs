@@ -98,7 +98,7 @@ fn main() -> anyhow::Result<()> {
         .with(tracing_subscriber::fmt::layer().compact())
         .with(
             tracing_subscriber::EnvFilter::builder()
-                .with_default_directive("geph5_exit=debug".parse()?)
+                .with_default_directive("wezen_exit=debug".parse()?)
                 .from_env_lossy(),
         )
         .init();

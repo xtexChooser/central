@@ -103,7 +103,7 @@ async fn main() -> anyhow::Result<()> {
         .with(tracing_subscriber::fmt::layer().compact())
         .with(
             EnvFilter::builder()
-                .with_default_directive("geph5_broker".parse()?)
+                .with_default_directive("wezen_broker".parse()?)
                 .from_env_lossy(),
         )
         .init();
