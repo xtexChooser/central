@@ -18,7 +18,7 @@ static DATABASE: CtxField<SqlitePool> = |ctx| {
             dirs::config_dir()
                 .unwrap()
                 .join(format!(
-                    "geph5-persist-{}.db",
+                    "wezen-persist-{}.db",
                     hex::encode(blake3::hash(&ctx.init().credentials.stdcode()).as_bytes())
                 ))
                 .to_string_lossy()
