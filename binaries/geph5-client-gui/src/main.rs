@@ -21,7 +21,6 @@ use settings::USERNAME;
 use tabs::{dashboard::Dashboard, login::Login, logs::Logs, settings::render_settings};
 use tracing_subscriber::{layer::SubscriberExt as _, util::SubscriberInitExt, EnvFilter};
 
-
 // 0123456789
 
 fn main() {
@@ -160,7 +159,9 @@ impl eframe::App for App {
                 self.logs.render(ui)
             }
             TabName::Logs => self.logs.render(ui),
-            TabName::Settings => render_settings(ctx, ui),
+            TabName::Settings => {
+                egui::ScrollArea::vertical().show(ui, |ui| render_settings(ctx, ui)).inner
+            }
         });
 
         if let Err(err) = result.inner {
