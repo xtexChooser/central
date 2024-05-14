@@ -28,3 +28,4 @@ async-executor = "1.11.0"
 serde = {version="1.0.201", features=["derive"]}
 hex = "0.4.3"
 async-io = "2.3.2"
+anyhow = "1.0.83"

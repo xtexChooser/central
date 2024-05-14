@@ -12,10 +12,12 @@ mod tabs;
 
 use std::time::Duration;
 
+use daemon::stop_daemon;
 use egui::{FontData, FontDefinitions, FontFamily, IconData};
 use l10n::l10n;
 use logs::LogLayer;
 use native_dialog::MessageType;
+
 use prefs::{pref_read, pref_write};
 use settings::USERNAME;
 use tabs::{dashboard::Dashboard, login::Login, logs::Logs, settings::render_settings};
@@ -115,6 +117,7 @@ impl App {
         cc.egui_ctx.set_fonts(fonts);
         cc.egui_ctx.style_mut(|style| {
             style.spacing.item_spacing = egui::vec2(8.0, 8.0);
+            style.spacing.button_padding = egui::vec2(5.0, 4.0);
         });
 
         Self {
@@ -149,7 +152,7 @@ impl eframe::App for App {
                 );
                 // ui.selectable_value(&mut self.selected_tab, TabName::Logs, l10n("logs"));
                 ui.selectable_value(&mut self.selected_tab, TabName::Settings, l10n("settings"));
-            })
+            });
         });
 
         let result = egui::CentralPanel::default().show(ctx, |ui| match self.selected_tab {
@@ -175,5 +178,10 @@ impl eframe::App for App {
                 .show_alert();
             std::process::exit(-1);
         }
+    }
+
+    fn on_exit(&mut self) {
+        // stop the daemon, unset the proxies, etc
+        let _ = stop_daemon();
     }
 }
