@@ -1,3 +1,5 @@
+extern crate wezen_client as geph5_client;
+
 use std::path::PathBuf;
 
 use clap::Parser;
