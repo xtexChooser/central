@@ -117,7 +117,6 @@ impl App {
         cc.egui_ctx.style_mut(|style| {
             style.spacing.item_spacing = egui::vec2(8.0, 8.0);
             style.spacing.button_padding = egui::vec2(5.0, 4.0);
-            style.visuals = Visuals::light();
         });
 
         Self {
@@ -163,9 +162,7 @@ impl eframe::App for App {
             }
             TabName::Logs => self.logs.render(ui),
             TabName::Settings => {
-                egui::ScrollArea::vertical()
-                    .show(ui, |ui| render_settings(ctx, ui))
-                    .inner
+                egui::ScrollArea::vertical().show(ui, |ui| render_settings(ctx, ui)).inner
             }
         });
 
