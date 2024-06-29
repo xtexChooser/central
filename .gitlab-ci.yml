@@ -1,6 +1,6 @@
 include:
   - project: repos/mwbot-rs/rust-ci-pipeline
-    file: jobs.yml
+    file: tool.yml
 
 variables:
   CARGO_AUDIT: "--ignore RUSTSEC-2023-0019"
