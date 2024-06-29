@@ -1,5 +1,6 @@
 include:
-  - 'https://gitlab.wikimedia.org/repos/mwbot-rs/rust-ci-pipeline/-/raw/main/tool.yml'
+  - project: repos/mwbot-rs/rust-ci-pipeline
+    file: tool.yml
 
 variables:
   CARGO_AUDIT: "--ignore RUSTSEC-2023-0019"
