@@ -111,12 +111,16 @@ async fn process_page(
             return Ok(Outcome::Deferred);
         }
         // Unfixable, skip
-        summary.remaining_lints =
-            remaining.into_iter().map(|l| l.type_).collect();
+        summary.remaining_lints = remaining;
         info!(
             "{} still has some lint errors ({}), will be skipped",
             page.title(),
-            summary.remaining_lints.join(", ")
+            summary
+                .remaining_lints
+                .into_iter()
+                .map(|l| l.type_)
+                .collect::<Vec<_>>()
+                .join(", ")
         );
         return Ok(Outcome::Skipped);
     }

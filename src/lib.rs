@@ -16,7 +16,7 @@ use lazy_static::lazy_static;
 use mwbot::parsoid::map::IndexMap;
 use mwbot::parsoid::prelude::*;
 use regex::Regex;
-use serde::Deserialize;
+use serde::{Deserialize, Deserializer};
 use std::collections::HashSet;
 
 #[derive(Copy, Clone)]
@@ -41,7 +41,7 @@ pub struct Summary {
     pub tt: usize,
     pub strike: usize,
     pub id: u32,
-    pub remaining_lints: Vec<String>,
+    pub remaining_lints: Vec<LintError>,
     pub no_change: bool,
     pub added_nowiki: bool,
     pub tags: HashSet<String>,
@@ -78,12 +78,49 @@ impl Summary {
 pub struct LintError {
     #[serde(rename = "type")]
     pub type_: String,
+    #[serde(deserialize_with = "deserialize_dsr")]
+    pub dsr: Dsr,
     pub params: LintErrorParams,
+    #[serde(rename = "templateInfo")]
+    pub template_info: Option<TemplateInfo>,
+}
+
+fn deserialize_dsr<'de, D>(input: D) -> Result<Dsr, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let array: [Option<u64>; 4] = Deserialize::deserialize(input)?;
+    Ok(Dsr {
+        // these two are required AFAICT
+        start_offset: array[0].unwrap(),
+        end_offset: array[1].unwrap(),
+        start_tag_width: array[2],
+        end_tag_width: array[3],
+    })
 }
 
 #[derive(Deserialize, Debug)]
 pub struct LintErrorParams {
     pub name: Option<String>,
+    #[serde(default)]
+    #[serde(rename = "inTable")]
+    pub in_table: bool,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct TemplateInfo {
+    #[serde(default)]
+    #[serde(rename = "multiPartTemplateBlock")]
+    pub multi_part_template_block: bool,
+}
+
+/// See dsr explanation at https://www.mediawiki.org/wiki/Parsoid/Internals/data-parsoid#Required_properties
+#[derive(Debug)]
+pub struct Dsr {
+    pub start_offset: u64,
+    pub end_offset: u64,
+    pub start_tag_width: Option<u64>,
+    pub end_tag_width: Option<u64>,
 }
 
 fn handle_strike(strike: &NodeRef) {

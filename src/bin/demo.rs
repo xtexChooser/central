@@ -144,12 +144,17 @@ async fn process_page(
     }
     let remaining =
         api::remaining_linterrors(bot, page.title(), &new_text).await?;
-    summary.remaining_lints = remaining.into_iter().map(|l| l.type_).collect();
+    summary.remaining_lints = remaining;
     if !summary.remaining_lints.is_empty() {
         info!(
             "{} still has some lint errors ({}), will be skipped",
             page.title(),
-            summary.remaining_lints.join(", ")
+            summary
+                .remaining_lints
+                .iter()
+                .map(|l| l.type_.to_string())
+                .collect::<Vec<_>>()
+                .join(", ")
         );
         //return Ok(());
     }
@@ -171,7 +176,12 @@ async fn process_page(
     let remaining_lints = if summary.remaining_lints.is_empty() {
         "none".to_string()
     } else {
-        summary.remaining_lints.join(", ")
+        summary
+            .remaining_lints
+            .iter()
+            .map(|l| l.type_.to_string())
+            .collect::<Vec<_>>()
+            .join(", ")
     };
     let formatted = include_str!("../diff.html")
         .replace("{diff}", &html_diff(bot, &original, &new_text).await?)
