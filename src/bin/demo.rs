@@ -6,11 +6,14 @@ use anyhow::Result;
 use delinter::{api, delint_html, util, Options, Summary};
 use mwbot::parsoid::prelude::*;
 use mwbot::{Bot, Page};
+use serde::Serialize;
 use std::collections::{HashMap, HashSet};
+use std::path::PathBuf;
+use tera::{Context, Tera};
 use tokio::fs;
 use tracing::info;
 
-const DEMO_VERSION: usize = 2;
+const DEMO_VERSION: usize = 3;
 const LIMIT: usize = 1000;
 
 #[tokio::main]
@@ -23,11 +26,12 @@ async fn main() -> Result<()> {
         center_image: true,
         center_gallery: true,
     };
+    let tera = Tera::new("templates/*.html")?;
     let mut processed = 0;
     let mut results = HashMap::new();
     let bot = Bot::from_default_config().await?;
-    let page = bot.page("Wikipedia:WikiProject Pharmacology")?;
-    process_page(&opts, &bot, &page).await?;
+    //let page = bot.page("Wikipedia:WikiProject Pharmacology")?;
+    //process_page(&opts, &bot, &page).await?;
     let mut gen = api::linterror_pages(&bot);
     while let Some(result) = gen.recv().await {
         let page = result?;
@@ -35,7 +39,7 @@ async fn main() -> Result<()> {
             // Skip userspace for now
             continue;
         }
-        let summary = process_page(&opts, &bot, &page).await?;
+        let summary = process_page(&opts, &bot, &page, &tera).await?;
         results.insert(page.title().to_string(), summary);
         dump_index(&results).await?;
         processed += 1;
@@ -123,6 +127,7 @@ async fn process_page(
     opts: &Options,
     bot: &Bot,
     page: &Page,
+    tera: &Tera,
 ) -> Result<Summary> {
     info!("Checking {}...", page.title());
     let page_id = page.id().await?.expect("page doesn't exist");
@@ -163,13 +168,15 @@ async fn process_page(
         info!("No changes to {}, will be skipped", page.title());
         summary.no_change = true;
     }
+    let folder = PathBuf::from(format!("public_html/demo{DEMO_VERSION}/html/"));
+    fs::create_dir_all(&folder).await?;
     fs::write(
-        format!("public_html/demo{DEMO_VERSION}/html/{page_id}_original.html"),
+        folder.join(format!("{page_id}_original.html")),
         hack_stylesheet(original_html).html(),
     )
     .await?;
     fs::write(
-        format!("public_html/demo{DEMO_VERSION}/html/{page_id}_modified.html"),
+        folder.join(format!("{page_id}_modified.html")),
         hack_stylesheet(html).html(),
     )
     .await?;
@@ -183,18 +190,27 @@ async fn process_page(
             .collect::<Vec<_>>()
             .join(", ")
     };
-    let formatted = include_str!("../diff.html")
-        .replace("{diff}", &html_diff(bot, &original, &new_text).await?)
-        .replace("{title}", page.title())
-        .replace("{pageid}", &page_id.to_string())
-        .replace("{lints}", &remaining_lints);
+    let ctx = DiffTemplate {
+        diff: html_diff(bot, &original, &new_text).await?,
+        title: page.title().to_string(),
+        pageid: page_id,
+        lints: remaining_lints,
+    };
 
     fs::write(
         format!("public_html/demo{DEMO_VERSION}/{page_id}_diff.html"),
-        formatted,
+        tera.render("diff.html", &Context::from_serialize(&ctx)?)?,
     )
     .await?;
     Ok(summary)
+}
+
+#[derive(Serialize)]
+struct DiffTemplate {
+    diff: String,
+    title: String,
+    pageid: u32,
+    lints: String,
 }
 
 async fn html_diff(bot: &Bot, left: &str, right: &str) -> Result<String> {
