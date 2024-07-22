@@ -6,25 +6,25 @@ pub mod api;
 mod block;
 mod center;
 mod colors;
+mod decision;
 mod font;
 mod legacy;
 pub mod util;
 
+use crate::decision::{find_decision, Decision, Kind, StrikeFix, TeeTeeFix};
 use anyhow::Result;
 use kuchikiki::NodeRef;
 use lazy_static::lazy_static;
 use mwbot::parsoid::map::IndexMap;
 use mwbot::parsoid::prelude::*;
 use regex::Regex;
-use serde::{Deserialize, Deserializer};
+use serde::{Deserialize, Deserializer, Serialize};
 use std::collections::HashSet;
 
 #[derive(Copy, Clone)]
 pub struct Options {
     /// Whether to fix <center> when it contains tables
     pub center_tables: bool,
-    /// Whether to replace <strike> with <s>
-    pub replace_strike: bool,
     /// Replace <tt>emoticon</tt> with {{mono|emoticon}}
     pub tt_emoticon: bool,
     /// Replace <center>[[File:Foo.jpg]]</center> with [[File:Foo.jpg|center]]
@@ -74,7 +74,7 @@ impl Summary {
     }
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct LintError {
     #[serde(rename = "type")]
     pub type_: String,
@@ -85,21 +85,22 @@ pub struct LintError {
     pub template_info: Option<TemplateInfo>,
 }
 
+/// turn [u64, u64, Option<u64>, Option<u64>] into a typed struct
 fn deserialize_dsr<'de, D>(input: D) -> Result<Dsr, D::Error>
 where
     D: Deserializer<'de>,
 {
-    let array: [Option<u64>; 4] = Deserialize::deserialize(input)?;
+    let array: [Option<isize>; 4] = Deserialize::deserialize(input)?;
     Ok(Dsr {
         // these two are required AFAICT
-        start_offset: array[0].unwrap(),
-        end_offset: array[1].unwrap(),
+        start_offset: array[0].unwrap() as usize,
+        end_offset: array[1].unwrap() as usize,
         start_tag_width: array[2],
         end_tag_width: array[3],
     })
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct LintErrorParams {
     pub name: Option<String>,
     #[serde(default)]
@@ -107,7 +108,7 @@ pub struct LintErrorParams {
     pub in_table: bool,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct TemplateInfo {
     #[serde(default)]
     #[serde(rename = "multiPartTemplateBlock")]
@@ -115,22 +116,32 @@ pub struct TemplateInfo {
 }
 
 /// See dsr explanation at https://www.mediawiki.org/wiki/Parsoid/Internals/data-parsoid#Required_properties
-#[derive(Debug)]
+#[derive(Debug, Serialize, Clone)]
 pub struct Dsr {
-    pub start_offset: u64,
-    pub end_offset: u64,
-    pub start_tag_width: Option<u64>,
-    pub end_tag_width: Option<u64>,
+    pub start_offset: usize,
+    pub end_offset: usize,
+    // FIXME: why are we getting negative values here?
+    // See enwp:User talk:Itfc+canes=me (page id 17387233)
+    pub start_tag_width: Option<isize>,
+    pub end_tag_width: Option<isize>,
 }
 
-fn handle_strike(strike: &NodeRef) {
-    let s = Wikicode::new_node("s");
+fn handle_strike(strike: &NodeRef, replacement: StrikeFix) {
+    let s = Wikicode::new_node(match replacement {
+        StrikeFix::S => "s",
+        StrikeFix::Del => "del",
+    });
     util::copy_attributes(strike, &s);
     util::copy_children(strike, &s);
     util::swap_nodes(strike, &s);
 }
 
-fn handle_tt(opts: &Options, tt: Wikinode, summary: &mut Summary) {
+fn handle_tt(
+    opts: &Options,
+    tt: Wikinode,
+    summary: &mut Summary,
+    decisions: &[Decision],
+) {
     // If the contents of tt is emoticon-looking, replace it with {{mono}}
     if opts.tt_emoticon {
         lazy_static! {
@@ -158,12 +169,33 @@ fn handle_tt(opts: &Options, tt: Wikinode, summary: &mut Summary) {
             }
         }
     }
-    // Only replace tt if all the children are nowiki.
+    let id = tt
+        .as_element()
+        .unwrap()
+        .attributes
+        .borrow()
+        .get("id")
+        .unwrap()
+        .to_string();
+    // If all the children are nowiki, replace it with <code>
     // So: <tt><nowiki>...</nowiki></tt> -> <code><nowiki>...</nowiki></code>
-    if !tt.children().all(|node| node.as_nowiki().is_some()) {
+    let fix = if !tt.children().all(|node| node.as_nowiki().is_some()) {
+        TeeTeeFix::Code
+    } else if let Some(Decision::TeeTee { fix, .. }) =
+        find_decision(decisions, &id, Kind::TeeTee)
+    {
+        *fix
+    } else {
+        // No decision, don't fix
         return;
-    }
-    let code = Wikicode::new_node("code");
+    };
+    let code = Wikicode::new_node(match fix {
+        TeeTeeFix::Code => "code",
+        TeeTeeFix::Kbd => "kbd",
+        TeeTeeFix::Mono => "mono",
+        TeeTeeFix::Samp => "samp",
+        TeeTeeFix::Var => "var",
+    });
     util::copy_attributes(&tt, &code);
     util::copy_children(&tt, &code);
     util::swap_nodes(&tt, &code);
@@ -174,20 +206,31 @@ pub fn delint_html(
     opts: &Options,
     html: ImmutableWikicode,
     summary: &mut Summary,
+    decisions: &[Decision],
 ) -> Result<ImmutableWikicode> {
     let html = html.into_mutable();
     for font in html.select("font") {
         font::handle_font(font, summary);
         summary.font += 1;
     }
-    if opts.replace_strike {
-        for strike in html.select("strike") {
-            handle_strike(&strike);
+    for strike in html.select("strike") {
+        let id = strike
+            .as_element()
+            .unwrap()
+            .attributes
+            .borrow()
+            .get("id")
+            .unwrap()
+            .to_string();
+        if let Some(Decision::Strike { fix, .. }) =
+            find_decision(decisions, &id, Kind::Strike)
+        {
+            handle_strike(&strike, *fix);
             summary.strike += 1;
         }
     }
     for tt in html.select("tt") {
-        handle_tt(opts, tt, summary);
+        handle_tt(opts, tt, summary, decisions);
     }
     for center in html.select("center") {
         center::handle_center(opts, center, summary)?;

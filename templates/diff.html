@@ -7,7 +7,22 @@
 </head>
 <body>
 <h2>Diff: <a href="https://en.wikipedia.org/wiki/{{title}}">{{title}}</a></h2>
-<p>Remaining lint errors: {{lints}}</p>
+<p>
+    Remaining lint errors:
+    {% for r in remaining %}
+    {{r.info.type}},
+    {% else %}
+    none
+    {% endfor %}
+</p>
+<details>
+    <summary>View remaining</summary>
+    <ul>
+        {% for r in remaining %}
+        <li>{{r.info.type}}: <code>{{r.wikitext}}</code></li>
+        {% endfor %}
+    </ul>
+</details>
 <table class="diff diff-contentalign-left diff-editfont-monospace">
     <colgroup>
         <col class="diff-marker">

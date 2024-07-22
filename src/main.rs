@@ -22,7 +22,6 @@ async fn main() -> Result<()> {
     mwbot::init_logging();
     let opts = Options {
         center_tables: false,
-        replace_strike: false,
         tt_emoticon: false,
         center_image: false,
         center_gallery: false,
@@ -86,7 +85,7 @@ async fn process_page(
         id: page_id,
         ..Default::default()
     };
-    let html = delint_html(opts, original_html.clone(), &mut summary)?;
+    let html = delint_html(opts, original_html.clone(), &mut summary, &[])?;
     let original = page.wikitext().await?;
     let new_text = bot.parsoid().transform_to_wikitext(&html).await?;
     if new_text.matches("<nowiki>").count()

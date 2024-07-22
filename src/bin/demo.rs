@@ -3,7 +3,7 @@
 #![deny(clippy::all)]
 
 use anyhow::Result;
-use delinter::{api, delint_html, util, Options, Summary};
+use delinter::{api, delint_html, util, LintError, Options, Summary};
 use mwbot::parsoid::prelude::*;
 use mwbot::{Bot, Page};
 use serde::Serialize;
@@ -21,7 +21,6 @@ async fn main() -> Result<()> {
     mwbot::init_logging();
     let opts = Options {
         center_tables: false,
-        replace_strike: false,
         tt_emoticon: true,
         center_image: true,
         center_gallery: true,
@@ -30,8 +29,8 @@ async fn main() -> Result<()> {
     let mut processed = 0;
     let mut results = HashMap::new();
     let bot = Bot::from_default_config().await?;
-    //let page = bot.page("Wikipedia:WikiProject Pharmacology")?;
-    //process_page(&opts, &bot, &page).await?;
+    let page = bot.page("Talk:GNOME/Archive 1")?;
+    process_page(&opts, &bot, &page, &tera).await?;
     let mut gen = api::linterror_pages(&bot);
     while let Some(result) = gen.recv().await {
         let page = result?;
@@ -136,7 +135,7 @@ async fn process_page(
         id: page_id,
         ..Default::default()
     };
-    let html = delint_html(opts, original_html.clone(), &mut summary)?;
+    let html = delint_html(opts, original_html.clone(), &mut summary, &[])?;
     let original = page.wikitext().await?;
     let new_text = bot.parsoid().transform_to_wikitext(&html).await?;
     // Round-trip our modified HTML through Parsoid
@@ -180,21 +179,30 @@ async fn process_page(
         hack_stylesheet(html).html(),
     )
     .await?;
-    let remaining_lints = if summary.remaining_lints.is_empty() {
-        "none".to_string()
-    } else {
-        summary
-            .remaining_lints
-            .iter()
-            .map(|l| l.type_.to_string())
-            .collect::<Vec<_>>()
-            .join(", ")
-    };
+    let mut remaining = vec![];
+    for lint in &summary.remaining_lints {
+        // FIXME: not sure how the offsets end up inside a char boundary
+        let wikitext = if !new_text.is_char_boundary(lint.dsr.start_offset)
+            || !new_text.is_char_boundary(lint.dsr.end_offset)
+        {
+            "error, offsets are not character boundaries".to_string()
+        } else {
+            new_text
+                .chars()
+                .skip(lint.dsr.start_offset)
+                .take(lint.dsr.end_offset - lint.dsr.start_offset)
+                .collect()
+        };
+        remaining.push(RemainingError {
+            info: lint.clone(),
+            wikitext,
+        });
+    }
     let ctx = DiffTemplate {
         diff: html_diff(bot, &original, &new_text).await?,
         title: page.title().to_string(),
         pageid: page_id,
-        lints: remaining_lints,
+        remaining,
     };
 
     fs::write(
@@ -210,7 +218,13 @@ struct DiffTemplate {
     diff: String,
     title: String,
     pageid: u32,
-    lints: String,
+    remaining: Vec<RemainingError>,
+}
+
+#[derive(Serialize, Debug)]
+struct RemainingError {
+    info: LintError,
+    wikitext: String,
 }
 
 async fn html_diff(bot: &Bot, left: &str, right: &str) -> Result<String> {
