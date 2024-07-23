@@ -55,8 +55,8 @@ async fn main() -> Result<()> {
                         info!("Deferring {title} for human review");
                         let mut conn = pool.get_conn().await?;
                         conn.exec_drop(
-                            "INSERT IGNORE INTO deferred VALUES(?)",
-                            (title,),
+                            "INSERT IGNORE INTO deferred VALUES(?,?)",
+                            (title, false),
                         )
                         .await?;
                     }
