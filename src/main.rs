@@ -97,12 +97,7 @@ async fn process_page(
     let remaining =
         api::remaining_linterrors(bot, page.title(), &new_text).await?;
     if !remaining.is_empty() {
-        if remaining.iter().all(|l| {
-            // Only <strike> and <tt> are human-fixable for now
-            l.type_ == "obsolete-tag"
-                && ["strike", "tt"]
-                    .contains(&l.params.name.as_ref().unwrap().as_str())
-        }) {
+        if remaining.iter().all(|l| l.is_human_fixable()) {
             info!(
                 "{} has human-fixable lint errors remaining, will defer",
                 page.title()

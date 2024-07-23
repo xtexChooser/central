@@ -85,6 +85,15 @@ pub struct LintError {
     pub template_info: Option<TemplateInfo>,
 }
 
+impl LintError {
+    pub fn is_human_fixable(&self) -> bool {
+        // Only <strike> and <tt> are human-fixable for now
+        self.type_ == "obsolete-tag"
+            && ["strike", "tt"]
+                .contains(&self.params.name.as_ref().unwrap().as_str())
+    }
+}
+
 /// turn [u64, u64, Option<u64>, Option<u64>] into a typed struct
 fn deserialize_dsr<'de, D>(input: D) -> Result<Dsr, D::Error>
 where
