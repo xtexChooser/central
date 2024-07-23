@@ -1,0 +1,8 @@
+---
+- name: delinter
+  command: ./www/rust/target/release/delinter
+  image: bookworm
+  schedule: "@weekly"
+  emails: onfailure
+  filelog-stdout: "logs/delinter-out.log"
+  filelog-stderr: "logs/delinter-err.log"
