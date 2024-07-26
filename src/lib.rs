@@ -19,6 +19,7 @@ use mwbot::parsoid::map::IndexMap;
 use mwbot::parsoid::prelude::*;
 use regex::Regex;
 use serde::{Deserialize, Deserializer, Serialize};
+use serde_json::Value;
 use std::collections::HashSet;
 
 #[derive(Copy, Clone)]
@@ -80,6 +81,7 @@ pub struct LintError {
     pub type_: String,
     #[serde(deserialize_with = "deserialize_dsr")]
     pub dsr: Dsr,
+    #[serde(deserialize_with = "deserialize_params")]
     pub params: LintErrorParams,
     #[serde(rename = "templateInfo")]
     pub template_info: Option<TemplateInfo>,
@@ -107,6 +109,22 @@ where
         start_tag_width: array[2],
         end_tag_width: array[3],
     })
+}
+
+/// hack around T371073, to handle empty [] and populated {}
+fn deserialize_params<'de, D>(input: D) -> Result<LintErrorParams, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let value: Value = Deserialize::deserialize(input)?;
+    if value.is_array() {
+        Ok(LintErrorParams {
+            name: None,
+            in_table: false,
+        })
+    } else {
+        Ok(serde_json::from_value(value).map_err(serde::de::Error::custom)?)
+    }
 }
 
 #[derive(Deserialize, Serialize, Clone, Debug)]
