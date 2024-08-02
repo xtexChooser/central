@@ -9,6 +9,7 @@
 	verbose = true
 [tag]
 	gpgSign = true
+	forceSignAnnotated = true
 [core]
 	autocrlf = input
 [url "git@github.com:"]
