@@ -8,4 +8,53 @@
     },
     "kerneldev.experimental.newDtsEngine": true,
     "ctags.disable": true,
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "editor.formatOnPaste": true,
+    "[scss]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[jinja-html]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    },
+    "redhat.telemetry.enabled": false,
+    "zig.path": "zig",
+    "zig.zls.path": "/opt/zvm/bin/zls",
+    "zig.initialSetupDone": true,
+    "workbench.colorTheme": "Ayu Dark Bordered",
+    "files.associations": {
+        "Makefile.*": "makefile"
+    },
+    "git.enableCommitSigning": true,
+    "cmake.configureOnOpen": true,
+    "cmake.showOptionsMovedNotification": false,
+    "glsl-analyzer.path": "/home/xtex/.config/Code - Insiders/User/globalStorage/nolanderc.glsl-analyzer/glsl_analyzer_install/bin/glsl_analyzer",
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "phpTools.suppressPremiumFeatures": true,
+    "[css]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "cmake.pinnedCommands": [
+        "workbench.action.tasks.configureTaskRunner",
+        "workbench.action.tasks.runTask"
+    ],
+    "diffEditor.ignoreTrimWhitespace": false,
+    "zig.zls.enableAutofix": true,
+    "rust-analyzer.restartServerOnConfigChange": true,
+    "rust-analyzer.server.path": "/usr/bin/rust-analyzer",
+    "sqltools.format": {
+        "linesBetweenQueries": "preserve"
+    },
+    "[handlebars]": {
+        "editor.defaultFormatter": "vscode.html-language-features"
+    }
 }
