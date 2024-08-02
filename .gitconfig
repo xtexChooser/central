@@ -22,6 +22,7 @@
 	rebase = false
 [merge]
 	conflictstyle = zdiff3
+	guitool = meld
 [diff]
 	tool = difftastic
 [difftool]
