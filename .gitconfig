@@ -85,3 +85,5 @@
 	path = ~/.config/git/mediawiki.conf
 [format]
 	useAutoBase = true
+[sequence]
+	editor = interactive-rebase-tool
