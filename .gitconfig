@@ -20,6 +20,8 @@
 	insteadOf = https://codeberg.org/
 [url "ssh://gerrit.wikimedia.org:29418/"]
 	insteadOf = https://gerrit.wikimedia.org/r/
+[url "git@git.dn42.dev:"]
+	insteadOf = https://git.dn42.dev/
 [pull]
 	rebase = false
 [merge]
