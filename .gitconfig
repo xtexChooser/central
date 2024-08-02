@@ -48,6 +48,8 @@
 	d = diff
 	dt = difftool
 	cp = cherry-pick
+	r = review
+	stag = "send-email --to=~xtex/staging@lists.sr.ht"
 [sendemail]
 	smtpServer = mail.envs.net
 	smtpEncryption = ssl
