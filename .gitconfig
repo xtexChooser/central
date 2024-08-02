@@ -79,3 +79,5 @@
 	recurse = true
 [log]
 	date = iso
+[rebase]
+	missingCommitsCheck = error
