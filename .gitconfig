@@ -15,7 +15,7 @@
 	abbrev = 12
 	excludesfile = /home/xtex/.gitignore.common
 [url "git@github.com:"]
-	insteadof = https://github.com/
+	insteadOf = https://github.com/
 [pull]
 	rebase = false
 [merge]
