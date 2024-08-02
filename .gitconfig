@@ -13,6 +13,7 @@
 [core]
 	autocrlf = input
 	abbrev = 12
+	excludesfile = /home/xtex/.gitignore.common
 [url "git@github.com:"]
 	insteadof = https://github.com/
 [pull]
