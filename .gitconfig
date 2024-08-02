@@ -83,3 +83,5 @@
 	missingCommitsCheck = error
 [includeIf "gitdir:/mnt/src/workspace/mediawiki/"]
 	path = ~/.config/git/mediawiki.conf
+[format]
+	useAutoBase = true
