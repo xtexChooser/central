@@ -75,3 +75,5 @@
 	autocorrect = prompt
 [status]
 	submoduleSummary = true
+[submodule]
+	recurse = true
