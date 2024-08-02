@@ -81,3 +81,5 @@
 	date = iso
 [rebase]
 	missingCommitsCheck = error
+[includeIf "gitdir:/mnt/src/workspace/mediawiki/"]
+	path = ~/.config/git/mediawiki.conf
