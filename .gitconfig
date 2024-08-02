@@ -9,9 +9,9 @@
 	verbose = true
 [tag]
 	gpgSign = true
-	forceSignAnnotated = true
 [core]
 	autocrlf = input
+	abbrev = 12
 [url "git@github.com:"]
 	insteadof = https://github.com/
 [pull]
