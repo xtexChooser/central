@@ -64,3 +64,4 @@
 	username = xtex
 [push]
 	followTags = true
+	autoSetupRemote = true
