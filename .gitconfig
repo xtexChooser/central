@@ -69,3 +69,5 @@
 	fixes = Fixes: %h (\"%s\")
 [http]
 	cookiefile = /home/xtex/.gitcookies
+[rerere]
+	enabled = true
