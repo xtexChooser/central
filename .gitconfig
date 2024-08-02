@@ -62,3 +62,5 @@
 	threeWay = true
 [gitreview]
 	username = xtex
+[push]
+	followTags = true
