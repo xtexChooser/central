@@ -25,6 +25,8 @@
 	guitool = meld
 [diff]
 	tool = difftastic
+	algorithm = histogram
+	submodule = log
 [difftool]
 	prompt = false
 [difftool "difftastic"]
