@@ -58,3 +58,5 @@
 	smtpDomain = xtexx.eu.org
 [am]
 	threeWay = true
+[gitreview]
+	username = xtex
