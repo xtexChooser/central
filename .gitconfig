@@ -73,3 +73,5 @@
 	enabled = true
 [help]
 	autocorrect = prompt
+[status]
+	submoduleSummary = true
