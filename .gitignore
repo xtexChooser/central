@@ -1,6 +1,7 @@
 *
 
 !/.gitignore
+!/.gitignore.common
 !/.gitconfig
 !/.profile
 !/.gdbinit
@@ -20,3 +21,4 @@
 !/.config/fish/fish_plugins
 !/.config/kdeconnect/config
 !/.config/tmux/tmux.conf
+!/.config/git/*.conf
