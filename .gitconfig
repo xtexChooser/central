@@ -67,3 +67,5 @@
 	autoSetupRemote = true
 [pretty]
 	fixes = Fixes: %h (\"%s\")
+[http]
+	cookiefile = /home/xtex/.gitcookies
