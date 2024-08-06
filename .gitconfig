@@ -45,15 +45,25 @@
 	ol = "log --oneline"
 	c = commit
 	p = push
+	pp = push --force
 	g = pull
 	f = fetch
+	ff = fetch --force
+	fp = fetch --prune
 	s = status
+	sh = show
 	a = add
+	br = branch
+	brd = branch -d
+	brdd = branch -D
 	d = diff
 	dt = difftool
-	cp = cherry-pick
+	pick = cherry-pick
+	pk = cherry-pick
 	r = review
-	stag = "send-email --to=~xtex/staging@lists.sr.ht"
+	rs = reset --hard
+	ft = feature
+	staging = "send-email --to=~xtex/staging@lists.sr.ht"
 [sendemail]
 	smtpServer = mail.envs.net
 	smtpEncryption = ssl
@@ -83,9 +93,11 @@
 	date = iso
 [rebase]
 	missingCommitsCheck = error
-[includeIf "gitdir:/mnt/src/workspace/mediawiki/"]
+[includeIf "gitdir:/mnt/src/wm/mediawiki/"]
 	path = ~/.config/git/mediawiki.conf
 [format]
 	useAutoBase = true
 [sequence]
 	editor = interactive-rebase-tool
+[fetch]
+	prune = true

@@ -1,0 +1,72 @@
+{
+    "[css]": {
+        "editor.defaultFormatter": "vscode.css-language-features"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[markdown]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[php]": {
+        "editor.defaultFormatter": "DEVSENSE.phptools-vscode"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[yaml]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "cmake.allowUnsupportedPresetsVersions": true,
+    "cmake.generator": "Ninja",
+    "cmake.showOptionsMovedNotification": false,
+    "editor.fontFamily": "'Fira Code', Consolas, 'Courier New', monospace",
+    "editor.fontLigatures": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": false,
+    "editor.inlineSuggest.enabled": true,
+    "editor.unicodeHighlight.allowedLocales": {
+        "zh-hans": true,
+        "zh-hant": true
+    },
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.unicodeHighlight.invisibleCharacters": true,
+    "editor.unicodeHighlight.nonBasicASCII": false,
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 5000,
+    "git.autofetch": true,
+    "git.autofetchPeriod": 360,
+    "git.confirmSync": false,
+    "git.enableCommitSigning": true,
+    "git.ignoreLimitWarning": true,
+    "git.statusLimit": 0,
+    "git.timeline.showUncommitted": true,
+    "git.useCommitInputAsStashMessage": true,
+    "github.gitProtocol": "ssh",
+    "go.toolsManagement.autoUpdate": true,
+    "kerneldev.experimental.newDtsEngine": true,
+    "python.analysis.autoImportCompletions": true,
+    "redhat.telemetry.enabled": false,
+    "rust-analyzer.showUnlinkedFileNotification": false,
+    "security.workspace.trust.untrustedFiles": "open",
+    "telemetry.telemetryLevel": "off",
+    "update.mode": "manual",
+    "workbench.colorTheme": "Material Theme Ocean High Contrast",
+    "workbench.editor.empty.hint": "hidden",
+    "workbench.iconTheme": "ayu",
+    "zig.checkForUpdate": false,
+    "zig.initialSetupDone": true,
+    "zig.zls.checkForUpdate": false,
+    "zig.zls.zigLibPath": "/opt/zig/bin/lib/",
+    "diffEditor.ignoreTrimWhitespace": false
+}

@@ -15,9 +15,8 @@
 !/.config/user-dirs.dirs
 !/.config/autostart/ssh-add.desktop
 !/.config/environment.d/
-!/.config/Code - Exploration/User/settings.json
-!/.config/Code - Insiders/User
-!/.config/Code - Insiders/User/settings.json
+!/.config/Code/User
+!/.config/Code/User/settings.json
 !/.config/fish/config.fish
 !/.config/fish/fish_plugins
 !/.config/kdeconnect/config
