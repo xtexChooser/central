@@ -1,0 +1,33 @@
+Metadata-Version: 1
+Problem-Id: P10177
+Record-Id: 150404016
+Timestamp: 1710152612
+Status: Accepted
+Score: 100/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 0
+		Case: 0 AC 3 ms 564 KiB ok accepted
+		Case: 1 AC 4 ms 604 KiB ok accepted
+		Case: 2 AC 4 ms 564 KiB ok accepted
+		Case: 3 AC 3 ms 560 KiB ok accepted
+		Case: 4 AC 3 ms 556 KiB ok accepted
+		Case: 5 AC 3 ms 552 KiB ok accepted
+	Subtask: 1
+		Case: 6 AC 4 ms 680 KiB ok accepted
+		Case: 7 AC 4 ms 564 KiB ok accepted
+		Case: 8 AC 4 ms 636 KiB ok accepted
+		Case: 9 AC 4 ms 568 KiB ok accepted
+	Subtask: 2
+		Case: 10 AC 24 ms 4.26 MiB ok accepted
+		Case: 11 AC 26 ms 4.25 MiB ok accepted
+		Case: 12 AC 25 ms 4.27 MiB ok accepted
+		Case: 13 AC 25 ms 4.25 MiB ok accepted
+	Subtask: 3
+		Case: 14 AC 96 ms 4.25 MiB ok accepted
+		Case: 15 AC 95 ms 4.18 MiB ok accepted
+		Case: 16 AC 95 ms 4.22 MiB ok accepted
+		Case: 17 AC 96 ms 4.25 MiB ok accepted
+		Case: 18 AC 95 ms 4.25 MiB ok accepted
+		Case: 19 AC 96 ms 4.15 MiB ok accepted

@@ -2,7 +2,7 @@
 // #include <algorithm>
 
 // #define AINLINE __attribute__((always_inline))
-#define INLINE inline
+#define INLINE __attribute__((always_inline))
 #define I int
 #define U unsigned int
 #define YLKL(x) __builtin_expect(x, 1)
@@ -38,7 +38,7 @@ INLINE U sol() {
         return sol1() + sol2();
 }*/
 
-INLINE U sol() {
+static INLINE U sol() {
   U ans = 0;
   U a[5];
 #define FORA(pos) for (a[pos] = 0; a[pos] <= 9; ++a[pos])

@@ -1,0 +1,11 @@
+Metadata-Version: 1
+Problem-Id: T433808
+Record-Id: 153518989
+Timestamp: 1711793464
+Status: Unaccepted
+Score: 0/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 0
+		Case: 0 WA 3 ms 680 KiB wrong answer On line 1 column 1, read (ASCII -27), expected 1.

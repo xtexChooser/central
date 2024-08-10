@@ -1,0 +1,20 @@
+Metadata-Version: 1
+Problem-Id: P10102
+Record-Id: 150534430
+Timestamp: 1710239201
+Status: Unaccepted
+Score: 0/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 0
+		Case: 0 WA 4 ms 564 KiB wrong answer On line 1 column 1, read N, expected Y.
+		Case: 1 WA 4 ms 560 KiB wrong answer On line 1 column 1, read N, expected Y.
+		Case: 2 WA 152 ms 680 KiB wrong answer On line 2 column 1, read N, expected Y.
+		Case: 3 WA 122 ms 680 KiB wrong answer On line 1 column 1, read N, expected Y.
+		Case: 4 WA 200 ms 556 KiB wrong answer On line 1 column 1, read N, expected Y.
+		Case: 5 WA 233 ms 564 KiB wrong answer On line 1 column 1, read N, expected Y.
+		Case: 6 WA 200 ms 556 KiB wrong answer On line 1 column 1, read N, expected Y.
+		Case: 7 WA 196 ms 536 KiB wrong answer On line 2 column 1, read N, expected Y.
+		Case: 8 WA 200 ms 668 KiB wrong answer On line 1 column 1, read N, expected Y.
+		Case: 9 WA 204 ms 552 KiB wrong answer On line 1 column 1, read N, expected Y.

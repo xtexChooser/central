@@ -1,0 +1,12 @@
+Metadata-Version: 1
+Problem-Id: T419222
+Record-Id: 153531047
+Timestamp: 1711796785
+Status: Unaccepted
+Score: 0/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 0
+		Case: 0 WA 3 ms 568 KiB wrong answer Too short on line 1.
+		Case: 1 WA 3 ms 564 KiB wrong answer Too short on line 1.

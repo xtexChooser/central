@@ -1,20 +1,20 @@
 Metadata-Version: 1
 Problem-Id: P9752
-Record-Id: 133131535
-Timestamp: 1699011014
+Record-Id: 160548799
+Timestamp: 1716890960
 Status: Accepted
 Score: 100/100
 Language: C++14 (GCC 9)
 
 Test-Result:
 	Subtask: 0
-		Case: 0 AC 4 ms 684 KiB ok accepted
-		Case: 1 AC 4 ms 684 KiB ok accepted
-		Case: 2 AC 4 ms 684 KiB ok accepted
-		Case: 3 AC 4 ms 808 KiB ok accepted
-		Case: 4 AC 4 ms 692 KiB ok accepted
-		Case: 5 AC 4 ms 692 KiB ok accepted
-		Case: 6 AC 4 ms 684 KiB ok accepted
-		Case: 7 AC 4 ms 684 KiB ok accepted
-		Case: 8 AC 4 ms 808 KiB ok accepted
-		Case: 9 AC 4 ms 808 KiB ok accepted
+		Case: 0 AC 4 ms 568 KiB ok accepted
+		Case: 1 AC 4 ms 680 KiB ok accepted
+		Case: 2 AC 4 ms 680 KiB ok accepted
+		Case: 3 AC 4 ms 680 KiB ok accepted
+		Case: 4 AC 4 ms 560 KiB ok accepted
+		Case: 5 AC 4 ms 680 KiB ok accepted
+		Case: 6 AC 4 ms 556 KiB ok accepted
+		Case: 7 AC 4 ms 620 KiB ok accepted
+		Case: 8 AC 4 ms 556 KiB ok accepted
+		Case: 9 AC 3 ms 556 KiB ok accepted

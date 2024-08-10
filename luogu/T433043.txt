@@ -1,0 +1,11 @@
+Metadata-Version: 1
+Problem-Id: T433043
+Record-Id: 153530512
+Timestamp: 1711796637
+Status: Unaccepted
+Score: 0/100
+Language: C++14 (GCC 9)
+
+Test-Result:
+	Subtask: 0
+		Case: 0 WA 3 ms 556 KiB wrong answer On line 1 column 1, read 0, expected 1.
