@@ -100,6 +100,8 @@ extractFirefoxCookies() {
 		if "$is_db_locked"; then
 			dbfile="$(mktemp)"
 			cat <"$db" >"$dbfile"
+			cat <"$db"-shm >"$dbfile"-shm
+			cat <"$db"-wal >"$dbfile"-wal
 		fi
 
 		readarray -d$'\n' cklines <<<"$(sqlite3 --tabs --noheader --readonly "$dbfile" \
@@ -111,7 +113,9 @@ extractFirefoxCookies() {
 			cookies["$key"]="$value"
 		done
 
-		"$is_db_locked" && rm "$dbfile"
+		if "$is_db_locked"; then
+			rm "$dbfile" "$dbfile"-shm "$dbfile"-wal
+		fi
 	done
 }
 
