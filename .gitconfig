@@ -5,10 +5,8 @@
 	name = xtex
 	signingKey = 7231804B052C670F15A6771DB918086ED8045B91
 [commit]
-	gpgSign = true
 	verbose = true
 [tag]
-	gpgSign = true
 	forceSignAnnotated = true
 [core]
 	autocrlf = input
@@ -113,3 +111,5 @@
 	editor = interactive-rebase-tool
 [fetch]
 	prune = true
+[include]
+	path = .config/git/local.conf
