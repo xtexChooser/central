@@ -22,6 +22,8 @@
 	insteadOf = https://gerrit.wikimedia.org/r/
 [url "git@git.dn42.dev:"]
 	insteadOf = https://git.dn42.dev/
+[url "https://github.com/rust-lang/crates.io-index"]
+	insteadOf = https://github.com/rust-lang/crates.io-index
 [pull]
 	rebase = false
 [merge]
