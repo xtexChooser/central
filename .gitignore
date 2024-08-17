@@ -13,7 +13,6 @@
 !/.config/
 !/.config/*/
 !/.config/user-dirs.dirs
-!/.config/autostart/ssh-add.desktop
 !/.config/environment.d/
 !/.config/Code/User
 !/.config/Code/User/settings.json
