@@ -17,6 +17,7 @@
 !/.config/Code/User
 !/.config/Code/User/settings.json
 !/.config/fish/config.fish
+!/.config/fish/conf.d/pastebin.fish
 !/.config/tmux/tmux.conf
 !/.config/git/*.conf
-.config/git/local.conf
+/.config/git/local.conf
