@@ -68,5 +68,8 @@
     "zig.initialSetupDone": true,
     "zig.zls.checkForUpdate": false,
     "zig.zls.zigLibPath": "/opt/zig/bin/lib/",
-    "diffEditor.ignoreTrimWhitespace": false
+    "diffEditor.ignoreTrimWhitespace": false,
+    "zig.path": "zig",
+    "zig.zls.path": "zls",
+    "rust-analyzer.server.path": "rust-analyzer"
 }
