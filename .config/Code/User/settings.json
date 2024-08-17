@@ -71,5 +71,9 @@
     "diffEditor.ignoreTrimWhitespace": false,
     "zig.path": "zig",
     "zig.zls.path": "zls",
-    "rust-analyzer.server.path": "rust-analyzer"
+    "rust-analyzer.server.path": "rust-analyzer",
+    "makefile.configureOnOpen": false,
+    "makefile.configureOnEdit": false,
+    "makefile.configureAfterCommand": false,
+    "workbench.startupEditor": "none"
 }
