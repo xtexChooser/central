@@ -40,30 +40,40 @@
 [alias]
 	dft = difftool
 	logt = "!f() { GIT_EXTERNAL_DIFF=difft git log -p --ext-diff $@; }; f"
-	l = log
-	lt = logt
-	ol = "log --oneline"
-	c = commit
-	p = push
-	pp = push --force
-	g = pull
-	f = fetch
-	ff = fetch --force
-	fp = fetch --prune
-	s = status
-	sh = show
+	staging = "send-email --to=~xtex/staging@lists.sr.ht"
 	a = add
 	br = branch
 	brd = branch -d
 	brdd = branch -D
+	c = commit
+	ca = commit --amend --no-edit
+	ck = checkout
 	d = diff
 	dt = difftool
+	f = fetch
+	fap = fetch --all --prune
+	ff = fetch --force
+	fp = fetch --prune
+	fpa = fetch --all --prune
+	ft = fetch --tags --prune
+	g = pull
+	l = log
+	lt = logt
+	ol = "log --oneline"
+	p = push
+	pf = push --force
 	pick = cherry-pick
 	pk = cherry-pick
+	pp = push --force
+	pt = push --tags
 	r = review
-	rs = reset --hard
-	ft = feature
-	staging = "send-email --to=~xtex/staging@lists.sr.ht"
+	res = restore
+	rh = reset --hard
+	rs = reset --soft
+	s = status
+	sh = show
+	sw = switch
+	swc = switch -c
 [sendemail]
 	smtpServer = mail.envs.net
 	smtpEncryption = ssl
