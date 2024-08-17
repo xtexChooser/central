@@ -13,6 +13,6 @@ if command -q zoxide
 	zoxide init fish | source
 end
 
-if test -e ~/.opam/opam-init/init.fish
+if command -q opam && test -e ~/.opam/opam-init/init.fish
     source ~/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
 end
