@@ -2,14 +2,16 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
+# ZVM
+export ZVM_INSTALL="$HOME/.zvm/self"
+export PATH="$PATH:$HOME/.zvm/bin"
+export PATH="$PATH:$ZVM_INSTALL/"
+
 alias g=git
 
-function 0file; curl -F"file=@$argv" https://envs.sh; end
-function 0pb; curl -F"file=@-;" https://envs.sh; end
-function 0url; curl -F"url=$argv" https://envs.sh; end
-function 0short; curl -F"shorten=$argv" https://envs.sh; end
-
-zoxide init fish | source
+if command -q zoxide
+	zoxide init fish | source
+end
 
 source ~/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
 
