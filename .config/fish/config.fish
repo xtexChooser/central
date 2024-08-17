@@ -11,3 +11,5 @@ function 0short; curl -F"shorten=$argv" https://envs.sh; end
 
 zoxide init fish | source
 
+source ~/.opam/opam-init/init.fish > /dev/null 2> /dev/null; or true
+
