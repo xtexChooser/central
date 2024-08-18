@@ -85,7 +85,6 @@
 [gitreview]
 	username = xtex
 [push]
-	followTags = true
 	autoSetupRemote = true
 [pretty]
 	fixes = Fixes: %h (\"%s\")
