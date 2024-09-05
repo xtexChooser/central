@@ -70,9 +70,27 @@ pub async fn remaining_linterrors(
     wikitext: &str,
 ) -> anyhow::Result<Vec<LintError>> {
     let req = bot.api().http_client().post(
-        format!("https://en.wikipedia.org/api/rest_v1/transform/wikitext/to/lint/{}", urlencoding::encode(title)
+        format!("https://en.wikipedia.org/w/rest.php/v1/transform/wikitext/to/lint/{}", urlencoding::encode(title)
     )).form(&[("wikitext", wikitext)])
             .build()?;
     let resp = bot.api().http_client().execute(req).await?.json().await?;
     Ok(resp)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[tokio::test]
+    async fn test_remaining_linterrors() {
+        let bot = Bot::from_default_config().await.unwrap();
+        let title = "Project:Sandbox";
+        let wikitext = "<tt>;)</tt>";
+        let linterrors =
+            remaining_linterrors(&bot, title, wikitext).await.unwrap();
+        dbg!(&linterrors);
+        assert_eq!(linterrors.len(), 1);
+        assert_eq!(linterrors[0].type_, "obsolete-tag");
+        assert_eq!(linterrors[0].clone().params.name.unwrap(), "tt");
+    }
 }

@@ -196,26 +196,26 @@ fn handle_tt(
             }
         }
     }
-    let id = tt
-        .as_element()
-        .unwrap()
-        .attributes
-        .borrow()
-        .get("id")
-        .unwrap()
-        .to_string();
     // If all the children are nowiki, replace it with <code>
     // So: <tt><nowiki>...</nowiki></tt> -> <code><nowiki>...</nowiki></code>
     let fix = if !tt.children().all(|node| node.as_nowiki().is_some()) {
         TeeTeeFix::Code
-    } else if let Some(Decision::TeeTee { fix, .. }) =
-        find_decision(decisions, &id, Kind::TeeTee)
+    } else if let Some(id) =
+        tt.as_element().unwrap().attributes.borrow().get("id")
     {
-        *fix
+        if let Some(Decision::TeeTee { fix, .. }) =
+            find_decision(decisions, id, Kind::TeeTee)
+        {
+            *fix
+        } else {
+            // No decision, don't fix
+            return;
+        }
     } else {
         // No decision, don't fix
         return;
     };
+
     let code = Wikicode::new_node(match fix {
         TeeTeeFix::Code => "code",
         TeeTeeFix::Kbd => "kbd",
@@ -241,19 +241,15 @@ pub fn delint_html(
         summary.font += 1;
     }
     for strike in html.select("strike") {
-        let id = strike
-            .as_element()
-            .unwrap()
-            .attributes
-            .borrow()
-            .get("id")
-            .unwrap()
-            .to_string();
-        if let Some(Decision::Strike { fix, .. }) =
-            find_decision(decisions, &id, Kind::Strike)
+        if let Some(id) =
+            strike.as_element().unwrap().attributes.borrow().get("id")
         {
-            handle_strike(&strike, *fix);
-            summary.strike += 1;
+            if let Some(Decision::Strike { fix, .. }) =
+                find_decision(decisions, id, Kind::Strike)
+            {
+                handle_strike(&strike, *fix);
+                summary.strike += 1;
+            }
         }
     }
     for tt in html.select("tt") {
