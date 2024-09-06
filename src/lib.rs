@@ -244,12 +244,9 @@ pub fn delint_html(
         if let Some(id) =
             strike.as_element().unwrap().attributes.borrow().get("id")
         {
-            if let Some(Decision::Strike { fix, .. }) =
-                find_decision(decisions, id, Kind::Strike)
-            {
-                handle_strike(&strike, *fix);
-                summary.strike += 1;
-            }
+            // osdev: replace strike with del tag
+            handle_strike(&strike, StrikeFix::Del);
+            summary.strike += 1;
         }
     }
     for tt in html.select("tt") {
