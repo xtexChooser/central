@@ -69,7 +69,7 @@ impl Summary {
             None => "".to_string(),
         };
         format!(
-            "Bot{assist}: [[User:Legobot/Lint fixes|Fixing lint errors]], replacing [[mw:Help:Lint errors/obsolete-tag|obsolete HTML tags]]: {}",
+            "Bot{assist}: [[User:XtexBot/Tasks#5990-lint-errors|Fix lint errors]], replacing [[mw:Help:Lint errors/obsolete-tag|obsolete HTML tag]]: {}",
             counts.join(", ")
         )
     }
