@@ -8,10 +8,12 @@ default-run = "delinter"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-anyhow = "1.0"
+# mcwzh: upgrade anyhow to use backtrace
+anyhow = { version = "1.0.86", features = ["backtrace"] }
 kuchikiki = "0.8.2"
 lazy_static = "1.4.0"
-mwbot = "0.6.0"
+# mcwzh: upgrade to allow parsoid result without etag
+mwbot = "0.7.0-rc.2"
 mysql_async = {version = "0.34.0", default-features = false, features = ["minimal"]}
 regex = "1.7.1"
 serde = {version = "1", features = ["derive"]}

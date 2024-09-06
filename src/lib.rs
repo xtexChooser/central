@@ -69,7 +69,7 @@ impl Summary {
             None => "".to_string(),
         };
         format!(
-            "Bot{assist}: [[User:Legobot/Lint fixes|Fixing lint errors]], replacing [[mw:Help:Lint errors/obsolete-tag|obsolete HTML tags]]: {}",
+            "Bot{assist}：修复Lint错误，替换[[mw:Help:Lint errors/obsolete-tag|废弃的HTML标签]]：{}",
             counts.join(", ")
         )
     }

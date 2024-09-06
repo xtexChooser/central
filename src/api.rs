@@ -70,7 +70,7 @@ pub async fn remaining_linterrors(
     wikitext: &str,
 ) -> anyhow::Result<Vec<LintError>> {
     let req = bot.api().http_client().post(
-        format!("https://zh.minecraft.wiki/w/rest.php/zh.minecraft.wiki/v3/transform/wikitext/to/lint/{}", urlencoding::encode(title)
+        format!("https://zh.minecraft.wiki/rest.php/zh.minecraft.wiki/v3/transform/wikitext/to/lint/{}", urlencoding::encode(title)
     )).form(&[("wikitext", wikitext)])
             .build()?;
     let resp = bot.api().http_client().execute(req).await?.json().await?;

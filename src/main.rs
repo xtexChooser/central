@@ -51,8 +51,8 @@ async fn main() -> Result<()> {
             (title, process_page(&opts, &bot, page).await)
         }));
         // Once we have 200+ threads, await them all
-        // mcwzh: less threads
-        if handles.len() >= 3 {
+        // mcwzh: no parallel
+        if true {
             while let Some(handle) = handles.pop() {
                 let (title, result) = handle.await?;
                 match result {
@@ -68,7 +68,7 @@ async fn main() -> Result<()> {
                     Ok(_) => {}
                     Err(err) => {
                         // Log it and we move on
-                        error!("Error when processing {title}: {err}");
+                        error!("Error when processing {title}: {err:?}");
                     }
                 }
             }
@@ -105,7 +105,14 @@ async fn process_page(
         api::remaining_linterrors(bot, page.title(), &new_text).await?;
     if !remaining.is_empty() {
         // mcwzh: no human deferring, save edits
-        if remaining.iter().all(|l| l.is_human_fixable()) {
+        // ignore linting errors others than obsolete-tag and exists previously
+        let original_errors =
+            api::remaining_linterrors(bot, page.title(), &original).await?;
+        if remaining.iter().all(|l| {
+            l.is_human_fixable()
+                || (l.type_ != "obsolete-tag"
+                    && original_errors.iter().any(|e| e.type_ == l.type_))
+        }) {
             // info!(
             //     "{} has human-fixable lint errors remaining, will defer",
             //     page.title()
@@ -145,12 +152,12 @@ async fn process_page(
         )?;
     }
     info!("Saving {}: {}", page.title(), summary.edit_summary());
-    page.save(
-        new_text,
-        &SaveOptions::summary(&summary.edit_summary()).mark_as_minor(true),
-        // mcwzh: fixing tag could not be added manually
-        // .add_tag("fixed lint errors"),
-    )
-    .await?;
+    // page.save(
+    //     new_text,
+    //     &SaveOptions::summary(&summary.edit_summary()).mark_as_minor(true),
+    //     // mcwzh: fixing tag could not be added manually
+    //     // .add_tag("fixed lint errors"),
+    // )
+    // .await?;
     Ok(Outcome::Fixed)
 }
