@@ -47,6 +47,10 @@
 	brdd = branch -D
 	c = commit
 	ca = commit --amend --no-edit
+	cae = commit --amend
+	mine = commit --amend --author 'xtex <xtexchooser@duck.com>'
+	cq = -c commit.verbose=false commit
+	come = coauthor xtex xtexchooser@duck.com
 	ck = checkout
 	d = diff
 	dt = difftool
@@ -56,6 +60,7 @@
 	fp = fetch --prune
 	fpa = fetch --all --prune
 	ft = fetch --tags --prune
+	fmt = format-patch
 	g = pull
 	l = log
 	lt = logt
@@ -67,6 +72,8 @@
 	pp = push --force
 	pt = push --tags
 	r = review
+	rb = rebase
+	aq = rebase --autosquash
 	res = restore
 	rh = reset --hard
 	rs = reset --soft
@@ -74,6 +81,8 @@
 	sh = show
 	sw = switch
 	swc = switch -c
+	swo = switch --orphan
+	mwbulk = "!f() { find -L . -name '.git' ! -path '*/vendor/*' -execdir git \"$@\" ';'; }; f"
 [sendemail]
 	smtpServer = mail.envs.net
 	smtpEncryption = ssl
@@ -84,6 +93,7 @@
 	threeWay = true
 [gitreview]
 	username = xtex
+	rebase = false
 [push]
 	autoSetupRemote = true
 [pretty]
@@ -110,3 +120,5 @@
 	prune = true
 [include]
 	path = .config/git/local.conf
+[bulkworkspaces]
+	mw = /home/xtex/src/wm/mediawiki
