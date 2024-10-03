@@ -30,7 +30,7 @@
     "cmake.allowUnsupportedPresetsVersions": true,
     "cmake.generator": "Ninja",
     "cmake.showOptionsMovedNotification": false,
-    "editor.fontFamily": "'Fira Code', Consolas, 'Courier New', monospace",
+    "editor.fontFamily": "'Fira Code', Consolas, 'Courier New', 'Noto Sans CJK SC', monospace",
     "editor.fontLigatures": true,
     "editor.formatOnPaste": true,
     "editor.formatOnSave": false,
