@@ -10,3 +10,7 @@ if [[ -e $HOME/.zvm ]]; then
 else
     export PATH="/opt/zig/bin:$PATH"
 fi
+
+[ -e /usr/bin/go ] && export PATH="$HOME/go/bin:$PATH"
+
+[ -e /opt/rust/bin/bin ] && export PATH="/opt/rust/bin/bin:$PATH"
