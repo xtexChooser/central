@@ -75,5 +75,5 @@
     "makefile.configureOnOpen": false,
     "makefile.configureOnEdit": false,
     "makefile.configureAfterCommand": false,
-    "workbench.startupEditor": "none"
+    "ctags.disable": true,
 }
