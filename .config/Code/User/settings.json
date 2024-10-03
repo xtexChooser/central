@@ -75,5 +75,11 @@
     "makefile.configureOnOpen": false,
     "makefile.configureOnEdit": false,
     "makefile.configureAfterCommand": false,
+    "workbench.startupEditor": "none",
+    "extensions.ignoreRecommendations": true,
     "ctags.disable": true,
+    "verilog.ctags.path": "ctags",
+    "verilog.linting.linter": "verilator",
+    "verilog.linting.path": "verilator",
+    "verilog.languageServer.svls.enabled": true,
 }
