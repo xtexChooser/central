@@ -19,6 +19,7 @@
 	// TODO: unify the dropdown menu style somewhere
 	&-panel {
 		.citizen-header-card( end );
+		transition-property: transform;
 		transform-origin: var( --transform-origin-offset-end ) var( --transform-origin-offset-end );
 
 		@media ( min-width: @min-width-breakpoint-desktop ) {
@@ -28,14 +29,12 @@
 		// TODO: Somehow refactor this module to use citizen-menu__Card
 		&.citizen-pref-panel--active {
 			z-index: @z-index-dropdown;
-			transition: var( --transition-menu );
-			transition-property: transform;
+			transition-timing-function: var( --transition-timing-function-ease-out );
+			transition-duration: var( --transition-duration-medium );
 			transform: none;
 
 			> * {
 				opacity: 1;
-				transition: var( --transition-menu );
-				transition-property: opacity;
 			}
 		}
 
@@ -173,11 +172,5 @@
 
 	form {
 		grid-template-columns: repeat( 2, 1fr );
-	}
-}
-
-@media ( hover: hover ) {
-	.citizen-pref:hover .citizen-pref__button .citizen-ui-icon::before {
-		transform: rotate3d( 0, 0, 1, 90deg );
 	}
 }
