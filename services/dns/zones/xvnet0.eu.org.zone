@@ -19,15 +19,15 @@ opilio.s				IN	A		5.255.109.94
 *.opilio.s				IN	CNAME	opilio.s
 altv4.opilio.s			IN	A		5.255.109.94
 altv6.opilio.s			IN	AAAA	2a04:52c0:114:e34a::1
-selfv6.opilio.s			IN	AAAA	2a0e:b107:16c0:1::1
 
 ; Authoritative Nameservers
-a.ns					IN	AAAA	2a0e:b107:16c0:2::1
+a.ns					IN	A		5.255.109.94
+a.ns					IN	AAAA	2a04:52c0:114:e34a::1
 b.ns					IN	A		5.255.109.94
 b.ns					IN	AAAA	2a04:52c0:114:e34a::1
 
 ; Root Nameservers
-a.root.ns				IN	AAAA	2a0e:b107:16c0:2::3
+a.root.ns				IN	AAAA	2a04:52c0:114:e34a::1
 
 ; Services
 ntfy					IN	CNAME	opilio.s
