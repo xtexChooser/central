@@ -23,7 +23,7 @@ curl \
 	-H "Authorization: Bearer $NTFY_TOKEN" \
 	-H "X-Title: $title" \
 	-H "X-Actions: view, View on CI, $CI_STEP_URL" \
-	-H "X-Tags: pipline-$pipeline,pipeline-$CI_PIPELINE_STATUS" \
+	-H "X-Tags: pipline-$pipeline" \
 	-d "$desc" \
 	-SL \
 	https://ntfy.xvnet.eu.org/publogs
