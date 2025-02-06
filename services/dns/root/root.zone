@@ -2,7 +2,7 @@
 
 ; Root Servers
 .						604800	IN	NS		a.root.ns.xvnet0.eu.org.
-a.root.ns.xvnet0.eu.org.	43200	IN	AAAA	2a04:52c0:114:e34a::1
+a.root.ns.xvnet0.eu.org.	43200	IN	AAAA	2a04:52c0:114:e34a::2
 
 ; XVN TLD
 xvn.					604800	IN	NS		ns.xvn.
