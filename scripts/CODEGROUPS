@@ -34,16 +34,16 @@ P: ^services/dns/
 S: MariaDB
 P: ^services/mariadb/
 
-S: MariaDB: monto
+S: monto
 P: ^services/mariadb/monto/
 
 S: ntfy
 P: ^services/ntfy
 
-S: Postgres
+S: PG
 P: ^services/postgres/
 
-S: Postgres: balaro
+S: balaro
 P: ^services/postgres/balaro/
 
 # WIKIS
@@ -71,7 +71,7 @@ P: ^services/mediawiki/config/LocalSettings\.php$
 P: ^services/mediawiki/config/common/
 
 # HOSTS
-S: Hosts
+S: hosts
 P: ^hosts
 
 S: opilio
