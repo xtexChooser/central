@@ -13,4 +13,4 @@ build-client-release:
 
 alias sd := sync-dist
 sync-dist:
-    @rsync -rvp --delete maint/dist/ envs.net:public_html/yjyz-tools/
+    @rsync -rcvzP --delete maint/dist/ envs.net:public_html/yjyz-tools/
