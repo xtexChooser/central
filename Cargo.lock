@@ -4297,7 +4297,7 @@ dependencies = [
 
 [[package]]
 name = "yjyz-tools"
-version = "0.3.6"
+version = "0.3.7"
 dependencies = [
  "anyhow",
  "cached",
@@ -4328,7 +4328,7 @@ dependencies = [
 
 [[package]]
 name = "yjyz-tools-license"
-version = "0.3.6"
+version = "0.3.7"
 dependencies = [
  "anyhow",
  "bincode",

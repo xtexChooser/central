@@ -1,7 +1,7 @@
 [package]
 name = "yjyz-tools"
 description = "阳江一中实用工具"
-version = "0.3.6"
+version = "0.3.7"
 edition = "2021"
 license = "BSD-3-Clause"
 repository = "https://codeberg.org/xtex/yjyz-tools"
@@ -28,7 +28,7 @@ tokio = { version = "1.40.0", features = ["full"] }
 windows-registry = "0.3.0"
 windows-targets = "0.52.6"
 xz2 = "0.1.7"
-yjyz-tools-license = { version = "0.3.6", path = "../license" }
+yjyz-tools-license = { version = "0.3.7", path = "../license" }
 
 [dependencies.windows]
 version = "0.58.0"
