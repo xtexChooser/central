@@ -1,4 +1,4 @@
 {
-    "cmake.sourceDirectory": "/home/xtex/src/yjyz-tools/src/c",
+    "cmake.sourceDirectory": "/home/xtex/src/yjyz-tools/app/src/c",
     "cmake.buildDirectory": "${workspaceFolder}/target/vsc-cmake"
 }
