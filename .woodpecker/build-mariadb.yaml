@@ -1,6 +1,6 @@
 matrix:
     VERSION:
-        - "11.6" # TAG:LATEST
+        - "11.7" # TAG:LATEST
 
 steps:
     - name: build
