@@ -819,3 +819,22 @@ Many thanks to GreenReaper on GitHub for reporting and finding issues with core 
 * Fix minoredits=exclude
 * Fix "PHP Deprecated: Using ${var} in strings is deprecated, use {$var} instead"
 * Fix "PHP Deprecated: trim(): Passing null to parameter #1 ($string) of type string is deprecated"
+
+# Version 3.6.0
+* Added support for `pagelinks` migration
+* Added support for MediaWiki 1.43 and dropped support for older MediaWiki versions (before 1.43.0)
+* Added support for PHP 8.2
+* Fixed many deprecations from MediaWiki 1.40-1.43
+* Code Cleanup
+* Many bug fixes
+* Renamed maintenance scripts to be able to use AutoloadNamespaces
+* Added `--recreate` option to CreateView maintenance script to be able to drop and recreate the view if necessary.
+
+# Version 3.6.1
+* Fixed `showcurid` output by switching from `getLinkURL()` to `getFullURL()`.
+* Fixed `%TOTALPAGES%` caching so that the count doesn't get lost when cache is updated.
+* Fixed all `Generic.Files.LineLength.TooLong` PHPCS violations by splitting long lines and enabled the check.
+* Moved `linkstoexternal` to a new level 5 richness level. This should never really be used. It is meant to disable the functionality for it. It is incompatible with MediaWiki 1.41+ (see https://github.com/Universal-Omega/DynamicPageList3/issues/274). Hopefully we can have a fix for this eventually, if we cannot this will likely be completely removed in a future release.
+* Replaced the deprecated `ExtVariables::VERSION` with using `ExtensionRegistry` to check if the Variables extension is installed.
+* Replaced usages of `intval()` with `(int)` in all remaining places within this extension. This was started in version 3.5.0 and completed in this version.
+* Replaced usages of `boolval()` with `(bool)` throughout the entire extension.

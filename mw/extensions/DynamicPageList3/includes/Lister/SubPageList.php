@@ -53,7 +53,7 @@ class SubPageList extends UnorderedList {
 		for ( $i = $start; $i < $start + $count; $i++ ) {
 			$article = $articles[$i];
 
-			if ( empty( $article ) || empty( $article->mTitle ) ) {
+			if ( !$article || empty( $article->mTitle ) ) {
 				continue;
 			}
 
@@ -118,7 +118,8 @@ class SubPageList extends UnorderedList {
 			}
 
 			if ( is_array( $item ) ) {
-				$list .= $this->getItemStart() . $key . $this->getListStart() . $this->implodeItems( $item ) . $this->listEnd . $this->getItemEnd();
+				$list .= $this->getItemStart() . $key . $this->getListStart() .
+					$this->implodeItems( $item ) . $this->listEnd . $this->getItemEnd();
 			}
 		}
 

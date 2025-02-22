@@ -3,11 +3,11 @@
 namespace MediaWiki\Extension\DynamicPageList3;
 
 use InvalidArgumentException;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
 use PermissionsError;
-use RequestContext;
 use StringUtils;
-use Title;
 
 class Parameters extends ParametersData {
 	/**
@@ -67,7 +67,8 @@ class Parameters extends ParametersData {
 			}
 		}
 
-		// Subvert to the real function if it exists. This keeps code elsewhere clean from needed to check if it exists first.
+		// Subvert to the real function if it exists. This keeps code elsewhere
+		// clean from needed to check if it exists first.
 		$function = '_' . $parameter;
 		$this->parametersProcessed[$parameter] = true;
 
@@ -78,14 +79,25 @@ class Parameters extends ParametersData {
 		$option = $arguments[0];
 		$parameter = strtolower( $parameter );
 
-		// Assume by default that these simple parameter options should not failed, but if they do we will set $success to false below.
+		// Assume by default that these simple parameter options should not failed,
+		// but if they do we will set $success to false below.
 		$success = true;
 		if ( $parameterData !== false ) {
 			// If a parameter specifies options then enforce them.
-			if ( array_key_exists( 'values', $parameterData ) && is_array( $parameterData['values'] ) === true && !in_array( strtolower( $option ), $parameterData['values'] ) ) {
+			if (
+				array_key_exists( 'values', $parameterData ) &&
+				is_array( $parameterData['values'] ) &&
+				!in_array( strtolower( $option ), $parameterData['values'] )
+			) {
 				$success = false;
 			} else {
-				if ( ( array_key_exists( 'preserve_case', $parameterData ) && !$parameterData['preserve_case'] ) && ( array_key_exists( 'page_name_list', $parameterData ) && $parameterData['page_name_list'] !== true ) ) {
+				if ( (
+					array_key_exists( 'preserve_case', $parameterData ) &&
+					!$parameterData['preserve_case']
+				) && (
+					array_key_exists( 'page_name_list', $parameterData ) &&
+					$parameterData['page_name_list'] !== true )
+				) {
 					$option = strtolower( $option );
 				}
 			}
@@ -95,16 +107,16 @@ class Parameters extends ParametersData {
 				$option = $this->stripHtmlTags( $option );
 			}
 
-			// Simple integer intval().
+			// Integers
 			if ( array_key_exists( 'integer', $parameterData ) && $parameterData['integer'] === true ) {
 				if ( !is_numeric( $option ) ) {
 					if ( $parameterData['default'] !== null ) {
-						$option = intval( $parameterData['default'] );
+						$option = (int)$parameterData['default'];
 					} else {
 						$success = false;
 					}
 				} else {
-					$option = intval( $option );
+					$option = (int)$option;
 				}
 			}
 
@@ -179,12 +191,18 @@ class Parameters extends ParametersData {
 				$this->setParameter( $parameter, $option );
 
 				// Set that criteria was found for a selection.
-				if ( array_key_exists( 'set_criteria_found', $parameterData ) && $parameterData['set_criteria_found'] === true ) {
+				if (
+					array_key_exists( 'set_criteria_found', $parameterData ) &&
+					$parameterData['set_criteria_found'] === true
+				) {
 					$this->setSelectionCriteriaFound( true );
 				}
 
 				// Set open references conflict possibility.
-				if ( array_key_exists( 'open_ref_conflict', $parameterData ) && $parameterData['open_ref_conflict'] === true ) {
+				if (
+					array_key_exists( 'open_ref_conflict', $parameterData ) &&
+					$parameterData['open_ref_conflict'] === true
+				) {
 					$this->setOpenReferencesConflict( true );
 				}
 			}
@@ -195,7 +213,10 @@ class Parameters extends ParametersData {
 
 	/**
 	 * Sort cleaned parameter arrays by priority.
-	 * Users can not be told to put the parameters into a specific order each time. Some parameters are dependent on each other coming in a certain order due to some procedural legacy issues.
+	 *
+	 * Users can not be told to put the parameters into a specific order each time.
+	 * Some parameters are dependent on each other coming in a certain order due to some
+	 * procedural legacy issues.
 	 *
 	 * @param array	$parameters
 	 * @return array
@@ -287,7 +308,11 @@ class Parameters extends ParametersData {
 
 		$parameters = $this->getParametersForRichness();
 		foreach ( $parameters as $parameter ) {
-			if ( $this->getData( $parameter )['default'] !== null && !( $this->getData( $parameter )['default'] === false && ( $this->getData( $parameter )['boolean'] ?? false ) === true ) ) {
+			if ( $this->getData( $parameter )['default'] !== null && !(
+				$this->getData( $parameter )['default'] === false && (
+					$this->getData( $parameter )['boolean'] ?? false
+				) === true )
+			   ) {
 				if ( $parameter == 'debug' ) {
 					Hooks::setDebugLevel( $this->getData( $parameter )['default'] );
 				}
@@ -363,7 +388,7 @@ class Parameters extends ParametersData {
 			$page = trim( $page );
 			$page = rtrim( $page, '\\' );
 
-			if ( empty( $page ) ) {
+			if ( !$page ) {
 				continue;
 			}
 
@@ -392,7 +417,7 @@ class Parameters extends ParametersData {
 	 */
 	private function isRegexValid( $regexes, $forDb = false ) {
 		foreach ( (array)$regexes as $regex ) {
-			if ( empty( trim( $regex ) ) ) {
+			if ( !trim( $regex ) ) {
 				continue;
 			}
 
@@ -417,7 +442,7 @@ class Parameters extends ParametersData {
 	public function _category( $option ) {
 		$option = trim( $option );
 
-		if ( empty( $option ) ) {
+		if ( !$option ) {
 			return false;
 		}
 
@@ -457,7 +482,7 @@ class Parameters extends ParametersData {
 			if ( $parameter === '_none_' || $parameter === '' ) {
 				$this->setParameter( 'includeuncat', true );
 				$categories[] = '';
-			} elseif ( !empty( $parameter ) ) {
+			} elseif ( $parameter ) {
 				if ( strpos( $parameter, '*' ) === 0 && strlen( $parameter ) >= 2 ) {
 					if ( strpos( $parameter, '*', 1 ) === 1 ) {
 						$parameter = substr( $parameter, 2 );
@@ -472,7 +497,8 @@ class Parameters extends ParametersData {
 						$title = Title::newFromText( $subCategory );
 
 						if ( $title !== null ) {
-							// The * helper is just like listing "Category1|SubCategory1". This gets hard coded here for this purpose.
+							// The * helper is just like listing "Category1|SubCategory1".
+							// This gets hard coded here for this purpose.
 							$categories['OR'][] = $title->getDbKey();
 						}
 					}
@@ -486,7 +512,7 @@ class Parameters extends ParametersData {
 			}
 		}
 
-		if ( !empty( $categories ) ) {
+		if ( $categories ) {
 			$data = $this->getParameter( 'category' );
 
 			// Do a bunch of data integrity checks to avoid E_NOTICE.
@@ -508,11 +534,17 @@ class Parameters extends ParametersData {
 
 			$this->setParameter( 'category', $data );
 			if ( $heading ) {
-				$this->setParameter( 'catheadings', array_unique( array_merge( ( is_array( $this->getParameter( 'catheadings' ) ) ? $this->getParameter( 'catheadings' ) : [] ), $categories ) ) );
+				$this->setParameter( 'catheadings', array_unique( array_merge( (
+					is_array( $this->getParameter( 'catheadings' ) ) ?
+					$this->getParameter( 'catheadings' ) : []
+				), $categories ) ) );
 			}
 
 			if ( $notHeading ) {
-				$this->setParameter( 'catnotheadings', array_unique( array_merge( ( is_array( $this->getParameter( 'catnotheadings' ) ) ? $this->getParameter( 'catnotheadings' ) : [] ), $categories ) ) );
+				$this->setParameter( 'catnotheadings', array_unique( array_merge( (
+					is_array( $this->getParameter( 'catnotheadings' ) ) ?
+					$this->getParameter( 'catnotheadings' ) : []
+				), $categories ) ) );
 			}
 
 			$this->setOpenReferencesConflict( true );
@@ -644,19 +676,16 @@ class Parameters extends ParametersData {
 	 * @return bool
 	 */
 	public function _count( $option ) {
-		if ( $option > 0 ) {
-			$max = Config::getSetting( 'maxResultCount' );
-
-			if ( Config::getSetting( 'allowUnlimitedResults' ) ) {
-				$max = INF;
-			}
-
-			$this->setParameter( 'count', min( max( intval( $option ), 0 ), $max ) );
-
-			return true;
+		if ( !is_numeric( $option ) || (int)$option <= 0 ) {
+			return false;
 		}
 
-		return false;
+		$max = Config::getSetting( 'allowUnlimitedResults' ) ? INF :
+			Config::getSetting( 'maxResultCount' );
+
+		$this->setParameter( 'count', min( (int)$option, $max ) );
+
+		return true;
 	}
 
 	/**
@@ -673,7 +702,10 @@ class Parameters extends ParametersData {
 			$parameter = trim( $parameter );
 			$namespaceId = $contLang->getNsIndex( $parameter );
 
-			if ( $namespaceId === false || ( is_array( Config::getSetting( 'allowedNamespaces' ) ) && !in_array( $parameter, Config::getSetting( 'allowedNamespaces' ) ) ) ) {
+			if ( $namespaceId === false || (
+				is_array( Config::getSetting( 'allowedNamespaces' ) ) &&
+				!in_array( $parameter, Config::getSetting( 'allowedNamespaces' ) )
+			) ) {
 				// Let the user know this namespace is not allowed or does not exist.
 				return false;
 			}
@@ -819,7 +851,7 @@ class Parameters extends ParametersData {
 	public function _ordercollation( $option ) {
 		if ( $option == 'bridge' ) {
 			$this->setParameter( 'ordersuitsymbols', true );
-		} elseif ( !empty( $option ) ) {
+		} elseif ( $option ) {
 			$this->setParameter( 'ordercollation', $option );
 		} else {
 			return false;
@@ -844,7 +876,9 @@ class Parameters extends ParametersData {
 	 * @return bool
 	 */
 	public function _format( $option ) {
-		// Parsing of wikitext will happen at the end of the output phase. Replace '\n' in the input by linefeed because wiki syntax depends on linefeeds.
+		// Parsing of wikitext will happen at the end of the output phase.
+		// Replace '\n' in the input by linefeed because wiki syntax
+		// depends on linefeeds.
 		$option = $this->stripHtmlTags( $option );
 		$option = Parse::replaceNewLines( $option );
 
@@ -894,7 +928,7 @@ class Parameters extends ParametersData {
 	 * @return bool
 	 */
 	public function _titlemaxlength( $option ) {
-		$this->setParameter( 'titlemaxlen', intval( $option ) );
+		$this->setParameter( 'titlemaxlen', (int)$option );
 
 		return true;
 	}
@@ -1013,7 +1047,7 @@ class Parameters extends ParametersData {
 			// The 'findTitle' option has argument over the 'fromTitle' argument.
 			$titlegt = $request->getVal( 'DPL_findTitle', '' );
 
-			if ( !empty( $titlegt ) ) {
+			if ( $titlegt ) {
 				$titlegt = '=_' . ucfirst( $titlegt );
 			} else {
 				$titlegt = $request->getVal( 'DPL_fromTitle', '' );
@@ -1028,14 +1062,16 @@ class Parameters extends ParametersData {
 
 			$this->setParameter( 'titlelt', str_replace( ' ', '_', $titlelt ) );
 
-			// Make sure the 'scrollDir' arugment is captured. This is mainly used for the Variables extension and in the header/footer replacements.
+			// Make sure the 'scrollDir' arugment is captured. This is mainly used for the
+			// Variables extension and in the header/footer replacements.
 			$this->setParameter( 'scrolldir', $request->getVal( 'DPL_scrollDir', '' ) );
 
 			// Also set count limit from URL if not otherwise set.
 			$this->_count( $request->getInt( 'DPL_count' ) );
 		}
 
-		// We do not return false since they could have just left it out. Who knows why they put the parameter in the list in the first place.
+		// We do not return false since they could have just left it out.
+		// Who knows why they put the parameter in the list in the first place.
 		return true;
 	}
 
@@ -1090,7 +1126,7 @@ class Parameters extends ParametersData {
 	 * @return bool
 	 */
 	public function _include( $option ) {
-		if ( !empty( $option ) ) {
+		if ( $option ) {
 			$this->setParameter( 'incpage', true );
 			$this->setParameter( 'seclabels', explode( ',', $option ) );
 		} else {
@@ -1125,7 +1161,7 @@ class Parameters extends ParametersData {
 	 * @return bool
 	 */
 	public function _includemaxlength( $option ) {
-		$this->setParameter( 'includemaxlen', intval( $option ) );
+		$this->setParameter( 'includemaxlen', (int)$option );
 
 		return true;
 	}
@@ -1296,7 +1332,7 @@ class Parameters extends ParametersData {
 	public function _tablerow( $option ) {
 		$option = Parse::replaceNewLines( trim( $option ) );
 
-		if ( empty( $option ) ) {
+		if ( !$option ) {
 			$this->setParameter( 'tablerow', [] );
 		} else {
 			$this->setParameter( 'tablerow', explode( ',', $option ) );
@@ -1313,7 +1349,9 @@ class Parameters extends ParametersData {
 	 * @return bool|int|string
 	 */
 	public function _allowcachedresults( $option ) {
-		// If execAndExit was previously set (i.e. if it is not empty) we will ignore all cache settings which are placed AFTER the execandexit statement thus we make sure that the cache will only become invalid if the query is really executed.
+		// If execAndExit was previously set (i.e. if it is not empty) we will ignore all
+		// cache settings which are placed AFTER the execandexit statement thus we make sure
+		// that the cache will only become invalid if the query is really executed.
 		if ( $this->getParameter( 'execandexit' ) === null ) {
 			if ( $option === 'yes+warn' ) {
 				$this->setParameter( 'allowcachedresults', true );
@@ -1360,7 +1398,7 @@ class Parameters extends ParametersData {
 		foreach ( $arguments as $argument ) {
 			$argument = trim( $argument );
 
-			if ( empty( $argument ) ) {
+			if ( !$argument ) {
 				continue;
 			}
 
@@ -1403,7 +1441,7 @@ class Parameters extends ParametersData {
 		foreach ( $arguments as $argument ) {
 			$argument = trim( $argument );
 
-			if ( empty( $argument ) ) {
+			if ( !$argument ) {
 				continue;
 			}
 

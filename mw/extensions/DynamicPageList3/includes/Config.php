@@ -2,7 +2,7 @@
 
 namespace MediaWiki\Extension\DynamicPageList3;
 
-use ConfigException;
+use MediaWiki\Config\ConfigException;
 
 class Config {
 	/**
@@ -57,7 +57,7 @@ class Config {
 	 * @param mixed|null $value
 	 */
 	public static function setSetting( $setting, $value = null ) {
-		if ( empty( $setting ) || !is_string( $setting ) ) {
+		if ( !is_string( $setting ) || $setting === '' ) {
 			throw new ConfigException( __METHOD__ . ': Setting keys can not be blank.' );
 		}
 
