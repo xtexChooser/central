@@ -1,0 +1,16 @@
+{
+	"@metadata": {
+		"authors": [
+			"Renessaince"
+		]
+	},
+	"prefs-userpage": "Старонка ўдзельніка",
+	"realme-desc": "Дазваляе праверку URL-аў, выкарыстаных на старонках удзельнікаў.",
+	"realme-preference-desc": "URL-ы вонкавых профіляў:",
+	"realme-preference-error-invalid": "<code>$1</code> — гэта няслушны URL.",
+	"realme-preference-error-not-http": "URL <code>$1</code> павінен ужываць пратакол <code>http://</code> альбо <code>https://</code>, а не <code>$2</code>.",
+	"realme-preference-error-too-many": "Вы можаце пазначыць толькі {{PLURAL:$1|адзін URL|$1 URL-ы|$1 URL-аў}}.",
+	"realme-preference-help": "Дадавайце, калі ласка, па адным URL у радку. Калі гэтыя URL-ы выкарыстоўваюцца на вашай старонцы ўдзельніка, на яе будуць дадавацца адпаведныя [https://en.wikipedia.org/wiki/HTML_element цэтлікі HTML] <code>&lt;link rel=\"me\"&gt;</code>, якія некаторыя плятформы (прыкладам, Mastodon) выкарыстоўваюць для пазнакі спасылак профілю праверанымі. Падрабязнасьці глядзіце на [https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Extension:RealMe старонцы дапамогі] MediaWiki.org.",
+	"realme-config-error-canonical": "Назвы старонак варта задаваць у кананічнай форме, выкарыстоўвайце <code>$1</code> замест <code>$2</code>.",
+	"realme-config-error-invalidtitle": "<code>$1</code> — гэта няслушная назва старонкі."
+}
